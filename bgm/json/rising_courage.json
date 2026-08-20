@@ -1,0 +1,301 @@
+{
+  "title": "立ち上がる勇気",
+  "composer": "Do Muse AI",
+  "metadata": {
+    "tempo_bpm": 130,
+    "time_signature": "4/4",
+    "key_signature": "G"
+  },
+  "tracks": [
+    {
+      "instrument": "Trumpet",
+      "notes": [
+        {
+          "pitch": 55,
+          "duration": "quarter",
+          "velocity": 89
+        },
+        {
+          "pitch": 62,
+          "duration": "quarter",
+          "velocity": 92
+        },
+        {
+          "pitch": 67,
+          "duration": "quarter",
+          "velocity": 90
+        },
+        {
+          "pitch": 62,
+          "duration": "quarter",
+          "velocity": 89
+        },
+        {
+          "pitch": 64,
+          "duration": "quarter",
+          "velocity": 94
+        },
+        {
+          "pitch": 67,
+          "duration": "quarter",
+          "velocity": 93
+        },
+        {
+          "pitch": 67,
+          "duration": "quarter",
+          "velocity": 101
+        },
+        {
+          "pitch": 67,
+          "duration": "quarter",
+          "velocity": 86
+        },
+        {
+          "pitch": 62,
+          "duration": "quarter",
+          "velocity": 90
+        },
+        {
+          "pitch": 55,
+          "duration": "quarter",
+          "velocity": 79
+        },
+        {
+          "pitch": 62,
+          "duration": "half",
+          "velocity": 88
+        },
+        {
+          "pitch": 67,
+          "duration": "half",
+          "velocity": 90
+        },
+        {
+          "pitch": 55,
+          "duration": "quarter",
+          "velocity": 80
+        },
+        {
+          "pitch": 62,
+          "duration": "quarter",
+          "velocity": 88
+        },
+        {
+          "pitch": 67,
+          "duration": "quarter",
+          "velocity": 99
+        },
+        {
+          "pitch": 62,
+          "duration": "quarter",
+          "velocity": 83
+        },
+        {
+          "pitch": 64,
+          "duration": "quarter",
+          "velocity": 94
+        },
+        {
+          "pitch": 67,
+          "duration": "quarter",
+          "velocity": 100
+        },
+        {
+          "pitch": 67,
+          "duration": "quarter",
+          "velocity": 104
+        },
+        {
+          "pitch": 67,
+          "duration": "quarter",
+          "velocity": 94
+        },
+        {
+          "pitch": 62,
+          "duration": "quarter",
+          "velocity": 87
+        },
+        {
+          "pitch": 55,
+          "duration": "quarter",
+          "velocity": 85
+        },
+        {
+          "pitch": 62,
+          "duration": "half",
+          "velocity": 93
+        },
+        {
+          "pitch": 67,
+          "duration": "half",
+          "velocity": 99
+        },
+        {
+          "pitch": 55,
+          "duration": "quarter",
+          "velocity": 86
+        },
+        {
+          "pitch": 62,
+          "duration": "quarter",
+          "velocity": 90
+        },
+        {
+          "pitch": 67,
+          "duration": "quarter",
+          "velocity": 93
+        },
+        {
+          "pitch": 62,
+          "duration": "quarter",
+          "velocity": 83
+        },
+        {
+          "pitch": 64,
+          "duration": "quarter",
+          "velocity": 90
+        },
+        {
+          "pitch": 67,
+          "duration": "quarter",
+          "velocity": 90
+        },
+        {
+          "pitch": 67,
+          "duration": "quarter",
+          "velocity": 101
+        },
+        {
+          "pitch": 67,
+          "duration": "quarter",
+          "velocity": 85
+        },
+        {
+          "pitch": 62,
+          "duration": "quarter",
+          "velocity": 84
+        },
+        {
+          "pitch": 55,
+          "duration": "quarter",
+          "velocity": 76
+        },
+        {
+          "pitch": 62,
+          "duration": "half",
+          "velocity": 87
+        },
+        {
+          "pitch": 67,
+          "duration": "half",
+          "velocity": 96
+        },
+        {
+          "pitch": 55,
+          "duration": "quarter",
+          "velocity": 84
+        },
+        {
+          "pitch": 62,
+          "duration": "quarter",
+          "velocity": 92
+        },
+        {
+          "pitch": 67,
+          "duration": "quarter",
+          "velocity": 100
+        },
+        {
+          "pitch": 62,
+          "duration": "quarter",
+          "velocity": 90
+        },
+        {
+          "pitch": 64,
+          "duration": "quarter",
+          "velocity": 95
+        },
+        {
+          "pitch": 67,
+          "duration": "quarter",
+          "velocity": 97
+        },
+        {
+          "pitch": 67,
+          "duration": "quarter",
+          "velocity": 97
+        },
+        {
+          "pitch": 67,
+          "duration": "quarter",
+          "velocity": 86
+        },
+        {
+          "pitch": 62,
+          "duration": "quarter",
+          "velocity": 81
+        },
+        {
+          "pitch": 55,
+          "duration": "quarter",
+          "velocity": 80
+        },
+        {
+          "pitch": 62,
+          "duration": "half",
+          "velocity": 86
+        },
+        {
+          "pitch": 67,
+          "duration": "half",
+          "velocity": 91
+        },
+        {
+          "pitch": 55,
+          "duration": "quarter",
+          "velocity": 85
+        },
+        {
+          "pitch": 62,
+          "duration": "quarter",
+          "velocity": 91
+        },
+        {
+          "pitch": 67,
+          "duration": "quarter",
+          "velocity": 92
+        },
+        {
+          "pitch": 62,
+          "duration": "quarter",
+          "velocity": 90
+        },
+        {
+          "pitch": 64,
+          "duration": "quarter",
+          "velocity": 89
+        },
+        {
+          "pitch": 67,
+          "duration": "quarter",
+          "velocity": 90
+        },
+        {
+          "pitch": 67,
+          "duration": "quarter",
+          "velocity": 99
+        },
+        {
+          "pitch": 67,
+          "duration": "quarter",
+          "velocity": 90
+        },
+        {
+          "pitch": 62,
+          "duration": "quarter",
+          "velocity": 80
+        }
+      ]
+    }
+  ]
+}

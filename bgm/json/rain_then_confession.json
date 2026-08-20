@@ -1,0 +1,231 @@
+{
+  "title": "雨のち告白",
+  "composer": "Do Muse AI",
+  "metadata": {
+    "tempo_bpm": 90,
+    "time_signature": "4/4",
+    "key_signature": "F"
+  },
+  "tracks": [
+    {
+      "instrument": "Acoustic Grand Piano",
+      "notes": [
+        {
+          "pitch": 60,
+          "duration": "half",
+          "velocity": 74
+        },
+        {
+          "pitch": 62,
+          "duration": "quarter",
+          "velocity": 67
+        },
+        {
+          "pitch": 65,
+          "duration": "quarter",
+          "velocity": 69
+        },
+        {
+          "pitch": 62,
+          "duration": "half",
+          "velocity": 67
+        },
+        {
+          "pitch": 60,
+          "duration": "quarter",
+          "velocity": 61
+        },
+        {
+          "pitch": 57,
+          "duration": "quarter",
+          "velocity": 64
+        },
+        {
+          "pitch": 53,
+          "duration": "half",
+          "velocity": 60
+        },
+        {
+          "pitch": 57,
+          "duration": "half",
+          "velocity": 65
+        },
+        {
+          "pitch": 60,
+          "duration": "half",
+          "velocity": 68
+        },
+        {
+          "pitch": 57,
+          "duration": "quarter",
+          "velocity": 55
+        },
+        {
+          "pitch": 53,
+          "duration": "half",
+          "velocity": 51
+        },
+        {
+          "pitch": -1,
+          "duration": "quarter",
+          "velocity": 0
+        },
+        {
+          "pitch": 60,
+          "duration": "half",
+          "velocity": 75
+        },
+        {
+          "pitch": 62,
+          "duration": "quarter",
+          "velocity": 60
+        },
+        {
+          "pitch": 65,
+          "duration": "quarter",
+          "velocity": 66
+        },
+        {
+          "pitch": 62,
+          "duration": "half",
+          "velocity": 60
+        },
+        {
+          "pitch": 60,
+          "duration": "quarter",
+          "velocity": 61
+        },
+        {
+          "pitch": 57,
+          "duration": "quarter",
+          "velocity": 65
+        },
+        {
+          "pitch": 53,
+          "duration": "half",
+          "velocity": 56
+        },
+        {
+          "pitch": 57,
+          "duration": "half",
+          "velocity": 61
+        },
+        {
+          "pitch": 60,
+          "duration": "half",
+          "velocity": 73
+        },
+        {
+          "pitch": 57,
+          "duration": "quarter",
+          "velocity": 57
+        },
+        {
+          "pitch": 53,
+          "duration": "half",
+          "velocity": 52
+        },
+        {
+          "pitch": -1,
+          "duration": "quarter",
+          "velocity": 0
+        },
+        {
+          "pitch": 60,
+          "duration": "half",
+          "velocity": 71
+        },
+        {
+          "pitch": 62,
+          "duration": "quarter",
+          "velocity": 69
+        },
+        {
+          "pitch": 65,
+          "duration": "quarter",
+          "velocity": 73
+        },
+        {
+          "pitch": 62,
+          "duration": "half",
+          "velocity": 60
+        },
+        {
+          "pitch": 60,
+          "duration": "quarter",
+          "velocity": 57
+        },
+        {
+          "pitch": 57,
+          "duration": "quarter",
+          "velocity": 60
+        },
+        {
+          "pitch": 53,
+          "duration": "quarter",
+          "velocity": 50
+        }
+      ]
+    },
+    {
+      "instrument": "Acoustic Grand Piano",
+      "notes": [
+        {
+          "pitch": 41,
+          "duration": "whole",
+          "velocity": 33
+        },
+        {
+          "pitch": 45,
+          "duration": "whole",
+          "velocity": 32
+        },
+        {
+          "pitch": 48,
+          "duration": "whole",
+          "velocity": 35
+        },
+        {
+          "pitch": 45,
+          "duration": "whole",
+          "velocity": 35
+        },
+        {
+          "pitch": 41,
+          "duration": "whole",
+          "velocity": 35
+        },
+        {
+          "pitch": 45,
+          "duration": "whole",
+          "velocity": 35
+        },
+        {
+          "pitch": 48,
+          "duration": "whole",
+          "velocity": 37
+        },
+        {
+          "pitch": 45,
+          "duration": "whole",
+          "velocity": 38
+        },
+        {
+          "pitch": 41,
+          "duration": "whole",
+          "velocity": 36
+        },
+        {
+          "pitch": 45,
+          "duration": "whole",
+          "velocity": 35
+        },
+        {
+          "pitch": 48,
+          "duration": "whole",
+          "velocity": 35
+        }
+      ]
+    }
+  ]
+}

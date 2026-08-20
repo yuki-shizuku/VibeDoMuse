@@ -1,0 +1,411 @@
+{
+  "title": "優雅の4516進行",
+  "composer": "Do Muse AI",
+  "metadata": {
+    "tempo_bpm": 100,
+    "time_signature": "3/4",
+    "key_signature": "C"
+  },
+  "tracks": [
+    {
+      "instrument": "Acoustic Grand Piano",
+      "notes": [
+        {
+          "pitch": 72,
+          "duration": "eighth",
+          "velocity": 66
+        },
+        {
+          "pitch": 81,
+          "duration": "eighth",
+          "velocity": 82
+        },
+        {
+          "pitch": 73,
+          "duration": "quarter",
+          "velocity": 80
+        },
+        {
+          "pitch": 81,
+          "duration": "eighth",
+          "velocity": 83
+        },
+        {
+          "pitch": 71,
+          "duration": "eighth",
+          "velocity": 66
+        },
+        {
+          "pitch": 73,
+          "duration": "quarter",
+          "velocity": 71
+        },
+        {
+          "pitch": 81,
+          "duration": "eighth",
+          "velocity": 73
+        },
+        {
+          "pitch": 96,
+          "duration": "eighth",
+          "velocity": 70
+        },
+        {
+          "pitch": 96,
+          "duration": "quarter",
+          "velocity": 78
+        },
+        {
+          "pitch": 77,
+          "duration": "half",
+          "velocity": 73
+        },
+        {
+          "pitch": 71,
+          "duration": "quarter",
+          "velocity": 74
+        },
+        {
+          "pitch": 84,
+          "duration": "quarter",
+          "velocity": 68
+        },
+        {
+          "pitch": 72,
+          "duration": "half",
+          "velocity": 70
+        },
+        {
+          "pitch": 65,
+          "duration": "eighth",
+          "velocity": 82
+        },
+        {
+          "pitch": 67,
+          "duration": "eighth",
+          "velocity": 75
+        },
+        {
+          "pitch": 66,
+          "duration": "eighth",
+          "velocity": 71
+        },
+        {
+          "pitch": 73,
+          "duration": "quarter",
+          "velocity": 67
+        },
+        {
+          "pitch": 67,
+          "duration": "eighth",
+          "velocity": 84
+        },
+        {
+          "pitch": 86,
+          "duration": "eighth",
+          "velocity": 82
+        },
+        {
+          "pitch": 79,
+          "duration": "half",
+          "velocity": 79
+        },
+        {
+          "pitch": 86,
+          "duration": "quarter",
+          "velocity": 71
+        },
+        {
+          "pitch": 72,
+          "duration": "quarter",
+          "velocity": 81
+        },
+        {
+          "pitch": 86,
+          "duration": "half",
+          "velocity": 68
+        },
+        {
+          "pitch": 86,
+          "duration": "quarter",
+          "velocity": 69
+        },
+        {
+          "pitch": 86,
+          "duration": "quarter",
+          "velocity": 74
+        },
+        {
+          "pitch": 83,
+          "duration": "quarter",
+          "velocity": 83
+        },
+        {
+          "pitch": 83,
+          "duration": "eighth",
+          "velocity": 84
+        },
+        {
+          "pitch": 67,
+          "duration": "quarter",
+          "velocity": 65
+        },
+        {
+          "pitch": 83,
+          "duration": "eighth",
+          "velocity": 83
+        },
+        {
+          "pitch": 64,
+          "duration": "eighth",
+          "velocity": 67
+        },
+        {
+          "pitch": 72,
+          "duration": "quarter",
+          "velocity": 80
+        },
+        {
+          "pitch": 64,
+          "duration": "half",
+          "velocity": 80
+        },
+        {
+          "pitch": 76,
+          "duration": "quarter",
+          "velocity": 66
+        },
+        {
+          "pitch": 59,
+          "duration": "quarter",
+          "velocity": 81
+        },
+        {
+          "pitch": 83,
+          "duration": "quarter",
+          "velocity": 67
+        },
+        {
+          "pitch": 79,
+          "duration": "quarter",
+          "velocity": 76
+        },
+        {
+          "pitch": 83,
+          "duration": "quarter",
+          "velocity": 66
+        },
+        {
+          "pitch": 83,
+          "duration": "quarter",
+          "velocity": 83
+        },
+        {
+          "pitch": 71,
+          "duration": "quarter",
+          "velocity": 75
+        },
+        {
+          "pitch": 76,
+          "duration": "eighth",
+          "velocity": 81
+        },
+        {
+          "pitch": 88,
+          "duration": "quarter",
+          "velocity": 67
+        },
+        {
+          "pitch": 69,
+          "duration": "quarter",
+          "velocity": 66
+        },
+        {
+          "pitch": 88,
+          "duration": "quarter",
+          "velocity": 82
+        },
+        {
+          "pitch": 76,
+          "duration": "quarter",
+          "velocity": 78
+        },
+        {
+          "pitch": 76,
+          "duration": "quarter",
+          "velocity": 83
+        },
+        {
+          "pitch": 72,
+          "duration": "eighth",
+          "velocity": 74
+        },
+        {
+          "pitch": 81,
+          "duration": "eighth",
+          "velocity": 69
+        },
+        {
+          "pitch": 88,
+          "duration": "quarter",
+          "velocity": 74
+        },
+        {
+          "pitch": 72,
+          "duration": "half",
+          "velocity": 76
+        },
+        {
+          "pitch": 84,
+          "duration": "quarter",
+          "velocity": 67
+        },
+        {
+          "pitch": 69,
+          "duration": "quarter",
+          "velocity": 68
+        },
+        {
+          "pitch": 88,
+          "duration": "eighth",
+          "velocity": 73
+        },
+        {
+          "pitch": 76,
+          "duration": "eighth",
+          "velocity": 78
+        },
+        {
+          "pitch": 84,
+          "duration": "eighth",
+          "velocity": 75
+        }
+      ]
+    },
+    {
+      "instrument": "Acoustic Grand Piano",
+      "notes": [
+        {
+          "pitch": 53,
+          "duration": "quarter.",
+          "velocity": 50
+        },
+        {
+          "pitch": 69,
+          "duration": "quarter",
+          "velocity": 35
+        },
+        {
+          "pitch": 72,
+          "duration": "quarter",
+          "velocity": 35
+        },
+        {
+          "pitch": 53,
+          "duration": "quarter.",
+          "velocity": 50
+        },
+        {
+          "pitch": 69,
+          "duration": "quarter",
+          "velocity": 35
+        },
+        {
+          "pitch": 72,
+          "duration": "quarter",
+          "velocity": 35
+        },
+        {
+          "pitch": 55,
+          "duration": "quarter.",
+          "velocity": 50
+        },
+        {
+          "pitch": 71,
+          "duration": "quarter",
+          "velocity": 35
+        },
+        {
+          "pitch": 74,
+          "duration": "quarter",
+          "velocity": 35
+        },
+        {
+          "pitch": 55,
+          "duration": "quarter.",
+          "velocity": 50
+        },
+        {
+          "pitch": 71,
+          "duration": "quarter",
+          "velocity": 35
+        },
+        {
+          "pitch": 74,
+          "duration": "quarter",
+          "velocity": 35
+        },
+        {
+          "pitch": 52,
+          "duration": "quarter.",
+          "velocity": 50
+        },
+        {
+          "pitch": 67,
+          "duration": "quarter",
+          "velocity": 35
+        },
+        {
+          "pitch": 71,
+          "duration": "quarter",
+          "velocity": 35
+        },
+        {
+          "pitch": 52,
+          "duration": "quarter.",
+          "velocity": 50
+        },
+        {
+          "pitch": 67,
+          "duration": "quarter",
+          "velocity": 35
+        },
+        {
+          "pitch": 71,
+          "duration": "quarter",
+          "velocity": 35
+        },
+        {
+          "pitch": 57,
+          "duration": "quarter.",
+          "velocity": 50
+        },
+        {
+          "pitch": 72,
+          "duration": "quarter",
+          "velocity": 35
+        },
+        {
+          "pitch": 76,
+          "duration": "quarter",
+          "velocity": 35
+        },
+        {
+          "pitch": 57,
+          "duration": "quarter.",
+          "velocity": 50
+        },
+        {
+          "pitch": 72,
+          "duration": "quarter",
+          "velocity": 35
+        },
+        {
+          "pitch": 76,
+          "duration": "quarter",
+          "velocity": 35
+        }
+      ]
+    }
+  ]
+}

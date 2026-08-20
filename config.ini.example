@@ -1,0 +1,25 @@
+; VibeDoMuse 配置文件模板
+; 复制本文件为 config.ini 后按需修改。
+; 注意：config.ini 已被 .gitignore 忽略，不会提交到仓库，可安全填写真实密钥。
+
+[llm]
+; 兼容 OpenAI 的 LLM 服务地址（如本地 LM Studio、远端代理等）
+base_url = http://127.0.0.1:1234/v1
+; 模型名称
+model = baidu.ernie-4.5-0.3b-base-pt
+; API Key（按所用服务填写；请勿把真实密钥提交到仓库）
+api_key = test-key
+; 请求超时（秒）
+timeout = 15
+
+[app]
+; 界面主题：light 或 dark
+theme = light
+
+[server]
+; REST 后端端口
+port = 8000
+; 绑定地址（默认仅本机）
+bind = 127.0.0.1
+; 访问令牌；留空表示不启用鉴权
+token =

@@ -1,0 +1,206 @@
+{
+  "title": "涙の理由",
+  "composer": "Do Muse AI",
+  "metadata": {
+    "tempo_bpm": 65,
+    "time_signature": "4/4",
+    "key_signature": "a"
+  },
+  "tracks": [
+    {
+      "instrument": "Acoustic Grand Piano",
+      "notes": [
+        {
+          "pitch": 64,
+          "duration": "half",
+          "velocity": 64
+        },
+        {
+          "pitch": 60,
+          "duration": "half",
+          "velocity": 64
+        },
+        {
+          "pitch": 57,
+          "duration": "half",
+          "velocity": 57
+        },
+        {
+          "pitch": 62,
+          "duration": "quarter",
+          "velocity": 64
+        },
+        {
+          "pitch": 59,
+          "duration": "quarter",
+          "velocity": 56
+        },
+        {
+          "pitch": 57,
+          "duration": "half",
+          "velocity": 53
+        },
+        {
+          "pitch": 65,
+          "duration": "half",
+          "velocity": 64
+        },
+        {
+          "pitch": 62,
+          "duration": "quarter",
+          "velocity": 60
+        },
+        {
+          "pitch": 60,
+          "duration": "quarter",
+          "velocity": 59
+        },
+        {
+          "pitch": 59,
+          "duration": "half",
+          "velocity": 59
+        },
+        {
+          "pitch": 57,
+          "duration": "half",
+          "velocity": 47
+        },
+        {
+          "pitch": -1,
+          "duration": "quarter",
+          "velocity": 0
+        },
+        {
+          "pitch": 64,
+          "duration": "half",
+          "velocity": 60
+        },
+        {
+          "pitch": 60,
+          "duration": "half",
+          "velocity": 55
+        },
+        {
+          "pitch": 57,
+          "duration": "half",
+          "velocity": 61
+        },
+        {
+          "pitch": 62,
+          "duration": "quarter",
+          "velocity": 66
+        },
+        {
+          "pitch": 59,
+          "duration": "quarter",
+          "velocity": 61
+        },
+        {
+          "pitch": 57,
+          "duration": "half",
+          "velocity": 60
+        },
+        {
+          "pitch": 65,
+          "duration": "half",
+          "velocity": 66
+        },
+        {
+          "pitch": 62,
+          "duration": "quarter",
+          "velocity": 64
+        },
+        {
+          "pitch": 60,
+          "duration": "eighth",
+          "velocity": 60
+        }
+      ]
+    },
+    {
+      "instrument": "Acoustic Grand Piano",
+      "notes": [
+        {
+          "pitch": 45,
+          "duration": "half",
+          "velocity": 43
+        },
+        {
+          "pitch": 48,
+          "duration": "half",
+          "velocity": 43
+        },
+        {
+          "pitch": 52,
+          "duration": "half",
+          "velocity": 42
+        },
+        {
+          "pitch": 47,
+          "duration": "half",
+          "velocity": 38
+        },
+        {
+          "pitch": 45,
+          "duration": "half",
+          "velocity": 40
+        },
+        {
+          "pitch": 48,
+          "duration": "half",
+          "velocity": 40
+        },
+        {
+          "pitch": 52,
+          "duration": "half",
+          "velocity": 41
+        },
+        {
+          "pitch": 47,
+          "duration": "half",
+          "velocity": 38
+        },
+        {
+          "pitch": 45,
+          "duration": "half",
+          "velocity": 43
+        },
+        {
+          "pitch": 48,
+          "duration": "half",
+          "velocity": 40
+        },
+        {
+          "pitch": 52,
+          "duration": "half",
+          "velocity": 42
+        },
+        {
+          "pitch": 47,
+          "duration": "half",
+          "velocity": 40
+        },
+        {
+          "pitch": 45,
+          "duration": "half",
+          "velocity": 38
+        },
+        {
+          "pitch": 48,
+          "duration": "half",
+          "velocity": 43
+        },
+        {
+          "pitch": 52,
+          "duration": "half",
+          "velocity": 41
+        },
+        {
+          "pitch": 47,
+          "duration": "half",
+          "velocity": 38
+        }
+      ]
+    }
+  ]
+}

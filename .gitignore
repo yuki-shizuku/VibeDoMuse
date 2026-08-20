@@ -1,0 +1,33 @@
+# ===== 自动生成的用户配置（含 API Key，禁止提交） =====
+config.ini
+
+# ===== Python 构建/缓存产物 =====
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.venv/
+venv/
+
+# ===== 打包的二进制 / 大型资源（体积过大，不纳入版本库） =====
+bin/
+fluidsynth/
+*.sf2
+*.dll
+*.exe
+*.lib
+*.so
+*.pyd
+
+# ===== 本地 / 临时 =====
+.tmp_test/
+.workbuddy/
+
+# ===== 编辑器 / 系统 =====
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.idea/
+.vscode/

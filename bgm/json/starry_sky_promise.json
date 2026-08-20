@@ -1,0 +1,196 @@
+{
+  "title": "星空の約束",
+  "composer": "Do Muse AI",
+  "metadata": {
+    "tempo_bpm": 75,
+    "time_signature": "4/4",
+    "key_signature": "D"
+  },
+  "tracks": [
+    {
+      "instrument": "Acoustic Grand Piano",
+      "notes": [
+        {
+          "pitch": 57,
+          "duration": "half",
+          "velocity": 71
+        },
+        {
+          "pitch": 59,
+          "duration": "quarter",
+          "velocity": 67
+        },
+        {
+          "pitch": 62,
+          "duration": "quarter",
+          "velocity": 72
+        },
+        {
+          "pitch": 59,
+          "duration": "half",
+          "velocity": 67
+        },
+        {
+          "pitch": 57,
+          "duration": "quarter",
+          "velocity": 60
+        },
+        {
+          "pitch": 54,
+          "duration": "quarter",
+          "velocity": 65
+        },
+        {
+          "pitch": 50,
+          "duration": "half",
+          "velocity": 53
+        },
+        {
+          "pitch": 54,
+          "duration": "half",
+          "velocity": 69
+        },
+        {
+          "pitch": 57,
+          "duration": "half",
+          "velocity": 74
+        },
+        {
+          "pitch": 54,
+          "duration": "quarter",
+          "velocity": 63
+        },
+        {
+          "pitch": 50,
+          "duration": "half",
+          "velocity": 60
+        },
+        {
+          "pitch": -1,
+          "duration": "quarter",
+          "velocity": 0
+        },
+        {
+          "pitch": 57,
+          "duration": "half",
+          "velocity": 70
+        },
+        {
+          "pitch": 59,
+          "duration": "quarter",
+          "velocity": 60
+        },
+        {
+          "pitch": 62,
+          "duration": "quarter",
+          "velocity": 68
+        },
+        {
+          "pitch": 59,
+          "duration": "half",
+          "velocity": 66
+        },
+        {
+          "pitch": 57,
+          "duration": "quarter",
+          "velocity": 56
+        },
+        {
+          "pitch": 54,
+          "duration": "quarter",
+          "velocity": 65
+        },
+        {
+          "pitch": 50,
+          "duration": "half",
+          "velocity": 53
+        },
+        {
+          "pitch": 54,
+          "duration": "half",
+          "velocity": 70
+        },
+        {
+          "pitch": 57,
+          "duration": "half",
+          "velocity": 68
+        },
+        {
+          "pitch": 54,
+          "duration": "quarter",
+          "velocity": 60
+        },
+        {
+          "pitch": 50,
+          "duration": "half",
+          "velocity": 53
+        },
+        {
+          "pitch": -1,
+          "duration": "quarter",
+          "velocity": 0
+        },
+        {
+          "pitch": 57,
+          "duration": "quarter",
+          "velocity": 66
+        },
+        {
+          "pitch": 59,
+          "duration": "eighth",
+          "velocity": 69
+        }
+      ]
+    },
+    {
+      "instrument": "Acoustic Grand Piano",
+      "notes": [
+        {
+          "pitch": 38,
+          "duration": "whole",
+          "velocity": 34
+        },
+        {
+          "pitch": 42,
+          "duration": "whole",
+          "velocity": 33
+        },
+        {
+          "pitch": 45,
+          "duration": "whole",
+          "velocity": 37
+        },
+        {
+          "pitch": 42,
+          "duration": "whole",
+          "velocity": 33
+        },
+        {
+          "pitch": 38,
+          "duration": "whole",
+          "velocity": 36
+        },
+        {
+          "pitch": 42,
+          "duration": "whole",
+          "velocity": 38
+        },
+        {
+          "pitch": 45,
+          "duration": "whole",
+          "velocity": 33
+        },
+        {
+          "pitch": 42,
+          "duration": "whole",
+          "velocity": 36
+        },
+        {
+          "pitch": 38,
+          "duration": "whole",
+          "velocity": 36
+        }
+      ]
+    }
+  ]
+}

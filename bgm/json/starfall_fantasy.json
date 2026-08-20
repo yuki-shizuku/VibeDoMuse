@@ -1,0 +1,196 @@
+{
+  "title": "星降る夜の幻想",
+  "composer": "Do Muse AI",
+  "metadata": {
+    "tempo_bpm": 75,
+    "time_signature": "4/4",
+    "key_signature": "F"
+  },
+  "tracks": [
+    {
+      "instrument": "Acoustic Grand Piano",
+      "notes": [
+        {
+          "pitch": 60,
+          "duration": "half",
+          "velocity": 75
+        },
+        {
+          "pitch": 62,
+          "duration": "quarter",
+          "velocity": 70
+        },
+        {
+          "pitch": 65,
+          "duration": "quarter",
+          "velocity": 73
+        },
+        {
+          "pitch": 62,
+          "duration": "half",
+          "velocity": 70
+        },
+        {
+          "pitch": 60,
+          "duration": "quarter",
+          "velocity": 63
+        },
+        {
+          "pitch": 57,
+          "duration": "quarter",
+          "velocity": 64
+        },
+        {
+          "pitch": 53,
+          "duration": "half",
+          "velocity": 51
+        },
+        {
+          "pitch": 57,
+          "duration": "half",
+          "velocity": 64
+        },
+        {
+          "pitch": 60,
+          "duration": "half",
+          "velocity": 70
+        },
+        {
+          "pitch": 57,
+          "duration": "quarter",
+          "velocity": 61
+        },
+        {
+          "pitch": 53,
+          "duration": "half",
+          "velocity": 57
+        },
+        {
+          "pitch": -1,
+          "duration": "quarter",
+          "velocity": 0
+        },
+        {
+          "pitch": 60,
+          "duration": "half",
+          "velocity": 69
+        },
+        {
+          "pitch": 62,
+          "duration": "quarter",
+          "velocity": 68
+        },
+        {
+          "pitch": 65,
+          "duration": "quarter",
+          "velocity": 70
+        },
+        {
+          "pitch": 62,
+          "duration": "half",
+          "velocity": 60
+        },
+        {
+          "pitch": 60,
+          "duration": "quarter",
+          "velocity": 56
+        },
+        {
+          "pitch": 57,
+          "duration": "quarter",
+          "velocity": 63
+        },
+        {
+          "pitch": 53,
+          "duration": "half",
+          "velocity": 59
+        },
+        {
+          "pitch": 57,
+          "duration": "half",
+          "velocity": 66
+        },
+        {
+          "pitch": 60,
+          "duration": "half",
+          "velocity": 70
+        },
+        {
+          "pitch": 57,
+          "duration": "quarter",
+          "velocity": 63
+        },
+        {
+          "pitch": 53,
+          "duration": "half",
+          "velocity": 55
+        },
+        {
+          "pitch": -1,
+          "duration": "quarter",
+          "velocity": 0
+        },
+        {
+          "pitch": 60,
+          "duration": "quarter",
+          "velocity": 67
+        },
+        {
+          "pitch": 62,
+          "duration": "eighth",
+          "velocity": 70
+        }
+      ]
+    },
+    {
+      "instrument": "Acoustic Grand Piano",
+      "notes": [
+        {
+          "pitch": 41,
+          "duration": "whole",
+          "velocity": 36
+        },
+        {
+          "pitch": 45,
+          "duration": "whole",
+          "velocity": 36
+        },
+        {
+          "pitch": 48,
+          "duration": "whole",
+          "velocity": 36
+        },
+        {
+          "pitch": 45,
+          "duration": "whole",
+          "velocity": 33
+        },
+        {
+          "pitch": 41,
+          "duration": "whole",
+          "velocity": 32
+        },
+        {
+          "pitch": 45,
+          "duration": "whole",
+          "velocity": 34
+        },
+        {
+          "pitch": 48,
+          "duration": "whole",
+          "velocity": 37
+        },
+        {
+          "pitch": 45,
+          "duration": "whole",
+          "velocity": 37
+        },
+        {
+          "pitch": 41,
+          "duration": "whole",
+          "velocity": 37
+        }
+      ]
+    }
+  ]
+}
