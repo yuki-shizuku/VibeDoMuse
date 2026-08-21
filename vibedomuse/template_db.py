@@ -5,38 +5,43 @@ Database layer: indexes the 144 Do-muse templates (bgm / accompaniment / other)
 and ranks them by MusicParams, letting the Agent "find the right template with
 natural language". Also used as the knowledge base for LLM examples.
 """
+import importlib.util
 import json
 import os
-import sys
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+from ._paths import resource_path
 
 CATALOG_DIRS = {
-    "galgame_bgm": os.path.join(ROOT, "bgm", "json"),
-    "galgame_accompaniment": os.path.join(ROOT, "accompaniment", "json"),
-    "galgame_v3": os.path.join(ROOT, "other", "json"),
+    "galgame_bgm": resource_path(os.path.join("bgm", "json")),
+    "galgame_accompaniment": resource_path(os.path.join("accompaniment", "json")),
+    "galgame_v3": resource_path(os.path.join("other", "json")),
 }
 
 # generation scripts (with PIECES metadata) to enrich mood/pattern/progression
 _GEN_MODULES = {
-    "galgame_bgm": os.path.join(ROOT, "bgm", "generate_bgm.py"),
-    "galgame_accompaniment": os.path.join(ROOT, "accompaniment", "generate_accompaniment.py"),
-    "galgame_v3": os.path.join(ROOT, "other", "generate_galgame_v3.py"),
+    "galgame_bgm": resource_path(os.path.join("bgm", "generate_bgm.py")),
+    "galgame_accompaniment": resource_path(os.path.join("accompaniment", "generate_accompaniment.py")),
+    "galgame_v3": resource_path(os.path.join("other", "generate_galgame_v3.py")),
 }
 
 
 def _load_piece_lookup():
-    """Build a name_en -> metadata lookup from the PIECES of the three scripts."""
+    """Build a name_en -> metadata lookup from the PIECES of the three scripts.
+
+    Loaded via importlib so it works both in dev and when the scripts are
+    bundled as data files inside a PyInstaller build.
+    """
     lookup = {}
     for cat, mod_path in _GEN_MODULES.items():
         if not os.path.exists(mod_path):
             continue
-        dir_ = os.path.dirname(mod_path)
         mod_name = os.path.splitext(os.path.basename(mod_path))[0]
         try:
-            if dir_ not in sys.path:
-                sys.path.insert(0, dir_)
-            mod = __import__(mod_name, fromlist=["PIECES"])
+            spec = importlib.util.spec_from_file_location(mod_name, mod_path)
+            if spec is None or spec.loader is None:
+                continue
+            mod = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(mod)
             for p in getattr(mod, "PIECES", []):
                 lookup[p.get("name_en")] = p
         except Exception:

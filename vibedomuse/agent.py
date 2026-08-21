@@ -159,7 +159,7 @@ def run_llm(text, use_template=None, seed=None, limit_templates=5, top_examples=
     if score is None:
         res = run(text, seed=seed, limit_templates=limit_templates, use_llm=False)
         res["method"] = "fallback"
-        res["llm_error"] = err or "LLM 无输出"
+        res["llm_error"] = err or "LLM no output"
         res["knowledge_sections"] = sec_titles
         res["knowledge_examples"] = ex_names
         return res
@@ -169,7 +169,7 @@ def run_llm(text, use_template=None, seed=None, limit_templates=5, top_examples=
     if not ok:
         res = run(text, seed=seed, limit_templates=limit_templates, use_llm=False)
         res["method"] = "fallback"
-        res["llm_error"] = "本地校验失败: " + "; ".join(errors[:5])
+        res["llm_error"] = "Local validation failed: " + "; ".join(errors[:5])
         res["knowledge_sections"] = sec_titles
         res["knowledge_examples"] = ex_names
         return res
@@ -192,7 +192,7 @@ def run_llm(text, use_template=None, seed=None, limit_templates=5, top_examples=
         # render failure (e.g. DoMuse cannot parse) -> fall back to the rule engine
         res = run(text, seed=seed, limit_templates=limit_templates, use_llm=False)
         res["method"] = "fallback"
-        res["llm_error"] = "LLM JSON 渲染失败: " + str(e)
+        res["llm_error"] = "LLM JSON render failed: " + str(e)
         res["knowledge_sections"] = sec_titles
         res["knowledge_examples"] = ex_names
         return res
@@ -204,11 +204,91 @@ def run_llm(text, use_template=None, seed=None, limit_templates=5, top_examples=
     return res
 
 
+def analyze(text):
+    """First-stage: send the user's prompt to LLM for intent analysis.
+
+    The LLM autonomously considers which parts of the knowledge base are
+    relevant and returns a natural-language understanding paragraph.
+    Returns the analysis text, or None on failure.
+    """
+    from . import llm_client as llm
+    try:
+        return llm.analyze_intent(text)
+    except Exception:
+        return None
+
+
+def run_llm_v2(text, analysis, seed=None, limit_templates=5, top_examples=1):
+    """Second-stage: generate JSON with original prompt + LLM's understanding.
+
+    Uses the original user prompt + the LLM's own intent analysis (from stage 1)
+    to produce a more accurate JSON score. Falls back to standard run_llm on failure.
+    """
+    from . import json_writer as jw
+    from . import json_validator as jv
+    from . import knowledge as kb
+
+    t0 = time.time()
+    if seed is None:
+        seed = random.randint(0, 1_000_000)
+
+    # ① Build combined prompt (original text + analysis + knowledge context)
+    prompt = kb.build_generation_prompt(text, analysis, top_sections=3, top_examples=top_examples)
+    sec_titles = [s["title"] for s in prompt["sections"]]
+    ex_names = [r["name"] for r in prompt["templates"]]
+
+    # ② LLM writes JSON using the combined prompt
+    score, err = jw.write_score(text, prompt=prompt)
+    if score is None:
+        # fallback to standard run_llm
+        res = run_llm(text, seed=seed, limit_templates=limit_templates, top_examples=top_examples)
+        res["method"] = "fallback_v2"
+        res["llm_error"] = err or "LLM no output (v2)"
+        res["v2_analysis"] = analysis
+        return res
+
+    # ③ local validation
+    ok, errors, warnings = jv.validate(score)
+    if not ok:
+        res = run_llm(text, seed=seed, limit_templates=limit_templates, top_examples=top_examples)
+        res["method"] = "fallback_v2"
+        res["llm_error"] = "Local validation failed (v2): " + "; ".join(errors[:5])
+        res["v2_analysis"] = analysis
+        return res
+
+    score = jv.normalize(score)
+    try:
+        p0 = nlp.parse(text)
+        if p0.loop:
+            score.setdefault("loop", True)
+    except Exception:
+        pass
+    params = jv.to_params(score)
+    params.text = text
+    templates = tdb.search(params, limit=limit_templates)
+    name = "llm_v2_" + gen.slug(params) + "_" + str(seed % 100000)
+    try:
+        rendered = rnd.render(score, name)
+    except Exception as e:
+        res = run_llm(text, seed=seed, limit_templates=limit_templates, top_examples=top_examples)
+        res["method"] = "fallback_v2"
+        res["llm_error"] = "LLM JSON render failed (v2): " + str(e)
+        res["v2_analysis"] = analysis
+        return res
+
+    res = _finalize(params, templates, score, rendered, t0, seed, None, method="llm_v2")
+    res["llm_warnings"] = warnings
+    res["knowledge_sections"] = sec_titles
+    res["knowledge_examples"] = ex_names
+    res["v2_analysis"] = analysis
+    return res
+
+
 def _finalize(params, templates, score, rendered, t0, seed, use_template, llm_text=None, method="rule"):
     category_cn = {
-        "galgame_bgm": "旋律驱动 BGM",
-        "galgame_accompaniment": "和声驱动伴奏",
-        "galgame_v3": "多调性三轨",
+        "galgame_bgm": "Melody-driven BGM",
+        "galgame_accompaniment": "Harmony-driven accompaniment",
+        "galgame_v3": "Multi-tonal three-track",
     }.get(params.category, params.category)
     return {
         "ok": True,

@@ -20,9 +20,21 @@ fluidsynth/
 *.so
 *.pyd
 
+# ===== 打包输出 =====
+windows/
+
+# ===== 构建临时文件 =====
+.venv_build/
+build_pyinstaller/
+*.spec
+
 # ===== 本地 / 临时 =====
 .tmp_test/
 .workbuddy/
+
+# ===== 运行输出 / 日志 =====
+generated/
+build_windows.log
 
 # ===== 编辑器 / 系统 =====
 .DS_Store

@@ -24,9 +24,9 @@ DRUM_INSTRUMENT = "Timpani"
 
 _LAYER_PROFILES = {
     "calm": {"tempo_factor": 0.82, "pattern": "ballad_arp", "vel_scale": 0.75,
-             "drums": False, "label": "平静层"},
+             "drums": False, "label": "Calm Layer"},
     "tense": {"tempo_factor": 1.22, "pattern": "syncopated", "vel_scale": 1.12,
-              "drums": True, "label": "紧张层"},
+              "drums": True, "label": "Tense Layer"},
 }
 
 
@@ -182,8 +182,8 @@ def gen_layers(params: MusicParams, seed=None):
     """Generate calm/tense layer variants of the same theme (Galgame scene switch)."""
     base_seed = seed if seed is not None else random.randint(0, 1_000_000)
     return [
-        {"layer": "calm", "label": "平静层", "score": compose(params, seed=base_seed, layer="calm", loop=params.loop)},
-        {"layer": "tense", "label": "紧张层", "score": compose(params, seed=base_seed, layer="tense", loop=params.loop)},
+        {"layer": "calm", "label": "Calm Layer", "score": compose(params, seed=base_seed, layer="calm", loop=params.loop)},
+        {"layer": "tense", "label": "Tense Layer", "score": compose(params, seed=base_seed, layer="tense", loop=params.loop)},
     ]
 
 

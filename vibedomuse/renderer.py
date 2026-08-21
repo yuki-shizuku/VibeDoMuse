@@ -16,15 +16,17 @@ import shutil
 import subprocess
 import tempfile
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DOMUSE_EXE = os.path.join(ROOT, "bin", "DoMuse.exe")
-FLUIDSYNTH_EXE = os.path.join(
-    ROOT, "fluidsynth", "fluidsynth-v2.5.7-win10-x64-cpp11", "bin", "fluidsynth.exe"
-)
-SOUNDFONT = os.path.join(ROOT, "32MbGMStereo.sf2")
+from ._paths import resource_path, RUNTIME_DIR
 
-# Persistent output dirs (written only after "confirm save")
-GEN_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "generated")
+DOMUSE_EXE = resource_path(os.path.join("bin", "DoMuse.exe"))
+FLUIDSYNTH_EXE = resource_path(
+    os.path.join("fluidsynth", "fluidsynth-v2.5.7-win10-x64-cpp11", "bin", "fluidsynth.exe")
+)
+SOUNDFONT = resource_path("32MbGMStereo.sf2")
+
+# Persistent output dirs (written only after "confirm save"); live in the
+# portable runtime folder so the deployment stays self-contained.
+GEN_DIR = os.path.join(RUNTIME_DIR, "generated")
 JSON_DIR = os.path.join(GEN_DIR, "json")
 MIDI_DIR = os.path.join(GEN_DIR, "midi")
 WAV_DIR = os.path.join(GEN_DIR, "wav")
@@ -59,15 +61,15 @@ def json_to_midi(json_path, midi_path=None):
     if midi_path is None:
         midi_path = os.path.join(CACHE_MIDI_DIR, os.path.splitext(os.path.basename(json_path))[0] + ".mid")
     if not os.path.exists(DOMUSE_EXE):
-        raise RuntimeError("DoMuse.exe 未找到: " + DOMUSE_EXE)
+        raise RuntimeError("DoMuse.exe not found: " + DOMUSE_EXE)
     r = subprocess.run(
         [DOMUSE_EXE, "-i", json_path, "-e", midi_path, "-f", "midi"],
         capture_output=True, text=True, timeout=120,
     )
     if r.returncode != 0:
-        raise RuntimeError("DoMuse.exe 失败: " + (r.stderr or r.stdout or "未知错误"))
+        raise RuntimeError("DoMuse.exe failed: " + (r.stderr or r.stdout or "unknown error"))
     if not os.path.exists(midi_path) or os.path.getsize(midi_path) == 0:
-        raise RuntimeError("MIDI 未生成或为空")
+        raise RuntimeError("MIDI not generated or empty")
     return midi_path
 
 
@@ -123,18 +125,28 @@ def trim_trailing_silence(wav_path, keep_sec=0.4, threshold=0.004, chunk_sec=0.0
 def midi_to_wav(midi_path, wav_path=None):
     if wav_path is None:
         wav_path = os.path.join(CACHE_WAV_DIR, os.path.splitext(os.path.basename(midi_path))[0] + ".wav")
+    # Pre-flight checks: ensure fluidsynth and soundfont exist
     if not os.path.exists(FLUIDSYNTH_EXE):
-        raise RuntimeError("fluidsynth 未找到: " + FLUIDSYNTH_EXE)
-    r = subprocess.run(
-        [FLUIDSYNTH_EXE, "-F", wav_path, SOUNDFONT, midi_path],
-        capture_output=True, text=True, timeout=180,
-    )
-    if r.returncode != 0:
-        raise RuntimeError("fluidsynth 失败: " + (r.stderr or r.stdout or "未知错误"))
-    if not os.path.exists(wav_path) or os.path.getsize(wav_path) == 0:
-        raise RuntimeError("WAV 未生成或为空")
-    trim_trailing_silence(wav_path)   # remove the trailing silence added by bar padding
-    return wav_path
+        return None
+    if not os.path.exists(SOUNDFONT):
+        return None
+    # Retry once on failure
+    for attempt in range(2):
+        try:
+            r = subprocess.run(
+                [FLUIDSYNTH_EXE, "-F", wav_path, SOUNDFONT, midi_path],
+                capture_output=True, text=True, timeout=180,
+            )
+        except subprocess.TimeoutExpired:
+            continue
+        except Exception:
+            continue
+        if r.returncode != 0:
+            continue
+        if os.path.exists(wav_path) and os.path.getsize(wav_path) > 0:
+            trim_trailing_silence(wav_path)
+            return wav_path
+    return None
 
 
 def _content_hash(score):
@@ -176,7 +188,7 @@ def render(score, name):
         "json_path": json_path,
         "midi_path": midi_path,
         "wav_path": wav_path,
-        "wav_file": name + ".wav",
+        "wav_file": (name + ".wav") if wav_path else None,
         "midi_file": name + ".mid",
         "json_file": name + ".json",
         "cached": False,
@@ -194,7 +206,7 @@ def render_existing_json(json_path, name=None):
         "json_path": json_path,
         "midi_path": midi_path,
         "wav_path": wav_path,
-        "wav_file": os.path.basename(wav_path),
+        "wav_file": os.path.basename(wav_path) if wav_path else None,
         "midi_file": os.path.basename(midi_path),
         "json_file": os.path.basename(json_path),
     }
@@ -232,8 +244,8 @@ def finalize(artifacts, name=None):
     return {
         "json_path": dst_j,
         "midi_path": dst_m,
-        "wav_path": dst_w,
-        "wav_file": os.path.basename(dst_w),
+        "wav_path": dst_w if (src_w and os.path.exists(src_w)) else None,
+        "wav_file": os.path.basename(dst_w) if (src_w and os.path.exists(src_w)) else None,
         "midi_file": os.path.basename(dst_m),
         "json_file": os.path.basename(dst_j),
     }
@@ -245,13 +257,13 @@ def finalize(artifacts, name=None):
 def _domuse_export(json_path, out_path, fmt):
     """Export via DoMuse.exe for music21-native formats (mxl/xml/ly/midi)."""
     if not os.path.exists(DOMUSE_EXE):
-        raise RuntimeError("DoMuse.exe 未找到: " + DOMUSE_EXE)
+        raise RuntimeError("DoMuse.exe not found: " + DOMUSE_EXE)
     r = subprocess.run(
         [DOMUSE_EXE, "-i", json_path, "-e", out_path, "-f", fmt],
         capture_output=True, text=True, timeout=120,
     )
     if r.returncode != 0 or not os.path.exists(out_path) or os.path.getsize(out_path) == 0:
-        raise RuntimeError(f"DoMuse 导出失败({fmt}): " + (r.stderr or r.stdout or "未知错误"))
+        raise RuntimeError(f"DoMuse export failed ({fmt}): " + (r.stderr or r.stdout or "unknown error"))
     return out_path
 
 
@@ -259,7 +271,7 @@ def _ffmpeg_from_wav(wav_path, out_path, fmt):
     """Re-encode the cached WAV with ffmpeg (mp3/flac/ogg)."""
     ff = shutil.which("ffmpeg")
     if not ff:
-        raise RuntimeError("未找到 ffmpeg，无法导出 " + fmt)
+        raise RuntimeError("ffmpeg not found, cannot export " + fmt)
     codec = {"mp3": "libmp3lame", "flac": "flac", "ogg": "libvorbis"}.get(fmt)
     cmd = [ff, "-y", "-i", wav_path]
     if codec:
@@ -267,7 +279,7 @@ def _ffmpeg_from_wav(wav_path, out_path, fmt):
     cmd += [out_path]
     r = subprocess.run(cmd, capture_output=True, text=True, timeout=180)
     if r.returncode != 0 or not os.path.exists(out_path) or os.path.getsize(out_path) == 0:
-        raise RuntimeError(f"ffmpeg 导出失败({fmt}): " + (r.stderr or "")[:200])
+        raise RuntimeError(f"ffmpeg export failed ({fmt}): " + (r.stderr or "")[:200])
     return out_path
 
 
@@ -287,15 +299,15 @@ def export_artifacts(score, artifacts, out_path, fmt):
         if src and os.path.exists(src):
             shutil.copyfile(src, out_path)
             return out_path
-        raise RuntimeError("无可用 WAV 缓存，无法导出 wav")
+        raise RuntimeError("WAV not available (fluidsynth unavailable or render failed)")
     if fmt in ("mxl", "xml", "ly", "midi"):
         jp = artifacts.get("json_path")
         if not jp or not os.path.exists(jp):
-            raise RuntimeError("无可用 JSON 缓存，无法导出 " + fmt)
+            raise RuntimeError("JSON cache not available for " + fmt)
         return _domuse_export(jp, out_path, fmt)
     if fmt in ("mp3", "flac", "ogg"):
         src = artifacts.get("wav_path")
         if not src or not os.path.exists(src):
-            raise RuntimeError("无可用 WAV 缓存，无法导出 " + fmt)
+            raise RuntimeError("WAV not available; cannot export " + fmt)
         return _ffmpeg_from_wav(src, out_path, fmt)
-    raise ValueError("不支持的格式: " + fmt)
+    raise ValueError("unsupported format: " + fmt)

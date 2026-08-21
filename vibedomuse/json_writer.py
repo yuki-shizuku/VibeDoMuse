@@ -41,18 +41,20 @@ def write_score(text, prompt=None, max_tokens=4000, timeout=180, attempts=2):
     if prompt is None:
         from . import knowledge
         prompt = knowledge.build_prompt(text)
-    last_err = "LLM 无响应或端点不可用"
+    last_err = "LLM no response or endpoint unavailable"
     for i in range(max(1, attempts)):
         user = prompt["user"]
         if i > 0:
-            user += ("\n\n(NOTE: the previous output was incomplete. Output a shorter piece: "
-                     "1 track, 12-20 notes is enough. Make sure all braces are closed.)")
+            user += ("\n\n(NOTE: the previous output was incomplete or invalid. "
+                     "Output a complete, valid JSON following the same requirements as before. "
+                     "Make sure all braces are closed and the JSON is parseable. "
+                     "Do NOT include <thinking> or any reasoning tags in your output.)")
         raw = llm_client.chat(user, system=prompt["system"], max_tokens=max_tokens, timeout=timeout)
         if not raw:
-            last_err = "LLM 无响应或端点不可用"
+            last_err = "LLM no response or endpoint unavailable"
             continue
         score = extract_json(raw)
         if score is not None:
             return score, None
-        last_err = "LLM 输出无法解析为 JSON: " + raw[:160]
+        last_err = "LLM output could not be parsed as JSON: " + raw[:160]
     return None, last_err

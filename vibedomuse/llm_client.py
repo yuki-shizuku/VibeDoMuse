@@ -12,6 +12,7 @@ not used for serious production work. It assists by writing/rewriting, and any
 failure gracefully falls back to the rule engine (nl_parser).
 """
 import json
+import re
 import urllib.request
 
 from . import config as _cfg
@@ -39,16 +40,23 @@ def chat(prompt, system=None, max_tokens=256, timeout=None,
         "model": model or s["model"],
         "messages": messages,
         "max_tokens": max_tokens,
-        "temperature": 0.3,
+        "temperature": s.get("temperature", 0.3),
     }).encode("utf-8")
     req = urllib.request.Request(url, data=payload, headers={
         "Content-Type": "application/json",
-        "Authorization": "Bearer " + (api_key or s["api_key"] or "test-key"),
+        "Authorization": "Bearer " + (api_key or s["api_key"]),
     })
     try:
         with urllib.request.urlopen(req, timeout=timeout or s["timeout"]) as r:
             data = json.loads(r.read().decode("utf-8"))
-        return data["choices"][0]["message"]["content"].strip()
+        text = data["choices"][0]["message"]["content"].strip()
+        # Strip <thinking>...</thinking> tags (common in some LLM outputs)
+        text = re.sub(r"<thinking>.*?</thinking>", "", text, flags=re.DOTALL).strip()
+        # Also strip <Thought>...</Thought> and other common variants
+        text = re.sub(r"<[Tt]hought>.*?</[Tt]hought>", "", text, flags=re.DOTALL).strip()
+        # Strip <reasoning>...</reasoning> tags
+        text = re.sub(r"<reasoning>.*?</reasoning>", "", text, flags=re.DOTALL).strip()
+        return text
     except Exception:
         return None
 
@@ -59,11 +67,16 @@ def is_available(base_url=None, model=None, **kw):
 
 
 _SYSTEM = (
-    "You are a music request analyst. The user describes the background music they "
-    "want, in Chinese or English. Rewrite the description into a clear, structured "
-    "music brief: mood, key, tempo (fast/slow or explicit BPM), instruments, number "
-    "of voices, and texture style. Output only the rewritten brief in the same "
-    "language as the user's request, no explanation, at most 60 words."
+    "=== LANGUAGE DETECTION === "
+    "First, detect the language of the user's request. "
+    "Then rewrite the description into a clear, structured music brief "
+    "in that SAME language. "
+    "If the user writes in Chinese, your output MUST be in Chinese. "
+    "If the user writes in English, your output MUST be in English. "
+    "Cover: mood, key, tempo (fast/slow or explicit BPM), instruments, "
+    "number of voices, and texture style. "
+    "No explanation, at most 60 words. "
+    "Do NOT include <thinking> tags."
 )
 
 
@@ -75,3 +88,35 @@ def refine_intent(text, **kw):
     if out and len(out) > 2:
         return out
     return None
+
+
+def analyze_intent(text, knowledge_context=None):
+    """First-stage: send the user's prompt to LLM for intent analysis.
+
+    The LLM thinks about the request, considers what knowledge/templates
+    would be relevant, and outputs a natural-language understanding paragraph.
+    Returns the analysis text, or None on failure.
+    """
+    from . import knowledge as kb
+    prompt = kb.build_analysis_prompt(text)
+    user_msg = prompt["user"]
+    if knowledge_context:
+        user_msg += "\n\n" + str(knowledge_context)
+    out = chat(user_msg, system=prompt["system"], max_tokens=600, timeout=60)
+    if out and len(out) > 10:
+        return out
+    return None
+
+
+def generate_with_understanding(text, analysis, knowledge_context=None):
+    """Second-stage: send original prompt + analysis to LLM for JSON generation.
+
+    Returns the raw LLM output (JSON string), or None on failure.
+    """
+    from . import knowledge as kb
+    prompt = kb.build_generation_prompt(text, analysis)
+    user_msg = prompt["user"]
+    if knowledge_context:
+        user_msg += "\n\n" + str(knowledge_context)
+    out = chat(user_msg, system=prompt["system"], max_tokens=4000, timeout=180)
+    return out

@@ -9,18 +9,21 @@ at the project root.
 import configparser
 import os
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CONFIG_PATH = os.path.join(ROOT, "config.ini")
+from ._paths import RUNTIME_DIR
+
+CONFIG_PATH = os.path.join(RUNTIME_DIR, "config.ini")
 
 DEFAULTS = {
     "base_url": "http://127.0.0.1:1234/v1",
-    "model": "baidu.ernie-4.5-0.3b-base-pt",
-    "api_key": "test-key",
+    "model": "model",   # placeholder; the user fills in the real model name on first run
+    "api_key": "",      # leave empty on first run; the user fills in the real key
     "timeout": "15",
+    "temperature": "0.3",
 }
 
 APP_DEFAULTS = {
     "theme": "light",
+    "language": "en",
 }
 
 SERVER_DEFAULTS = {
@@ -64,11 +67,17 @@ def get_llm_settings():
         timeout = int(llm.get("timeout", "15"))
     except Exception:
         timeout = 15
+    try:
+        temperature = float(llm.get("temperature", "0.3"))
+    except Exception:
+        temperature = 0.3
+    temperature = max(0.0, min(2.0, temperature))
     return {
         "base_url": (llm.get("base_url", "") or "").strip() or DEFAULTS["base_url"],
         "model": (llm.get("model", "") or "").strip() or DEFAULTS["model"],
         "api_key": (llm.get("api_key", "") or "").strip(),
         "timeout": max(3, min(120, timeout)),
+        "temperature": temperature,
     }
 
 
@@ -78,6 +87,22 @@ def get_theme():
     cfg = load_config()
     t = cfg["app"].get("theme", "light")
     return t if t in ("light", "dark") else "light"
+
+
+def get_language():
+    """Return the app UI language ("en" or "zh")."""
+    ensure_config_file()
+    cfg = load_config()
+    lang = cfg["app"].get("language", "en")
+    return lang if lang in ("en", "zh") else "en"
+
+
+def set_language(lang):
+    """Persist the UI language to config.ini."""
+    lang = lang if lang in ("en", "zh") else "en"
+    cfg = load_config()
+    cfg["app"]["language"] = lang
+    save_config(cfg)
 
 
 def get_server_settings():

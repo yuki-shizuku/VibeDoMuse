@@ -22,9 +22,10 @@ import json
 import urllib.parse
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-GEN_WAV_DIR = os.path.join(ROOT, "vibedomuse", "generated", "wav")
-GEN_JSON_DIR = os.path.join(ROOT, "vibedomuse", "generated", "json")
+from ._paths import RUNTIME_DIR
+
+GEN_WAV_DIR = os.path.join(RUNTIME_DIR, "generated", "wav")
+GEN_JSON_DIR = os.path.join(RUNTIME_DIR, "generated", "json")
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from vibedomuse import agent as agent_mod
@@ -188,7 +189,7 @@ def main():
     except Exception:
         pass
     server = ThreadingHTTPServer((srv["bind"], srv["port"]), Handler)
-    auth_note = "（已启用 token 鉴权）" if srv["token"] else "（无鉴权，建议在 config.ini [server] 设置 token）"
+    auth_note = "(token auth enabled)" if srv["token"] else "(no auth — recommended: set a token in config.ini [server])"
     print(f"VibeDoMuse backend started: http://{srv['bind']}:{srv['port']} {auth_note}")
     try:
         server.serve_forever()

@@ -51,23 +51,23 @@ def _check_pairing(notes, field, errors, warnings, loc, require_same_pitch=False
         p = n.get("pitch")
         if v == "start":
             if state is not None:
-                warnings.append(f"{loc}.{field} 在 {state} 后再次 start（未闭合）")
+                warnings.append(f"{loc}.{field}: start again after {state} without stop")
             state = "open"
             pitch_on_start = p
         elif v == "continue":
             if state is None:
-                warnings.append(f"{loc}.{field} 出现 continue 但无 start")
+                warnings.append(f"{loc}.{field}: continue without start")
             state = "open"
         elif v == "stop":
             if state is None:
-                errors.append(f"{loc}.{field} 出现 stop 但无 start")
+                errors.append(f"{loc}.{field}: stop without start")
             else:
                 if require_same_pitch and pitch_on_start is not None and p is not None \
                         and pitch_on_start != p:
-                    warnings.append(f"{loc}.{field} 起止音高不一致（{pitch_on_start} vs {p}）")
+                    warnings.append(f"{loc}.{field}: start/stop pitch mismatch ({pitch_on_start} vs {p})")
             state = None
     if state is not None:
-        errors.append(f"{loc}.{field} 的 start 未闭合（缺少 stop）")
+        errors.append(f"{loc}.{field}: start without matching stop")
 
 
 def _check_tuplets(notes, errors, warnings, loc):
@@ -81,144 +81,144 @@ def _check_tuplets(notes, errors, warnings, loc):
             i += 1
             continue
         if tup not in TUP:
-            errors.append(f"{loc}.tuplet 非法: {tup}")
+            errors.append(f"{loc}.tuplet invalid: {tup}")
             i += 1
             continue
         if "." in str(nt.get("duration", "")):
-            errors.append(f"{loc}.tuplet 不能与附点音符组合: {nt.get('duration')}")
+            errors.append(f"{loc}.tuplet cannot combine with dotted note: {nt.get('duration')}")
         # find group extent (same tuplet value, contiguous)
         j = i
         while j < n and notes[j].get("tuplet") == tup:
             if "." in str(notes[j].get("duration", "")):
-                errors.append(f"{loc}.tuplet 不能与附点音符组合: {notes[j].get('duration')}")
+                errors.append(f"{loc}.tuplet cannot combine with dotted note: {notes[j].get('duration')}")
             j += 1
         size = j - i
         if size != tup:
-            warnings.append(f"{loc}.tuplet={tup} 组内有 {size} 个音符（期望 {tup}）")
+            warnings.append(f"{loc}.tuplet={tup} group has {size} notes (expected {tup})")
         i = j
 
 
 def _validate_notes(notes, errors, warnings, loc, allow_ref=True, depth=0):
     if not isinstance(notes, list) or not notes:
-        errors.append(f"{loc}.notes 缺失或为空")
+        errors.append(f"{loc}.notes missing or empty")
         return
     for ni, n in enumerate(notes):
         nloc = f"{loc}.notes[{ni}]"
         if not isinstance(n, dict):
-            errors.append(f"{nloc} 不是对象")
+            errors.append(f"{nloc} is not an object")
             continue
         ref = n.get("ref")
         if ref is not None:
             if not allow_ref:
-                errors.append(f"{nloc} 宏内部不允许嵌套 ref")
+                errors.append(f"{nloc} nested ref not allowed inside macro")
                 continue
             if not isinstance(ref, str) or not ref:
-                errors.append(f"{nloc}.ref 必须是字符串")
+                errors.append(f"{nloc}.ref must be a string")
             if len(n) != 1:
-                errors.append(f"{nloc} ref 不能与其他字段共存")
+                errors.append(f"{nloc} ref cannot coexist with other fields")
             continue
         if "pitch" not in n and not isinstance(n.get("chord"), list):
-            errors.append(f"{nloc} 缺 pitch/chord")
+            errors.append(f"{nloc} missing pitch/chord")
         if "pitch" in n and not _is_pitch_ok(n["pitch"]):
-            errors.append(f"{nloc}.pitch 越界: {n['pitch']}")
+            errors.append(f"{nloc}.pitch out of range: {n['pitch']}")
         if "chord" in n and isinstance(n["chord"], list):
             for cp in n["chord"]:
                 if not _is_pitch_ok(cp):
-                    errors.append(f"{nloc}.chord 越界: {cp}")
+                    errors.append(f"{nloc}.chord out of range: {cp}")
         d = n.get("duration")
         if d not in DURATIONS:
-            errors.append(f"{nloc}.duration 非法: {d}")
+            errors.append(f"{nloc}.duration invalid: {d}")
         v = n.get("velocity")
         if v is not None and not (isinstance(v, int) and 0 <= v <= 127):
-            warnings.append(f"{nloc}.velocity 越界: {v}")
+            warnings.append(f"{nloc}.velocity out of range: {v}")
         if "tuplet" in n and n["tuplet"] not in TUP:
-            errors.append(f"{nloc}.tuplet 非法: {n['tuplet']}")
+            errors.append(f"{nloc}.tuplet invalid: {n['tuplet']}")
         if "articulation" in n and n["articulation"] not in ARTICULATIONS:
-            errors.append(f"{nloc}.articulation 非法: {n['articulation']}")
+            errors.append(f"{nloc}.articulation invalid: {n['articulation']}")
         if "dynamics" in n and n["dynamics"] not in DYNAMICS:
-            errors.append(f"{nloc}.dynamics 非法: {n['dynamics']}")
+            errors.append(f"{nloc}.dynamics invalid: {n['dynamics']}")
         for k, allowed in (("tie", TIE_SLUR), ("slur", TIE_SLUR), ("pedal", PEDAL),
                            ("navigation", NAVIGATION), ("hairpin", HAIRPIN)):
             if k in n and n[k] not in allowed:
-                errors.append(f"{nloc}.{k} 非法: {n[k]}")
+                errors.append(f"{nloc}.{k} invalid: {n[k]}")
         if "ornament" in n and n["ornament"] not in ORNAMENTS:
-            errors.append(f"{nloc}.ornament 非法: {n['ornament']}")
+            errors.append(f"{nloc}.ornament invalid: {n['ornament']}")
         for k, limit in (("lyric", 100), ("text", 200), ("expression", 200)):
             if k in n and n[k] is not None:
                 if not isinstance(n[k], str):
-                    errors.append(f"{nloc}.{k} 必须是字符串")
+                    errors.append(f"{nloc}.{k} must be a string")
                 elif len(n[k]) > limit:
-                    errors.append(f"{nloc}.{k} 超过 {limit} 字符")
+                    errors.append(f"{nloc}.{k} exceeds {limit} characters")
         if "volta" in n and (not isinstance(n["volta"], int) or not 1 <= n["volta"] <= 4):
-            errors.append(f"{nloc}.volta 必须是 1-4 的整数: {n.get('volta')}")
+            errors.append(f"{nloc}.volta must be an integer 1-4: {n.get('volta')}")
         if "time_signature_change" in n and not re.fullmatch(r"\d+/\d+", str(n["time_signature_change"])):
-            errors.append(f"{nloc}.time_signature_change 格式非法: {n['time_signature_change']}")
+            errors.append(f"{nloc}.time_signature_change invalid format: {n['time_signature_change']}")
         if "key_signature_change" in n and not isinstance(n["key_signature_change"], str):
-            errors.append(f"{nloc}.key_signature_change 必须是字符串")
+            errors.append(f"{nloc}.key_signature_change must be a string")
         if "grace_note" in n:
             gn = n["grace_note"]
             if not isinstance(gn, dict):
-                errors.append(f"{nloc}.grace_note 必须是对象")
+                errors.append(f"{nloc}.grace_note must be an object")
             else:
                 if not _is_pitch_ok(gn.get("pitch")):
-                    errors.append(f"{nloc}.grace_note.pitch 缺失或越界")
+                    errors.append(f"{nloc}.grace_note.pitch missing or out of range")
                 if "duration" in gn and gn["duration"] not in DURATIONS:
-                    errors.append(f"{nloc}.grace_note.duration 非法: {gn['duration']}")
+                    errors.append(f"{nloc}.grace_note.duration invalid: {gn['duration']}")
         if "tremolo" in n:
             tr = n["tremolo"]
             if not isinstance(tr, dict) or tr.get("duration") not in DURATIONS:
-                errors.append(f"{nloc}.tremolo 必须是含合法 duration 的对象")
+                errors.append(f"{nloc}.tremolo must be an object with valid duration")
         if "tempo_gradual" in n:
             tg = n["tempo_gradual"]
             if not isinstance(tg, dict) or not (isinstance(tg.get("target_bpm"), int)
                                                 and 20 <= tg["target_bpm"] <= 300):
-                errors.append(f"{nloc}.tempo_gradual 必须含 target_bpm(20-300)")
+                errors.append(f"{nloc}.tempo_gradual must contain target_bpm(20-300)")
         for k in ("arpeggio", "glissando", "fermata"):
             if k in n and n[k] is not True:
-                errors.append(f"{nloc}.{k} 必须为 true")
+                errors.append(f"{nloc}.{k} must be true")
         for k in ("repeat_begin", "repeat_end"):
             if k in n and n[k] is not True:
-                errors.append(f"{nloc}.{k} 必须为 true")
+                errors.append(f"{nloc}.{k} must be true")
 
 
 def validate(score):
     """Validate against the spec; return (ok, errors, warnings)."""
     errors, warnings = [], []
     if not isinstance(score, dict):
-        return False, ["顶层不是 JSON 对象"], []
+        return False, ["top-level is not a JSON object"], []
 
     # top-level extension fields
     if "loop" in score and score["loop"] is not True:
-        errors.append("顶层 loop 必须为 true（或省略）")
+        errors.append("top-level loop must be true (or omitted)")
     if "category" in score and score["category"] not in CATEGORIES:
-        errors.append(f"顶层 category 非法: {score['category']}")
+        errors.append(f"top-level category invalid: {score['category']}")
 
     # macros
     macros = score.get("macros")
     if macros is not None:
         if not isinstance(macros, dict):
-            errors.append("macros 必须是对象")
+            errors.append("macros must be an object")
         else:
             for mname, mnotes in macros.items():
                 if not isinstance(mnotes, list) or not mnotes:
-                    errors.append(f"macros.{mname} 必须是非空数组")
+                    errors.append(f"macros.{mname} must be a non-empty array")
                     continue
                 _validate_notes(mnotes, errors, warnings, f"macros.{mname}", allow_ref=False, depth=1)
 
     meta = score.get("metadata")
     if not isinstance(meta, dict):
-        errors.append("缺少 metadata 对象")
+        errors.append("missing metadata object")
     else:
         if not isinstance(meta.get("tempo_bpm"), int):
-            errors.append("metadata.tempo_bpm 缺失或非整数")
+            errors.append("metadata.tempo_bpm missing or not an integer")
         if meta.get("time_signature") not in TIME_SIGS:
-            warnings.append(f"metadata.time_signature 建议为 {sorted(TIME_SIGS)}")
+            warnings.append(f"metadata.time_signature recommended: {sorted(TIME_SIGS)}")
         if not meta.get("key_signature"):
-            warnings.append("metadata.key_signature 缺失（默认 C）")
+            warnings.append("metadata.key_signature missing (default C)")
 
     tracks = score.get("tracks")
     if not isinstance(tracks, list) or not tracks:
-        errors.append("tracks 缺失或为空数组")
+        errors.append("tracks missing or empty array")
         return not errors, errors, warnings
 
     # collect refs for macro existence check
@@ -226,20 +226,20 @@ def validate(score):
 
     for ti, tr in enumerate(tracks):
         if not isinstance(tr, dict):
-            errors.append(f"tracks[{ti}] 不是对象")
+            errors.append(f"tracks[{ti}] is not an object")
             continue
         if not isinstance(tr.get("instrument"), str) or not tr["instrument"]:
-            errors.append(f"tracks[{ti}] 缺少 instrument 字符串")
+            errors.append(f"tracks[{ti}] missing instrument string")
         notes = tr.get("notes")
         if not isinstance(notes, list) or not notes:
-            errors.append(f"tracks[{ti}].notes 缺失或为空")
+            errors.append(f"tracks[{ti}].notes missing or empty")
             continue
         tloc = f"tracks[{ti}]"
         _validate_notes(notes, errors, warnings, tloc)
         for ni, n in enumerate(notes):
             if isinstance(n, dict) and n.get("ref") is not None:
                 if n["ref"] not in defined_macros:
-                    errors.append(f"tracks[{ti}].notes[{ni}] 引用了未定义的宏: {n['ref']}")
+                    errors.append(f"tracks[{ti}].notes[{ni}] references undefined macro: {n['ref']}")
         # semantic pairing checks per field
         _check_pairing(notes, "tie", errors, warnings, tloc, require_same_pitch=True)
         _check_pairing(notes, "slur", errors, warnings, tloc)
@@ -249,7 +249,7 @@ def validate(score):
         # navigation: D.C./D.S. should be followed by Fine/Coda somewhere
         navs = [n.get("navigation") for n in notes if isinstance(n, dict) and n.get("navigation")]
         if navs and not ({"Fine", "Coda"} & set(navs)):
-            warnings.append(f"tracks[{ti}] 出现 {navs} 但全曲无 Fine/Coda")
+            warnings.append(f"tracks[{ti}] has {navs} but no Fine/Coda in the piece")
 
     return not errors, errors, warnings
 

@@ -59,11 +59,11 @@ def _detect_tempo(text, base):
     if mm:
         explicit = int(mm.group(1))
     else:
-        mm = re.search(r"(?:速度|tempo|速率)\s*[:：]?\s*(\d{2,3})", text, re.IGNORECASE)
+        mm = re.search(r"(?:速度|tempo|速率|bpm|beats per minute)\s*[:：]?\s*(\d{2,3})", text, re.IGNORECASE)
         if mm:
             explicit = int(mm.group(1))
         else:
-            mm = re.search(r"(\d{2,3})\s*(?:拍|速)", text, re.IGNORECASE)
+            mm = re.search(r"(\d{2,3})\s*(?:拍|速|bpm)", text, re.IGNORECASE)
             if mm:
                 explicit = int(mm.group(1))
     if explicit:
@@ -104,11 +104,20 @@ def _detect_instrument(text):
 
 
 def _detect_tracks(text):
-    if any(k in text for k in ("三轨", "3轨", "弦乐铺垫", "弦乐垫", "三层", "三層", "pad", "弦乐")):
-        return 3
-    if any(k in text for k in ("二重奏", "duet", "两轨", "2轨", "双轨", "钢琴伴奏", "伴奏")):
+    # Explicit numeric pattern: "N轨", "N track", "N tracks"
+    m = re.search(r"(\d+)\s*(?:轨|track|tracks)", text, re.IGNORECASE)
+    if m:
+        n = int(m.group(1))
+        if n <= 1:
+            return 1
+        if n >= 3:
+            return 3
         return 2
-    if any(k in text for k in ("单轨", "独奏", "旋律", "solo", "单声部")):
+    if any(k in text for k in ("三轨", "3轨", "弦乐铺垫", "弦乐垫", "三层", "三層", "三層", "pad", "triple", "three tracks")):
+        return 3
+    if any(k in text for k in ("二重奏", "duet", "两轨", "2轨", "双轨", "双軌", "钢琴伴奏", "伴奏", "dual track", "two tracks")):
+        return 2
+    if any(k in text for k in ("单轨", "单音轨", "独奏", "旋律", "solo", "single track", "monophonic", "单声部")):
         return 1
     return None
 
@@ -120,9 +129,15 @@ def _detect_duration(text):
     m = re.search(r"(\d+)\s*秒", text)
     if m:
         return max(5, min(180, int(m.group(1))))
-    if "半分钟" in text:
+    m = re.search(r"(\d+)\s*(?:min|minutes?|m)(?:\b|$)", text, re.IGNORECASE)
+    if m:
+        return max(5, min(180, int(m.group(1)) * 60))
+    m = re.search(r"(\d+)\s*(?:sec|seconds?|s)(?:\b|$)", text, re.IGNORECASE)
+    if m:
+        return max(5, min(180, int(m.group(1))))
+    if "半分钟" in text or "half minute" in text.lower():
         return 30
-    if "一分钟" in text:
+    if "一分钟" in text or "one minute" in text.lower():
         return 60
     return 30
 

@@ -15,9 +15,9 @@ from collections import Counter
 
 from . import nl_parser as nlp
 from . import template_db as tdb
+from ._paths import resource_path
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SPEC_PATH = os.path.join(ROOT, "JSON_Format_Specification.md")
+SPEC_PATH = resource_path("JSON_Format_Specification.md")
 
 # Core structure sections always included regardless of the query
 _CORE_TITLES = (
@@ -203,6 +203,15 @@ def build_prompt(text, top_sections=3, top_examples=1):
     sec_txt = "\n\n".join(f"### {s['title']}\n{s['body']}" for s in sections)
     ex_txt = "\n\n".join(examples) if examples else "(no examples available; compose independently per the spec)"
     user = (
+        "=== LANGUAGE DETECTION ===\n"
+        "Read the 'USER REQUEST' below and detect its language. "
+        "Your entire output MUST follow these rules:\n"
+        "1. JSON keys (metadata, tracks, notes, pitch, duration, etc.) are always in English.\n"
+        "2. All text content (title, composer, lyric, instrument names, comments) MUST be "
+        "in the SAME language as the user's request.\n"
+        "3. If the user writes in Chinese, all text fields MUST be in Chinese. "
+        "If the user writes in English, all text fields MUST be in English.\n"
+        "========================\n\n"
         "You are the Do-muse score generator. Create a score for the music request "
         "below, strictly following the JSON spec. Output ONLY the JSON itself "
         "(no explanation, no markdown code block).\n\n"
@@ -217,11 +226,151 @@ def build_prompt(text, top_sections=3, top_examples=1):
         '- Each note must contain pitch (integer 21-108; use -1 for rests) and duration '
         '("whole/half/quarter/eighth/16th", dotted allowed)\n'
         "- velocity is an integer 0-127; notes must be in performance order\n"
-        "- 1-3 tracks, 16-40 notes per track\n"
+        "- The number of tracks MUST match the user's request exactly. "
+        "If the user asks for 3 tracks, output exactly 3 tracks. Do not reduce or simplify.\n"
+        "- The instrument for each track MUST match the user's request or the genre convention.\n"
+        "- The tempo (BPM) MUST match the user's request as closely as possible.\n"
+        "CRITICAL: The user's track count, instruments, and tempo are MANDATORY. "
+        "Do not change or simplify them. Output exactly what the user asked for.\n"
+        "Do NOT include <thinking> or any reasoning tags in your output.\n"
         "Output only the JSON."
     )
     return {
-        "system": "You are a Do-muse score generator expert. Output only spec-compliant JSON scores.",
+        "system": "You are a Do-muse score generator expert. "
+        "=== LANGUAGE DETECTION === "
+        "First, detect the language of the user's request. Then output your "
+        "JSON score following these rules: "
+        "JSON keys are always in English; all text fields (title, composer, lyric, "
+        "instrument names) MUST be in the SAME language as the user's request. "
+        "If the user writes in Chinese, text fields MUST be in Chinese. "
+        "Output only spec-compliant JSON scores. "
+        "You MUST follow the user's instruction EXACTLY for the number of tracks, "
+        "instruments, and tempo. Do not reduce or simplify the user's requirements. "
+        "Do NOT include <thinking> or any reasoning tags.",
+        "user": user,
+        "sections": sections,
+        "examples": examples,
+        "templates": results,
+    }
+
+
+def build_analysis_prompt(text):
+    """Build the prompt for the first-stage intent analysis.
+
+    The raw user prompt is passed directly to the LLM WITHOUT any pre-filtering
+    of the knowledge base. The LLM autonomously considers the full list of
+    available spec sections and decides which are relevant to the user's request.
+    The output is a natural-language understanding paragraph, NOT JSON.
+    """
+    # List all available spec section titles so the LLM can decide which to use
+    all_titles = [s["title"] for s in _SECTIONS]
+    all_titles_str = "\n".join(f"  - {t}" for t in all_titles)
+
+    user = (
+        "=== LANGUAGE DETECTION ===\n"
+        "Read the user's request below and detect its language. "
+        "Your entire output MUST be written in the SAME language as the user's request. "
+        "For example, if the user writes in Chinese, you MUST respond in Chinese. "
+        "If the user writes in English, you MUST respond in English.\n"
+        "========================\n\n"
+        "You are a music analysis assistant. Read the user's request below "
+        "and think about what kind of music they want to create.\n\n"
+        "First, consider which parts of the Do-muse JSON specification are "
+        "relevant to this request. The full spec section list is:\n"
+        f"{all_titles_str}\n\n"
+        "Think about which sections would be most useful for creating this score. "
+        "Consider metadata, tracks, instruments, notes, and any advanced features "
+        "that might apply (ties, slurs, dynamics, tuplets, ornaments, repeats, "
+        "lyrics, arpeggios, chords, etc.).\n\n"
+        "Then, write a clear, concise natural-language understanding of the "
+        "user's intent. Cover ALL of these aspects:\n"
+        "- Mood / emotion of the piece\n"
+        "- Key (major/minor) and tonality\n"
+        "- Tempo (speed, BPM if specified)\n"
+        "- Instruments to use\n"
+        "- Number of tracks/voices\n"
+        "- Texture style (arpeggio, block chords, etc.)\n"
+        "- Duration (how long the piece should be)\n"
+        "- Category (BGM, accompaniment, multi-key, etc.)\n"
+        "- Any special features (loop, drums, seamless, etc.)\n\n"
+        "Output ONLY the understanding paragraph in natural language. "
+        "Do NOT output JSON. Do NOT write the score yet. "
+        "Do NOT include <thinking> or any reasoning tags.\n\n"
+        f"USER REQUEST: {text}"
+    )
+    return {
+        "system": "You are a music analysis expert. "
+        "=== LANGUAGE DETECTION === "
+        "First, detect the language of the user's request. Then output your "
+        "understanding in that SAME language. If the user writes in Chinese, "
+        "you MUST write in Chinese. If the user writes in English, you MUST "
+        "write in English. "
+        "Given a user's music request, autonomously consider the full list of "
+        "Do-muse JSON specification sections above and decide which are relevant. "
+        "Then output a natural-language understanding of what music they want. "
+        "Cover mood, key, tempo, instruments, track count, texture, duration, "
+        "and category. "
+        "Do NOT include <thinking> or any reasoning tags in your output.",
+        "user": user,
+    }
+
+
+def build_generation_prompt(text, analysis, top_sections=3, top_examples=1):
+    """Build the prompt for the second-stage JSON generation.
+
+    Combines the original user request with the LLM's own understanding analysis
+    from stage 1, plus the knowledge base context, to produce the final JSON score.
+    """
+    sections = retrieve_sections(text, top_k=top_sections)
+    examples, results = retrieve_examples(text, top_k=top_examples)
+    sec_txt = "\n\n".join(f"### {s['title']}\n{s['body']}" for s in sections)
+    ex_txt = "\n\n".join(examples) if examples else "(no examples available; compose independently per the spec)"
+    user = (
+        "=== LANGUAGE DETECTION ===\n"
+        "Read the 'USER REQUEST' below and detect its language. "
+        "Your entire output MUST follow these rules:\n"
+        "1. JSON keys (metadata, tracks, notes, pitch, duration, etc.) are always in English.\n"
+        "2. All text content (title, composer, lyric, instrument names, comments) MUST be "
+        "in the SAME language as the user's request.\n"
+        "3. If the user writes in Chinese, all text fields MUST be in Chinese. "
+        "If the user writes in English, all text fields MUST be in English.\n"
+        "========================\n\n"
+        "You are the Do-muse score generator. Create a score for the music request "
+        "below, strictly following the JSON spec. Output ONLY the JSON itself "
+        "(no explanation, no markdown code block).\n\n"
+        f"USER REQUEST: {text}\n\n"
+        f"INTENT ANALYSIS (use this understanding to guide your composition):\n{analysis}\n\n"
+        f"JSON SPEC EXCERPTS:\n{sec_txt}\n\n"
+        f"REAL TEMPLATE EXAMPLES (study their structure and style, but compose a "
+        f"brand-new piece; do NOT return the example as-is):\n{ex_txt}\n\n"
+        "HARD REQUIREMENTS:\n"
+        '- Top level must contain metadata (tempo_bpm as integer, time_signature like '
+        '"x/y", key_signature) and a tracks array\n'
+        "- Each track must contain instrument (General MIDI name) and a notes array\n"
+        '- Each note must contain pitch (integer 21-108; use -1 for rests) and duration '
+        '("whole/half/quarter/eighth/16th", dotted allowed)\n'
+        "- velocity is an integer 0-127; notes must be in performance order\n"
+        "- The number of tracks MUST match the user's request exactly. "
+        "If the user asks for 3 tracks, output exactly 3 tracks. Do not reduce or simplify.\n"
+        "- The instrument for each track MUST match the user's request or the genre convention.\n"
+        "- The tempo (BPM) MUST match the user's request as closely as possible.\n"
+        "CRITICAL: The user's track count, instruments, and tempo are MANDATORY. "
+        "Do not change or simplify them. Output exactly what the user asked for.\n"
+        "Do NOT include <thinking> or any reasoning tags in your output.\n"
+        "Output only the JSON."
+    )
+    return {
+        "system": "You are a Do-muse score generator expert. "
+        "=== LANGUAGE DETECTION === "
+        "First, detect the language of the user's request. Then output your "
+        "JSON score following these rules: "
+        "JSON keys are always in English; all text fields (title, composer, lyric, "
+        "instrument names) MUST be in the SAME language as the user's request. "
+        "If the user writes in Chinese, text fields MUST be in Chinese. "
+        "Output only spec-compliant JSON scores. "
+        "You MUST follow the user's instruction EXACTLY for the number of tracks, "
+        "instruments, and tempo. Do not reduce or simplify the user's requirements. "
+        "Do NOT include <thinking> or any reasoning tags.",
         "user": user,
         "sections": sections,
         "examples": examples,
