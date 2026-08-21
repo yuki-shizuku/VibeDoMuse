@@ -19,168 +19,21 @@ import os
 import re
 import sys
 import json
+import logging
+import shutil
 
 from PyQt6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QSplitter, QVBoxLayout, QHBoxLayout,
-    QLabel, QTextEdit, QPlainTextEdit, QPushButton, QLineEdit, QTabWidget,
+    QLabel, QTextEdit, QPlainTextEdit, QPushButton, QLineEdit, QTabWidget, QComboBox,
     QMenuBar, QStatusBar, QMessageBox, QFileDialog, QProgressBar, QSlider,
-    QDialog, QFormLayout, QSpinBox, QDoubleSpinBox, QDialogButtonBox, QListWidget, QCheckBox,
-    QListWidgetItem, QInputDialog, QScrollArea,
+    QDialog, QInputDialog, QScrollArea, QCheckBox, QListWidget, QListWidgetItem,
 )
-from PyQt6.QtCore import Qt, QThread, pyqtSignal, QUrl
-from PyQt6.QtGui import QAction, QFont, QColor, QSyntaxHighlighter, QTextCharFormat, QPainter, QPen, QPainterPath
+from PyQt6.QtCore import Qt, QObject, pyqtSignal, QUrl
+from PyQt6.QtGui import QAction, QTextCursor
 
 # ======================================================================
-# i18n — lightweight translation layer
+# i18n moved to frontend_pyqt6/i18n.py (imported below after sys.path setup)
 # ======================================================================
-_LANG = None  # cached after first call
-
-def _lang():
-    global _LANG
-    if _LANG is None:
-        from vibedomuse import config as _cfg
-        _LANG = _cfg.get_language()
-    return _LANG
-
-def _reload_lang():
-    global _LANG
-    from vibedomuse import config as _cfg
-    _LANG = _cfg.get_language()
-
-_T = {
-    # Window / title
-    "VibeDoMuse · AI Music Agent": "VibeDoMuse · AI 音乐创作 Agent",
-    "VibeDoMuse · AI Music Agent (Natural Language → Knowledge Base → Score Generation)":
-        "VibeDoMuse · AI 音乐创作 Agent（自然语言 → 知识库 → 乐谱生成）",
-
-    # Menu — File
-    "File": "文件",
-    "Exit": "退出",
-
-    # Menu — Theme
-    "Theme": "主题",
-    "Light": "浅色",
-    "Dark": "暗色",
-
-    # Menu — Settings
-    "Settings": "设置",
-    "LLM Settings": "LLM 设置",
-    "Language": "语言",
-    "English": "English",
-    "Chinese": "中文",
-
-    # Menu — Tools
-    "Tools": "工具",
-    "Template Browser (144 pieces)": "模板库浏览器（144 首）",
-    "Mix Adjustment\u2026": "混音调整\u2026",
-
-    # Left panel
-    "Natural Language Description": "自然语言描述",
-    "Placeholder_Example": "例如：来一首忧伤的 a 小调慢速钢琴曲\n"
-                           "例如：我想要一首温柔的 C 大调钢琴伴奏，琶音风格，90 速度\n"
-                           "例如：生成一段忧伤的 Dm 小调戏剧性三轨弦乐铺垫，脉冲织体\n"
-                           "提示：加「循环」生成无缝循环 BGM；加「鼓」添加打击乐轨",
-    "Generate Song": "生成歌曲",
-    "Re-generate (same seed)": "同种子再生成",
-    "Change Seed Variant": "换种子变体",
-    "Layer Variation": "分层变奏",
-    "Batch Variants\u2026": "批量变体\u2026",
-    "Export\u2026": "导出\u2026",
-
-    # Tabs
-    "JSON Preview": "JSON 预览",
-    "Piano Roll": "钢琴卷帘",
-    "Log": "日志",
-
-    # Player
-    "Play": "试听",
-    "Stop": "停止",
-    "Loop": "循环",
-    "Not generated yet": "尚未生成",
-    "Loop playback: seamless background music loop": "循环播放：无缝循环 BGM 模式",
-
-    # Status bar
-    "KB items": "KB 项",
-    "templates": "个模板",
-    "Creating\u2026": "创作中\u2026",
-    "Ready. Enter a description and click Generate.": "就绪。输入描述后点击生成歌曲。",
-
-    # LLM Settings dialog
-    "LLM Settings (plaintext in root config.ini)": "LLM 设置（明文存于根目录 config.ini）",
-    "API Base URL": "API Base URL",
-    "Model Name": "模型名称",
-    "API Key": "API Key",
-    "Timeout (s)": "超时(秒)",
-    "Temperature": "Temperature",
-    "Higher values make the model more creative/random. Lower values make it more deterministic. (0.0 - 2.0)":
-        "值越高模型越随机/有创意，值越低越确定（0.0 - 2.0）",
-    "Test Connection": "测试连接",
-    "Save": "保存",
-    "Cancel": "取消",
-    "Connection OK": "连接成功",
-    "Connection failed": "连接失败",
-    "OK": "确定",
-    "Settings saved. Restart required for some changes to take effect.":
-        "设置已保存。部分更改需重启后生效。",
-
-    # Template Browser dialog
-    "Template Browser": "模板浏览器",
-    "Filter\u2026": "过滤\u2026",
-    "Preview": "预览",
-    "Close": "关闭",
-    "Filter templates by keyword\u2026": "按关键词过滤模板\u2026",
-    "tracks": "音轨",
-    "Generate from this template": "以该模板为基础生成",
-    "No templates match.": "无匹配模板。",
-
-    # Mix dialog
-    "Mix Adjustment": "混音调整",
-    "No score loaded yet.": "尚未加载乐谱。",
-    "Mute": "静音",
-    "Apply & Re-render": "应用并重新渲染",
-    "Mix": "混音",
-    "Volume": "音量",
-
-    # Understanding dialog
-    "Confirm AI Understanding": "确认 AI 理解",
-    "The AI understands your request as follows. Confirm to proceed, or modify the description.":
-        "AI 对您的请求理解如下。确认后继续生成，或修改描述。",
-    "Confirm & Generate": "确认并生成",
-    "Modify Description": "修改描述",
-
-    # Generation status
-    "Analysis complete\u2026": "分析完成\u2026",
-    "Generating\u2026": "生成中\u2026",
-    "Generated": "已生成",
-    "Error": "错误",
-    "Parse Preview": "解析预览",
-    "Please enter a natural language description first.": "请先输入自然语言描述。",
-    "Please generate a song first before exporting.": "请先生成歌曲，再导出。",
-    "How many variants (2-8)?": "生成几个变体（2-8）？",
-
-    # Log
-    "LOG_CLEAR": "清除日志",
-    "LOG_PREVIEW": "预览",
-    "LOG_UNDERSTANDING": "AI 理解分析",
-    "LOG_GENERATION": "生成",
-}
-
-def _(key):
-    """Translate an English UI string to the current language.
-
-    Returns the English string by default; returns the Chinese translation
-    when the language is set to 'zh'.
-    """
-    if _lang() == "zh":
-        return _T.get(key, key)
-    return key
-
-
-def set_language(lang):
-    """Change the UI language at runtime."""
-    from vibedomuse import config as _cfg
-    _cfg.set_language(lang)
-    _reload_lang()
 
 # ---- locate project root and vibedomuse package ----
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -188,7 +41,17 @@ ROOT = os.path.dirname(HERE)
 if ROOT not in sys.path:
     sys.path.insert(0, ROOT)
 
-from vibedomuse import agent, template_db, config  # noqa: E402
+from vibedomuse import agent, template_db, config, renderer  # noqa: E402
+from vibedomuse.history_manager import history_manager  # instance, not module  # noqa: E402
+from frontend_pyqt6.i18n import _, set_language, _lang  # noqa: E402
+from frontend_pyqt6.widgets import JsonHighlighter, PianoRoll  # noqa: E402
+from frontend_pyqt6.workers import (  # noqa: E402
+    AnalyzeWorker, GenWorker, ExportWorker, RenderWorker, FollowupWorker,
+)
+from frontend_pyqt6.dialogs import (  # noqa: E402
+    LlmSettingsDialog, UnderstandingDialog, TemplateBrowserDialog, MixDialog,
+    HistoryDetailDialog,
+)
 
 
 def _read_bytes(path):
@@ -239,6 +102,12 @@ QLabel { color: #000000; }
 QLineEdit { border: 1px solid #e0e0e0; border-radius: 4px; padding: 6px; background-color: #ffffff; color: #000000; }
 QDialog { background-color: #ffffff; }
 QListWidget { background-color: #ffffff; color: #000000; border: 1px solid #e0e0e0; border-radius: 4px; }
+QComboBox { background-color: #ffffff; color: #000000; border: 1px solid #e0e0e0; border-radius: 4px; padding: 4px 8px; }
+QComboBox:disabled { background-color: #f5f5f5; color: #bdbdbd; }
+QComboBox::drop-down { subcontrol-origin: padding; subcontrol-position: top right; width: 20px; border-left: 1px solid #e0e0e0; }
+QComboBox::down-arrow { width: 10px; height: 6px; }
+QComboBox QAbstractItemView { background-color: #ffffff; color: #000000; border: 1px solid #e0e0e0; selection-background-color: #e3f2fd; selection-color: #000000; }
+QComboBox QAbstractItemView::item:disabled { color: #bdbdbd; }
 QSlider::groove:horizontal { border: 1px solid #e0e0e0; height: 6px; border-radius: 3px; background: #f5f5f5; }
 QSlider::sub-page:horizontal { background: #1976d2; border-radius: 3px; }
 QSlider::handle:horizontal { background: #1976d2; width: 14px; margin: -5px 0; border-radius: 7px; }
@@ -272,6 +141,12 @@ QLabel { color: #e0e0e0; }
 QLineEdit { border: 1px solid #383838; border-radius: 4px; padding: 6px; background-color: #1a1a1a; color: #e0e0e0; }
 QDialog { background-color: #2d2d2d; }
 QListWidget { background-color: #1a1a1a; color: #e0e0e0; border: 1px solid #383838; border-radius: 4px; }
+QComboBox { background-color: #1a1a1a; color: #e0e0e0; border: 1px solid #383838; border-radius: 4px; padding: 4px 8px; }
+QComboBox:disabled { background-color: #2d2d2d; color: #757575; }
+QComboBox::drop-down { subcontrol-origin: padding; subcontrol-position: top right; width: 20px; border-left: 1px solid #383838; }
+QComboBox::down-arrow { width: 10px; height: 6px; }
+QComboBox QAbstractItemView { background-color: #1a1a1a; color: #e0e0e0; border: 1px solid #383838; selection-background-color: #37474f; selection-color: #90caf9; }
+QComboBox QAbstractItemView::item:disabled { color: #555555; }
 QSlider::groove:horizontal { border: 1px solid #383838; height: 6px; border-radius: 3px; background: #2d2d2d; }
 QSlider::sub-page:horizontal { background: #1976d2; border-radius: 3px; }
 QSlider::handle:horizontal { background: #64b5f6; width: 14px; margin: -5px 0; border-radius: 7px; }
@@ -295,572 +170,49 @@ def qss_for(theme: str) -> str:
 
 
 # ======================================================================
-# JSON syntax highlighter
+# JsonHighlighter / PianoRoll moved to frontend_pyqt6/widgets.py
 # ======================================================================
-class JsonHighlighter(QSyntaxHighlighter):
-    def __init__(self, parent, theme="light"):
-        super().__init__(parent)
-        self._theme = theme
-        self._rules = []
-        self._build()
-
-    def _fmt(self, color, bold=False):
-        f = QTextCharFormat()
-        f.setForeground(QColor(color))
-        if bold:
-            f.setFontWeight(QFont.Weight.Bold)
-        return f
-
-    def _build(self):
-        if self._theme == "dark":
-            key_c, str_c, num_c, bool_c = "#9cdcfe", "#ce9178", "#b5cea8", "#569cd6"
-        else:
-            key_c, str_c, num_c, bool_c = "#000000", "#000000", "#000000", "#000000"
-        self._rules = [
-            (r'"(?:\\.|[^"\\])*"(?=\s*:)', self._fmt(key_c, True)),
-            (r'"(?:\\.|[^"\\])*"', self._fmt(str_c)),
-            (r'\b-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?\b', self._fmt(num_c)),
-            (r'\b(?:true|false|null)\b', self._fmt(bool_c)),
-        ]
-
-    def set_theme(self, theme):
-        self._theme = theme
-        self._build()
-        self.rehighlight()
-
-    def highlightBlock(self, text):
-        import re
-        for pattern, fmt in self._rules:
-            for m in re.finditer(pattern, text):
-                self.setFormat(m.start(), m.end() - m.start(), fmt)
 
 
-class PianoRoll(QWidget):
-    """Piano-roll style visualization of the generated score.
+# ======================================================================
+# Worker threads moved to frontend_pyqt6/workers.py
+# ======================================================================
 
-    Each track is rendered as a horizontal lane with the instrument name
-    on the left. Notes are drawn as colored horizontal bars positioned
-    by pitch (y-axis) and time (x-axis). Beat grid lines and beat
-    numbers are shown for reference.
 
-    Architecture:
-      set_score()  calls  _parse_score()  →  stores structured data
-      paintEvent() calls  _draw_grid() / _draw_notes() / _draw_labels()
+# ======================================================================
+# Dialogs moved to frontend_pyqt6/dialogs.py
+# ======================================================================
+
+
+# ======================================================================
+# Logging -> GUI bridge
+# ======================================================================
+class _LogEmitter(QObject):
+    """QObject carrier for the log signal (kept separate so the logging.Handler
+    stays a pure-Python object that is safe to close() during interpreter
+    shutdown)."""
+    message = pyqtSignal(str)
+
+
+class QtLogHandler(logging.Handler):
+    """Route Python logging records into the GUI Log tab (thread-safe).
+
+    Emits a queued signal from whatever thread logged the record; the main
+    window connects it to the log console, which must be touched only from
+    the GUI thread. Access the signal via ``handler.emitter.message``.
     """
 
-    _DUR_BEATS = {
-        "whole": 4.0, "half": 2.0, "quarter": 1.0, "eighth": 0.5, "16th": 0.25,
-        "32nd": 0.125, "64th": 0.0625, "half.": 3.0, "quarter.": 1.5, "eighth.": 0.75,
-        "16th.": 0.375, "32nd.": 0.1875,
-    }
-    _TUP_F = {3: 2 / 3, 5: 4 / 5, 6: 4 / 6, 7: 4 / 7, 9: 8 / 9}
-    # Track colors (distinct pastel hues)
-    _TRACK_COLORS = [
-        "#4A90D9", "#E67E22", "#2ECC71", "#E74C3C", "#9B59B6",
-        "#1ABC9C", "#F39C12", "#3498DB", "#E91E63", "#00BCD4",
-    ]
+    def __init__(self, level=logging.INFO):
+        super().__init__(level)
+        self.emitter = _LogEmitter()
+        self.setFormatter(logging.Formatter(
+            "[%(asctime)s] %(levelname)s %(name)s: %(message)s", datefmt="%H:%M:%S"))
 
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        self._tracks_data = []    # [(instrument_name, [(beat, pitch, dur_str, velocity), ...])]
-        self._total_beats = 1.0
-        self._beat_width = 80
-        self._note_min_height = 10   # min px height per note bar
-        self._note_pitch_range = 48  # default visible pitch range (4 octaves)
-        self._track_spacing = 8      # px gap between tracks
-        self._left_margin = 100      # space for instrument label
-        self._right_margin = 16
-        self._top_margin = 32        # space for beat numbers
-        self._min_pitch = 128
-        self._max_pitch = 0
-        self.setMinimumHeight(200)
-
-    # ------------------------------------------------------------------
-    # Data parsing
-    # ------------------------------------------------------------------
-    def _parse_score(self, score):
-        """Extract track data from a score dict into structured internal format.
-
-        Returns (tracks_data, total_beats, min_pitch, max_pitch).
-        tracks_data is a list of (instrument_name, [(beat, pitch, dur_str, velocity), ...]).
-        """
-        tracks = (score or {}).get("tracks") or []
-        tracks_data = []
-        total = 0.0
-        min_p = 128
-        max_p = 0
-        for tr in tracks:
-            notes_data = []
-            off = 0.0
-            for n in (tr.get("notes") or []):
-                if not isinstance(n, dict):
-                    continue
-                if n.get("ref") is not None:
-                    off += 1.0
-                    continue
-                d = self._DUR_BEATS.get(n.get("duration"), 1.0)
-                if n.get("tuplet") in self._TUP_F:
-                    d *= self._TUP_F[n["tuplet"]]
-                dur_str = n.get("duration", "quarter")
-                vel = n.get("velocity", 80)
-                if isinstance(n.get("chord"), list):
-                    for p in n["chord"]:
-                        if isinstance(p, int) and p > 0:
-                            notes_data.append((off, p, dur_str, vel))
-                            min_p = min(min_p, p)
-                            max_p = max(max_p, p)
-                elif isinstance(n.get("pitch"), int) and n["pitch"] > 0:
-                    notes_data.append((off, n["pitch"], dur_str, vel))
-                    min_p = min(min_p, n["pitch"])
-                    max_p = max(max_p, n["pitch"])
-                off += d
-            total = max(total, off)
-            tracks_data.append((str(tr.get("instrument", "")), notes_data))
-        if min_p > max_p:
-            min_p, max_p = 60, 72  # fallback C4-C5
-        return tracks_data, max(1.0, total), min_p, max_p
-
-    def set_score(self, score):
-        """Parse a score dict and update the widget layout."""
-        self._tracks_data, self._total_beats, self._min_pitch, self._max_pitch = self._parse_score(score)
-        # Expand pitch range slightly for visual padding
-        pr = max(16, self._max_pitch - self._min_pitch + 4)
-        nph = max(self._note_min_height, int(pr * 1.0))
-        track_h = nph * 2 + 16  # pitch range per track + padding
-        content_w = self._left_margin + int(self._total_beats * self._beat_width) + self._right_margin
-        content_h = (self._top_margin
-                     + len(self._tracks_data) * (track_h + self._track_spacing)
-                     + 20)
-        self._note_pitch_range = nph
-        self._track_height = track_h
-        self.setMinimumSize(content_w, max(200, content_h))
-        self.update()
-
-    # ------------------------------------------------------------------
-    # Paint
-    # ------------------------------------------------------------------
-    def paintEvent(self, event):
-        p = QPainter(self)
-        p.setRenderHint(QPainter.RenderHint.Antialiasing, True)
-        p.fillRect(0, 0, self.width(), self.height(), QColor("#ffffff"))
-
-        for ti, (inst_name, notes) in enumerate(self._tracks_data):
-            track_top = self._top_margin + ti * (self._track_height + self._track_spacing)
-            track_left = self._left_margin
-            track_right = max(self.width(), self.minimumWidth()) - self._right_margin
-            track_bottom = track_top + self._track_height
-
-            self._draw_track_bg(p, ti, track_top, track_left, track_right, track_bottom, inst_name)
-            self._draw_grid(p, track_top, track_left, track_right, track_bottom)
-            self._draw_notes(p, ti, notes, track_top, track_left, track_right, track_bottom)
-        p.end()
-
-    # ------------------------------------------------------------------
-    # Drawing primitives
-    # ------------------------------------------------------------------
-    def _draw_track_bg(self, p, ti, track_top, track_left, track_right, track_bottom, inst_name):
-        """Draw the track background, instrument label, and pitch range markers."""
-        # Alternating background
-        bg = QColor("#F8F9FA") if ti % 2 == 0 else QColor("#FFFFFF")
-        p.fillRect(int(track_left), int(track_top),
-                   int(track_right - track_left), int(track_bottom - track_top), bg)
-
-        # Instrument label
-        label_font = QFont("Microsoft YaHei", 9)
-        p.setFont(label_font)
-        p.setPen(QColor("#333333"))
-        p.drawText(4, int(track_top + 14), inst_name)
-
-        # Pitch range labels (highest and lowest)
-        pitch_font = QFont("Microsoft YaHei", 7)
-        p.setFont(pitch_font)
-        p.setPen(QColor("#999999"))
-        p.drawText(4, int(track_top + 28), f"↑{self._midi_note_name(self._max_pitch)}")
-        p.drawText(4, int(track_bottom - 4), f"↓{self._midi_note_name(self._min_pitch)}")
-
-    @staticmethod
-    def _midi_note_name(pitch):
-        """Convert MIDI pitch to note name (e.g. 60 -> C4)."""
-        names = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
-        return f"{names[pitch % 12]}{pitch // 12 - 1}"
-
-    def _draw_grid(self, p, track_top, track_left, track_right, track_bottom):
-        """Draw vertical beat grid lines and beat numbers."""
-        beat_font = QFont("Microsoft YaHei", 7)
-        p.setFont(beat_font)
-        for beat in range(0, int(self._total_beats) + 1):
-            beat_ratio = beat / self._total_beats if self._total_beats > 0 else 0
-            bx = track_left + int(beat_ratio * (track_right - track_left))
-            # Beat number (only at top)
-            p.setPen(QColor("#AAAAAA"))
-            p.drawText(int(bx - 4), int(track_top - 4), str(beat))
-            # Grid line
-            is_bar = beat % 4 == 0
-            p.setPen(QPen(QColor("#DDDDDD") if is_bar else QColor("#EEEEEE"), 1))
-            p.drawLine(int(bx), int(track_top), int(bx), int(track_bottom))
-
-    def _draw_notes(self, p, ti, notes, track_top, track_left, track_right, track_bottom):
-        """Draw all notes as colored horizontal bars."""
-        if not notes:
-            return
-        color = QColor(self._TRACK_COLORS[ti % len(self._TRACK_COLORS)])
-        pr = max(1, self._max_pitch - self._min_pitch)
-        for (beat, pitch, dur, vel) in notes:
-            # Duration in pixels
-            d = self._DUR_BEATS.get(dur, 1.0)
-            beat_ratio = beat / self._total_beats if self._total_beats > 0 else 0
-            dur_ratio = d / self._total_beats if self._total_beats > 0 else 0
-            nx = track_left + int(beat_ratio * (track_right - track_left))
-            nw = max(3, int(dur_ratio * (track_right - track_left)))
-            # Pitch → y position (higher pitch = higher on screen)
-            pitch_ratio = (pitch - self._min_pitch) / pr
-            ny = track_bottom - int(pitch_ratio * (track_bottom - track_top)) - 4
-            nh = max(4, int(self._note_pitch_range / pr))
-
-            # Draw note bar with alpha based on velocity
-            alpha = max(40, int(vel / 127 * 220))
-            c = QColor(color)
-            c.setAlpha(alpha)
-            p.fillRect(int(nx), int(ny), int(nw), int(nh), c)
-            # Border
-            p.setPen(QPen(color, 1))
-            p.drawRect(int(nx), int(ny), int(nw), int(nh))
-
-
-# ======================================================================
-# Worker threads
-# ======================================================================
-class AnalyzeWorker(QThread):
-    """First-stage: sends user prompt to LLM for intent analysis."""
-    finished = pyqtSignal(str)  # analysis text
-    error = pyqtSignal(str)
-
-    def __init__(self, text):
-        super().__init__()
-        self.text = text
-
-    def run(self):
+    def emit(self, record):
         try:
-            analysis = agent.analyze(self.text)
-            if analysis:
-                self.finished.emit(analysis)
-            else:
-                self.error.emit("LLM analysis returned no result. Check your LLM configuration.")
-        except Exception as e:
-            self.error.emit(str(e))
-
-
-class GenWorker(QThread):
-    """Runs the Agent in the background; emits {kind, ...} results."""
-    finished = pyqtSignal(dict)
-    error = pyqtSignal(str)
-    log = pyqtSignal(str)
-
-    def __init__(self, text, seed=None, mode="llm", use_template=None, n=4, analysis=None):
-        super().__init__()
-        self.text = text
-        self.seed = seed
-        self.mode = mode
-        self.use_template = use_template
-        self.n = n
-        self.analysis = analysis
-
-    def run(self):
-        try:
-            if self.mode == "llm_v2":
-                self.log.emit("Stage 2: Generating score with original prompt + understanding...")
-                res = agent.run_llm_v2(self.text, self.analysis, seed=self.seed)
-                self.finished.emit({"kind": "single", "data": res})
-                return
-            if self.mode == "variants":
-                self.log.emit(f"Generating {self.n} variants (rule engine, different seeds)...")
-                items = agent.run_variants(self.text, n=self.n, seed=self.seed)
-                self.finished.emit({"kind": "variants", "items": items})
-                return
-            if self.mode == "layers":
-                self.log.emit("Generating calm / tense layers of the same theme...")
-                data = agent.run_layers(self.text, seed=self.seed)
-                self.finished.emit({"kind": "layers", "data": data})
-                return
-            if self.mode == "rule":
-                self.log.emit("Rule engine composing...")
-                res = agent.run(self.text, seed=self.seed, use_template=self.use_template)
-                self.finished.emit({"kind": "single", "data": res})
-                return
-            self.log.emit("Step 1: Retrieving local knowledge base (JSON spec sections + template examples)...")
-            res = agent.run_llm(self.text, seed=self.seed)
-            self.log.emit("Step 2: LLM writes Do-muse JSON with knowledge base, local validation...")
-            self.log.emit("Step 3: Rendering MIDI / WAV...")
-            self.finished.emit({"kind": "single", "data": res})
-        except Exception as e:  # noqa: BLE001
-            self.error.emit(str(e))
-
-
-class ExportWorker(QThread):
-    finished = pyqtSignal(str)
-    error = pyqtSignal(str)
-
-    def __init__(self, score, artifacts, out_path, fmt):
-        super().__init__()
-        self.score = score
-        self.artifacts = artifacts
-        self.out_path = out_path
-        self.fmt = fmt
-
-    def run(self):
-        try:
-            from vibedomuse import renderer as rnd
-            rnd.export_artifacts(self.score, self.artifacts, self.out_path, self.fmt)
-            self.finished.emit(self.out_path)
-        except Exception as e:  # noqa: BLE001
-            self.error.emit(str(e))
-
-
-class RenderWorker(QThread):
-    """Re-renders an edited score (e.g. after mixing) in the background."""
-    finished = pyqtSignal(dict)
-    error = pyqtSignal(str)
-
-    def __init__(self, score, name):
-        super().__init__()
-        self.score = score
-        self.name = name
-
-    def run(self):
-        try:
-            from vibedomuse import renderer as rnd
-            rendered = rnd.render(self.score, self.name)
-            self.finished.emit({"score": self.score, "generated": rendered})
-        except Exception as e:  # noqa: BLE001
-            self.error.emit(str(e))
-
-
-# ======================================================================
-# Dialogs
-# ======================================================================
-class LlmSettingsDialog(QDialog):
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        self.setWindowTitle(_("LLM Settings (plaintext in root config.ini)"))
-        self.setMinimumWidth(480)
-        s = config.get_llm_settings()
-
-        form = QFormLayout(self)
-        self.ed_base = QLineEdit(s["base_url"])
-        self.ed_model = QLineEdit(s["model"])
-        self.ed_key = QLineEdit(s["api_key"])
-        self.ed_key.setEchoMode(QLineEdit.EchoMode.Password)
-        self.sp_timeout = QSpinBox()
-        self.sp_timeout.setRange(3, 120)
-        self.sp_timeout.setValue(s["timeout"])
-        self.sp_temp = QDoubleSpinBox()
-        self.sp_temp.setRange(0.0, 2.0)
-        self.sp_temp.setSingleStep(0.1)
-        self.sp_temp.setDecimals(1)
-        self.sp_temp.setValue(s["temperature"])
-        self.sp_temp.setToolTip("Higher values make the model more creative/random. Lower values make it more deterministic. (0.0 - 2.0)")
-        form.addRow(_("API Base URL"), self.ed_base)
-        form.addRow(_("Model Name"), self.ed_model)
-        form.addRow(_("API Key"), self.ed_key)
-        form.addRow(_("Timeout (s)"), self.sp_timeout)
-        form.addRow(_("Temperature"), self.sp_temp)
-
-        btns = QDialogButtonBox()
-        self.btn_test = btns.addButton(_("Test Connection"), QDialogButtonBox.ButtonRole.ActionRole)
-        self.btn_test.clicked.connect(self._test)
-        self.btn_save = btns.addButton(_("Save"), QDialogButtonBox.ButtonRole.AcceptRole)
-        self.btn_save.clicked.connect(self._save)
-        self.btn_cancel = btns.addButton(_("Cancel"), QDialogButtonBox.ButtonRole.RejectRole)
-        self.btn_cancel.clicked.connect(self.reject)
-        form.addRow(btns)
-
-    def _values(self):
-        return {
-            "base_url": self.ed_base.text().strip(),
-            "model": self.ed_model.text().strip(),
-            "api_key": self.ed_key.text().strip(),
-            "timeout": str(self.sp_timeout.value()),
-            "temperature": str(self.sp_temp.value()),
-        }
-
-    def _test(self):
-        from vibedomuse import llm_client
-        v = self._values()
-        ok = llm_client.is_available(
-            base_url=v["base_url"] or None,
-            model=v["model"] or None,
-            api_key=v["api_key"] or None,
-        )
-        QMessageBox.information(
-            self, "测试结果",
-            "连接成功，模型可用 ✔" if ok else "连接失败：端点不可达或模型不可用 ✘",
-        )
-
-    def _save(self):
-        cfg = config.load_config()
-        cfg["llm"].update(self._values())
-        config.save_config(cfg)
-        QMessageBox.information(self, "已保存", f"配置已写入：\n{config.CONFIG_PATH}")
-        self.accept()
-
-
-class UnderstandingDialog(QDialog):
-    """Shows the LLM's understanding of the user's request and asks for confirmation."""
-
-    def __init__(self, analysis, parent=None):
-        super().__init__(parent)
-        self.setWindowTitle("Understanding Confirmation")
-        self.setMinimumSize(520, 380)
-        self.setStyleSheet("""
-            QDialog { background-color: #ffffff; }
-            QLabel { color: #000000; }
-            QTextEdit { background-color: #f5f5f5; color: #212121; border: 1px solid #e0e0e0; border-radius: 4px; }
-            QPushButton { background-color: #1976d2; color: #ffffff; border: none;
-                          padding: 8px 24px; border-radius: 4px; font-size: 14px; }
-            QPushButton:hover { background-color: #1565c0; }
-            QPushButton#secondary { background-color: #e0e0e0; color: #212121; }
-            QPushButton#secondary:hover { background-color: #bdbdbd; }
-        """)
-        layout = QVBoxLayout(self)
-        layout.setContentsMargins(20, 20, 20, 20)
-        layout.setSpacing(12)
-
-        title = QLabel("The LLM has analyzed your request. Here is its understanding:")
-        title.setStyleSheet("font-size: 14px; font-weight: bold;")
-        layout.addWidget(title)
-
-        self.analysis_view = QTextEdit()
-        self.analysis_view.setPlainText(analysis)
-        self.analysis_view.setReadOnly(True)
-        self.analysis_view.setMinimumHeight(200)
-        layout.addWidget(self.analysis_view, 1)
-
-        hint = QLabel("If the understanding is correct, click \"Confirm & Generate\" to proceed.\n"
-                       "Otherwise, click \"Modify Description\" to refine your request.")
-        hint.setStyleSheet("color: #666666; font-size: 12px;")
-        hint.setWordWrap(True)
-        layout.addWidget(hint)
-
-        btn_row = QHBoxLayout()
-        self.btn_confirm = QPushButton("Confirm & Generate")
-        self.btn_confirm.clicked.connect(self.accept)
-        self.btn_modify = QPushButton("Modify Description")
-        self.btn_modify.setObjectName("secondary")
-        self.btn_modify.clicked.connect(self.reject)
-        btn_row.addStretch()
-        btn_row.addWidget(self.btn_modify)
-        btn_row.addWidget(self.btn_confirm)
-        layout.addLayout(btn_row)
-
-
-class TemplateBrowserDialog(QDialog):
-    """Browse the 144-piece template library and pick one as a base."""
-
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        self.setWindowTitle(_("Template Browser"))
-        self.resize(680, 520)
-        self.selected = None
-        try:
-            self._all = template_db.all_templates()
-        except Exception:
-            self._all = []
-        v = QVBoxLayout(self)
-        self.ed_filter = QLineEdit()
-        self.ed_filter.setPlaceholderText(_("Filter templates by keyword\u2026"))
-        self.ed_filter.textChanged.connect(self._refresh)
-        v.addWidget(self.ed_filter)
-        self.list = QListWidget()
-        self.list.itemDoubleClicked.connect(self._pick)
-        v.addWidget(self.list, 1)
-        btns = QDialogButtonBox()
-        ok = btns.addButton(_("Generate from this template"), QDialogButtonBox.ButtonRole.AcceptRole)
-        ok.clicked.connect(self._pick_current)
-        cancel = btns.addButton(_("Cancel"), QDialogButtonBox.ButtonRole.RejectRole)
-        cancel.clicked.connect(self.reject)
-        v.addWidget(btns)
-        self._refresh()
-
-    def _refresh(self):
-        self.list.clear()
-        f = self.ed_filter.text().strip().lower()
-        for r in self._all:
-            hay = " ".join([r.get("name", ""), r.get("title", ""), r.get("mood", ""),
-                            r.get("instrument", "") or "", r.get("category", ""),
-                            str(r.get("tempo_bpm", ""))]).lower()
-            if f and f not in hay:
-                continue
-            item = QListWidgetItem(
-                f"{r.get('name','')} ｜ {r.get('mood','?')} ｜ {r.get('tempo_bpm','?')}BPM ｜ "
-                f"{r.get('key_signature','?')} ｜ {r.get('category','')} ｜ {r.get('track_count',0)} {_('tracks')}")
-            item.setData(Qt.ItemDataRole.UserRole, r.get("name"))
-            self.list.addItem(item)
-
-    def _pick_current(self):
-        cur = self.list.currentItem()
-        if cur:
-            self._pick(cur)
-
-    def _pick(self, item):
-        self.selected = item.data(Qt.ItemDataRole.UserRole)
-        self.accept()
-
-
-class MixDialog(QDialog):
-    """Per-track velocity scaling + mute, re-rendered on accept."""
-
-    def __init__(self, score, parent=None):
-        super().__init__(parent)
-        self.setWindowTitle(_("Mix Adjustment"))
-        self.setMinimumWidth(460)
-        self._score = score
-        self._sliders = []
-        self._mutes = []
-        v = QVBoxLayout(self)
-        tracks = (score or {}).get("tracks") or []
-        if not tracks:
-            v.addWidget(QLabel(_("No score loaded yet.")))
-        for i, tr in enumerate(tracks):
-            name = str(tr.get("instrument", "?") or "?")
-            row = QHBoxLayout()
-            row.addWidget(QLabel(f"{i + 1}. {name}"))
-            s = QSlider(Qt.Orientation.Horizontal)
-            s.setRange(0, 200)
-            s.setValue(100)
-            s.setFixedWidth(220)
-            m = QCheckBox(_("Mute"))
-            row.addWidget(s, 1)
-            row.addWidget(m)
-            v.addLayout(row)
-            self._sliders.append(s)
-            self._mutes.append(m)
-        btns = QDialogButtonBox()
-        apply = btns.addButton(_("Apply & Re-render"), QDialogButtonBox.ButtonRole.AcceptRole)
-        apply.clicked.connect(self.accept)
-        cancel = btns.addButton(_("Cancel"), QDialogButtonBox.ButtonRole.RejectRole)
-        cancel.clicked.connect(self.reject)
-        v.addWidget(btns)
-
-    def result_score(self):
-        import copy
-        score = copy.deepcopy(self._score or {})
-        tracks = score.get("tracks") or []
-        for i, tr in enumerate(tracks):
-            if i >= len(self._sliders):
-                break
-            pct = self._sliders[i].value() / 100.0
-            muted = self._mutes[i].isChecked()
-            if muted:
-                # Mute: clear all notes (more reliable than velocity=0)
-                tr["notes"] = []
-            else:
-                for n in tr.get("notes", []):
-                    if not isinstance(n, dict):
-                        continue
-                    old_v = n.get("velocity", 80)
-                    if isinstance(old_v, int):
-                        n["velocity"] = max(1, min(127, int(old_v * pct)))
-        return score
+            self.emitter.message.emit(self.format(record))
+        except Exception:  # noqa: BLE001
+            pass
 
 
 # ======================================================================
@@ -886,11 +238,23 @@ class VibeDoMuse(QMainWindow):
         self._midi_bytes = b""
         self._json_text = ""
         self._last_seed = None
+        self._current_analysis = None    # Store AI understanding for follow-ups
+        self._current_history_id = None  # Track current history item ID
         self._setup_player()
 
         self._build_ui()
+        self._update_input_mode()  # set initial prompt/follow-up label from history state
         self._apply_theme(self.theme)
         self._refresh_stats()
+
+        # Route Python logging into the Log tab so LLM / render failures and
+        # rule-engine fallbacks become visible in the GUI (thread-safe via signal).
+        self._qt_log_handler = QtLogHandler()
+        self._qt_log_handler.emitter.message.connect(self._append_log)
+        logging.getLogger().addHandler(self._qt_log_handler)
+
+    def _append_log(self, msg):
+        self.log_view.appendPlainText(msg)
 
     # ---------- player ----------
     def _setup_player(self):
@@ -984,7 +348,8 @@ class VibeDoMuse(QMainWindow):
         left_v = QVBoxLayout(left)
         left_v.setContentsMargins(4, 4, 4, 4)
 
-        left_v.addWidget(QLabel(_("Natural Language Description")))
+        self.nl_input_label = QLabel(_("Natural Language Description"))
+        left_v.addWidget(self.nl_input_label)
         self.nl_input = QTextEdit()
         self.nl_input.setPlaceholderText(_("Placeholder_Example"))
         self.nl_input.setMinimumHeight(110)
@@ -1012,6 +377,14 @@ class VibeDoMuse(QMainWindow):
         row2.addWidget(self.btn_layers, 1)
         left_v.addLayout(row2)
 
+        # Export format selector (always visible; drives the chosen export format)
+        fmt_row = QHBoxLayout()
+        fmt_row.addWidget(QLabel(_("Export Format")))
+        self.export_format = QComboBox()
+        self._build_export_formats()
+        fmt_row.addWidget(self.export_format, 1)
+        left_v.addLayout(fmt_row)
+
         row3 = QHBoxLayout()
         self.btn_batch = QPushButton(_("Batch Variants\u2026"))
         self.btn_batch.setObjectName("secondary")
@@ -1022,6 +395,24 @@ class VibeDoMuse(QMainWindow):
         self.btn_export.clicked.connect(self._on_export)
         row3.addWidget(self.btn_export, 1)
         left_v.addLayout(row3)
+
+        # Temperature slider (live-adjustable LLM temperature, 0.0 - 2.0)
+        temp_row = QHBoxLayout()
+        temp_row.addWidget(QLabel(_("Temperature")))
+        self.temp_slider = QSlider(Qt.Orientation.Horizontal)
+        self.temp_slider.setRange(0, 20)            # 0.0 - 2.0 in 0.1 steps
+        self.temp_slider.setSingleStep(1)
+        self.temp_slider.setTickPosition(QSlider.TickPosition.TicksBelow)
+        self.temp_slider.setTickInterval(2)
+        _init_temp = int(round(config.get_llm_settings().get("temperature", 0.3) * 10))
+        self.temp_slider.setValue(_init_temp)
+        temp_row.addWidget(self.temp_slider, 1)
+        self.temp_value = QLabel(f"{self.temp_slider.value() / 10:.1f}")
+        self.temp_value.setMinimumWidth(28)
+        self.temp_value.setAlignment(Qt.AlignmentFlag.AlignRight)
+        temp_row.addWidget(self.temp_value)
+        left_v.addLayout(temp_row)
+        self.temp_slider.valueChanged.connect(self._on_temperature_changed)
 
         self.progress = QProgressBar()
         self.progress.setTextVisible(True)
@@ -1052,6 +443,16 @@ class VibeDoMuse(QMainWindow):
         self.tabs.addTab(self.json_view, _("JSON Preview"))
         self.tabs.addTab(self.roll_scroll, _("Piano Roll"))
         self.tabs.addTab(self.log_view, _("Log"))
+
+        # History tab
+        self.history_list = QListWidget()
+        self.history_list.itemDoubleClicked.connect(self._on_history_item_selected)
+        self.history_scroll = QScrollArea()
+        self.history_scroll.setWidget(self.history_list)
+        self.history_scroll.setWidgetResizable(True)
+        self.tabs.addTab(self.history_scroll, _("History"))
+        self.tabs.currentChanged.connect(self._on_tab_changed)
+
         right_v.addWidget(self.tabs, 1)
 
         play_row = QHBoxLayout()
@@ -1200,10 +601,16 @@ class VibeDoMuse(QMainWindow):
         if not text:
             QMessageBox.warning(self, _("Generate Song"), _("Please enter a natural language description first."))
             return
+        # After the first generation the main field acts as a modify / follow-up
+        # input (history is non-empty) -> run a follow-up on the last result.
+        if history_manager.get_history() and self._last_generated and self._last_generated.get("score"):
+            self._run_followup(text)
+            return
         self._set_busy(True)
         self.log_view.clear()
         self.log_view.appendPlainText("Stage 1: Analyzing your request (LLM considers spec sections, templates)...")
         self._analyze_worker = AnalyzeWorker(text)
+        self._analyze_worker.token.connect(self._on_analysis_token)
         self._analyze_worker.finished.connect(self._on_analyze_finished)
         self._analyze_worker.error.connect(self._on_worker_error)
         self._analyze_worker.start()
@@ -1214,13 +621,17 @@ class VibeDoMuse(QMainWindow):
         dialog = UnderstandingDialog(analysis_text, self)
         if dialog.exec() == QDialog.DialogCode.Accepted:
             # User confirmed - proceed to Stage 2 generation
+            # Get the user's modified understanding
+            user_analysis = dialog.get_analysis()
             self._set_busy(True)
+            self.json_view.clear()
             self._worker = GenWorker(
                 self.nl_input.toPlainText().strip(),
                 mode="llm_v2",
-                analysis=analysis_text
+                analysis=user_analysis
             )
             self._worker.log.connect(self.log_view.appendPlainText)
+            self._worker.token.connect(self._on_token)
             self._worker.finished.connect(self._on_worker_finished)
             self._worker.error.connect(self._on_worker_error)
             self._worker.start()
@@ -1263,11 +674,133 @@ class VibeDoMuse(QMainWindow):
     def _run_agent(self, text, mode="llm", seed=None, use_template=None, n=4):
         self._set_busy(True)
         self.log_view.clear()
+        self.json_view.clear()
         self._worker = GenWorker(text, seed=seed, mode=mode, use_template=use_template, n=n)
         self._worker.log.connect(self.log_view.appendPlainText)
+        self._worker.token.connect(self._on_token)
         self._worker.finished.connect(self._on_worker_finished)
         self._worker.error.connect(self._on_worker_error)
         self._worker.start()
+
+    def _run_followup(self, feedback):
+        """Run a follow-up / modification generation using the main input text.
+
+        Invoked from _on_generate when history is non-empty (modify / follow-up mode).
+        """
+        if not self._last_generated or not self._last_generated.get("score"):
+            QMessageBox.warning(self, _("Follow-up Generation"),
+                                _("Please generate a song first before using follow-up."))
+            return
+        if not feedback:
+            QMessageBox.warning(self, _("Follow-up Generation"),
+                                _("Please enter your feedback on the generated music."))
+            return
+
+        original_text = self._last_generated.get("text", "")
+        original_analysis = self._current_analysis
+        current_score = self._last_generated.get("score", {})
+
+        self._set_busy(True)
+        self.log_view.clear()
+        self.json_view.clear()
+        self.log_view.appendPlainText(_("Follow-up Generation") + "...")
+        self.log_view.appendPlainText(_("User Feedback") + ": " + feedback)
+
+        from frontend_pyqt6.workers import FollowupWorker
+        self._worker = FollowupWorker(original_text, original_analysis, current_score, feedback)
+        self._worker.log.connect(self.log_view.appendPlainText)
+        self._worker.token.connect(self._on_token)
+        self._worker.finished.connect(self._on_worker_finished)
+        self._worker.error.connect(self._on_worker_error)
+        self._worker.start()
+
+    def _on_history_item_selected(self, item):
+        """Handle history item double-click - show details dialog."""
+        history_item = item.data(Qt.ItemDataRole.UserRole)
+        if history_item:
+            dlg = HistoryDetailDialog(history_item, self)
+            if dlg.exec() == QDialog.DialogCode.Accepted:
+                # Load the result into the main view
+                if history_item.score:
+                    mock_result = {
+                        "ok": True,
+                        "text": history_item.user_text,
+                        "score": history_item.score,
+                        "seed": history_item.seed,
+                        "method": history_item.method,
+                        "generated": {},
+                    }
+                    self._load_result(mock_result)
+                    self.log_view.appendPlainText(_("Loaded result from history"))
+
+    def _update_input_mode(self):
+        """Relabel the primary input between 'prompt' and 'modify / follow-up'
+        based on whether any generation history exists (empty-history check).
+
+        - Empty history  -> first input: treat as a fresh prompt field.
+        - Non-empty hist. -> subsequent input: treat as a modify / follow-up field
+          (and clear any leftover text so the user starts a fresh modification).
+        """
+        has_history = bool(history_manager.get_history())
+        if has_history:
+            self.nl_input_label.setText(_("Modify / Follow-up Input"))
+            self.nl_input.setPlaceholderText(_("Modify_Followup_Placeholder"))
+            self.nl_input.clear()
+        else:
+            self.nl_input_label.setText(_("Natural Language Description"))
+            self.nl_input.setPlaceholderText(_("Placeholder_Example"))
+
+    def _on_temperature_changed(self, value):
+        """Persist the slider value as the LLM temperature (0.0 - 2.0)."""
+        temp = value / 10.0
+        self.temp_value.setText(f"{temp:.1f}")
+        config.set_temperature(temp)
+
+    def _update_history_list(self):
+        """Update the history list widget with current history items."""
+        self.history_list.clear()
+        items = history_manager.get_history()
+        if not items:
+            empty_item = QListWidgetItem(_("No history yet"))
+            empty_item.setFlags(Qt.ItemFlag.NoItemFlags)
+            self.history_list.addItem(empty_item)
+            return
+
+        for item in items:
+            timestamp_str = self._format_timestamp(item.timestamp)
+            summary = item.summary or item.user_text[:50]
+            seed_str = str(item.seed) if item.seed else "N/A"
+            display_text = f"{timestamp_str} | Seed: {seed_str} | {summary[:60]}..."
+            
+            list_item = QListWidgetItem(display_text)
+            list_item.setData(Qt.ItemDataRole.UserRole, item)
+            self.history_list.addItem(list_item)
+
+    def _format_timestamp(self, timestamp):
+        """Format Unix timestamp to readable string."""
+        from datetime import datetime
+        dt = datetime.fromtimestamp(timestamp)
+        return dt.strftime("%Y-%m-%d %H:%M:%S")
+
+    def _on_tab_changed(self, index):
+        """Handle tab widget change - update history list when history tab is selected."""
+        if self.tabs.tabText(index) == _("History"):
+            self._update_history_list()
+
+    # ---------- live streaming (on_token) ----------
+    def _on_token(self, chunk):
+        """Live LLM JSON streaming -> show it in the JSON Preview tab as it writes."""
+        if chunk:
+            self.json_view.moveCursor(QTextCursor.MoveOperation.End)
+            self.json_view.insertPlainText(chunk)
+            if self.tabs.currentWidget() is not self.json_view:
+                self.tabs.setCurrentWidget(self.json_view)
+
+    def _on_analysis_token(self, chunk):
+        """Live stage-1 analysis streaming -> show it in the Log tab."""
+        if chunk:
+            self.log_view.moveCursor(QTextCursor.MoveOperation.End)
+            self.log_view.insertPlainText(chunk)
 
     # ---------- results ----------
     def _on_worker_finished(self, payload):
@@ -1301,7 +834,7 @@ class VibeDoMuse(QMainWindow):
     def _load_result(self, res):
         self._last_generated = res
         self._last_seed = res.get("seed")
-        self.seed_label.setText(f"Seed: {self._last_seed}")
+        self.seed_label.setText(_("Seed:") + " " + str(self._last_seed))
         self.btn_same_seed.setEnabled(self._last_seed is not None)
         gp = res.get("generated", {})
         self._cache_artifacts = gp
@@ -1309,6 +842,7 @@ class VibeDoMuse(QMainWindow):
         self._midi_bytes = _read_bytes(gp.get("midi_path"))
         self._json_text = _read_text(gp.get("json_path"))
         self.btn_export.setEnabled(True)
+        self._update_export_availability()
         jpath = gp.get("json_path")
         if jpath and os.path.exists(jpath):
             try:
@@ -1335,6 +869,26 @@ class VibeDoMuse(QMainWindow):
                 self.log_view.appendPlainText("Audio render unavailable (fluidsynth/SoundFont not found). MIDI generated successfully.")
         self._set_play_ui(False)
         cached = " (cached)" if gp.get("cached") else ""
+
+        # Save to history if this is a successful generation
+        if res.get("ok") and res.get("score"):
+            method = res.get("method", "")
+            # Determine parent ID for follow-ups
+            parent_id = self._current_history_id if method == "followup" else None
+            # Save to history
+            history_id = history_manager.add_generation(
+                user_text=res.get("text", ""),
+                result=res,
+                analysis=self._current_analysis,
+                parent_id=parent_id
+            )
+            self._current_history_id = history_id
+            # Update history list UI if it exists
+            if hasattr(self, "_update_history_list"):
+                self._update_history_list()
+            self.log_view.appendPlainText(f"Saved to history (ID: {history_id}){cached}")
+            # History is now non-empty -> switch the prompt field to modify / follow-up mode.
+            self._update_input_mode()
         loop_s = " | loop" if isinstance(res.get("score"), dict) and res["score"].get("loop") else ""
         wav_label = gp.get("wav_file", "") or "MIDI only"
         self.play_status.setText(
@@ -1381,34 +935,100 @@ class VibeDoMuse(QMainWindow):
         res["score"] = payload["score"]
         res["generated"] = payload["generated"]
         res["method"] = "mix"
-        self.log_view.appendPlainText("✔ 混音后重新渲染完成")
+        self.log_view.appendPlainText("✔ " + _("Remix completed"))
         self._load_result(res)
 
     def _on_worker_error(self, msg):
         self._set_busy(False)
-        self.play_status.setText("生成失败")
-        self.log_view.appendPlainText("✘ 错误：" + msg)
-        QMessageBox.critical(self, "生成失败", msg)
+        self.play_status.setText(_("Generation failed"))
+        self.log_view.appendPlainText("✘ " + _("Error:") + " " + msg)
+        QMessageBox.critical(self, _("Generation failed"), msg)
 
     # ---------- export ----------
-    _EXPORT_FILTERS = (
-        "MusicXML (*.mxl);;MIDI (*.mid);;WAV (*.wav);;MP3 (*.mp3);;FLAC (*.flac);;"
-        "OGG (*.ogg);;LilyPond (*.ly);;JSON (*.json)"
-    )
+    def _build_export_formats(self):
+        """Populate the export-format combo with the supported formats and
+        disable those whose required backend is missing.
+
+        backend:
+          - "always"  JSON (from the score, no external tool)
+          - "domuse"  MusicXML / MIDI / LilyPond (need DoMuse.exe)
+          - "ffmpeg"  MP3 / FLAC / OGG (need ffmpeg + a rendered WAV)
+          - "wav"     WAV (need a rendered WAV in the current artifacts)
+        """
+        self._domuse_ok = os.path.exists(renderer.DOMUSE_EXE)
+        self._ffmpeg_ok = renderer.get_ffmpeg_path() is not None
+        self._EXPORT_FORMATS = [
+            (_("MusicXML (.mxl)"), "mxl", "domuse"),
+            (_("MIDI (.mid)"), "mid", "domuse"),
+            (_("LilyPond (.ly)"), "ly", "domuse"),
+            (_("WAV (.wav)"), "wav", "wav"),
+            (_("MP3 (.mp3)"), "mp3", "ffmpeg"),
+            (_("FLAC (.flac)"), "flac", "ffmpeg"),
+            (_("OGG (.ogg)"), "ogg", "ffmpeg"),
+            (_("JSON (.json)"), "json", "always"),
+        ]
+        self.export_format.clear()
+        for label, ext, _backend in self._EXPORT_FORMATS:
+            self.export_format.addItem(label, ext)
+        self._update_export_availability()
+
+    def _update_export_availability(self):
+        """Enable/disable format entries based on backend availability.
+
+        domuse/ffmpeg dependencies are static (known at startup); the WAV-based
+        formats additionally require a freshly rendered WAV in the current
+        generation's artifacts.
+        """
+        arts = getattr(self, "_cache_artifacts", None) or {}
+        has_wav = bool(arts.get("wav_path") and os.path.exists(arts["wav_path"]))
+        model = self.export_format.model()
+        for i, (_label, _ext, backend) in enumerate(self._EXPORT_FORMATS):
+            if backend == "always":
+                ok = True
+            elif backend == "domuse":
+                ok = self._domuse_ok
+            elif backend == "wav":
+                ok = has_wav
+            elif backend == "ffmpeg":
+                ok = self._ffmpeg_ok and has_wav
+            else:
+                ok = True
+            item = model.item(i)
+            if item is not None:
+                item.setEnabled(ok)
+        # Make sure the current selection is enabled; otherwise fall back to the
+        # first available format.
+        cur = self.export_format.currentIndex()
+        cur_item = model.item(cur) if cur >= 0 else None
+        if cur_item is None or not cur_item.isEnabled():
+            for i in range(self.export_format.count()):
+                if model.item(i).isEnabled():
+                    self.export_format.setCurrentIndex(i)
+                    break
 
     def _on_export(self):
         if not self._last_generated or not self._cache_artifacts:
             QMessageBox.warning(self, _("Export\u2026"), _("Please generate a song first before exporting."))
             return
+        idx = self.export_format.currentIndex()
+        item = self.export_format.model().item(idx)
+        if item is None or not item.isEnabled():
+            QMessageBox.warning(
+                self, _("Export\u2026"),
+                _("The selected export format is unavailable.\n")
+                + _("Reason: required backend (DoMuse.exe / ffmpeg / rendered WAV) not found.")
+            )
+            return
+        fmt = self.export_format.itemData(idx)
         base = os.path.splitext(self._cache_artifacts.get("json_file", "piece"))[0]
-        default_path = os.path.join(os.path.expanduser("~"), base + ".mxl")
-        path, selected = QFileDialog.getSaveFileName(
-            self, "Export Song (choose location and format)", default_path, self._EXPORT_FILTERS
+        default_path = os.path.join(os.path.expanduser("~"), base + "." + fmt)
+        # The format is chosen via the combo box, so the save dialog only asks
+        # for a location (generic filter). The extension is appended below.
+        path, _sel_filter = QFileDialog.getSaveFileName(
+            self, _("Export Song"), default_path, _("All Files (*)")
         )
         if not path:
             return
-        m = re.search(r"\*\.(\w+)", selected or "")
-        fmt = m.group(1).lower() if m else "mxl"
         if os.path.splitext(path)[1].lower() != "." + fmt:
             path += "." + fmt
         self.btn_export.setEnabled(False)
@@ -1428,7 +1048,7 @@ class VibeDoMuse(QMainWindow):
         self.progress.setValue(100)
         self.log_view.appendPlainText(f"Exported: {path}")
         self.status_bar.showMessage("Exported: " + path)
-        QMessageBox.information(self, "Export Complete", "Exported to:\n" + path)
+        QMessageBox.information(self, _("Export Complete"), _("Exported to:") + "\n" + path)
 
     def _on_export_error(self, msg):
         self.btn_export.setEnabled(True)
@@ -1436,7 +1056,7 @@ class VibeDoMuse(QMainWindow):
         self.progress.setValue(100)
         self.log_view.appendPlainText("Export failed: " + msg)
         self.status_bar.showMessage("Export failed")
-        QMessageBox.critical(self, "Export Error", msg)
+        QMessageBox.critical(self, _("Export Error"), msg)
 
     # ---------- playback ----------
     def _set_play_ui(self, playing):
@@ -1447,14 +1067,14 @@ class VibeDoMuse(QMainWindow):
             self.play_slider.setValue(0)
             self.time_label.setText("0:00 / 0:00")
             if self._current_wav:
-                self.play_status.setText(f"Ready: {os.path.basename(self._current_wav)}")
+                self.play_status.setText(_("Ready:") + " " + os.path.basename(self._current_wav))
         else:
             self.btn_stop.setEnabled(True)
-            self.play_status.setText("Playing...")
+            self.play_status.setText(_("Playing..."))
 
     def _play(self):
         if not self._player or not self._current_wav or not os.path.exists(self._current_wav):
-            QMessageBox.warning(self, "Playback", "No audio available. Please generate a song first.")
+            QMessageBox.warning(self, _("Playback"), _("No audio available. Please generate a song first."))
             return
         self._player.setSource(QUrl.fromLocalFile(self._current_wav))
         self._player.play()
@@ -1464,13 +1084,20 @@ class VibeDoMuse(QMainWindow):
         if self._player:
             self._player.stop()
         self._set_play_ui(False)
-        self.play_status.setText(f"已停止：{os.path.basename(self._current_wav or '')}")
+        self.play_status.setText(_("Stopped:") + " " + os.path.basename(self._current_wav or ""))
 
 
 def main():
+    logging.basicConfig(
+        level=logging.INFO,
+        format="[%(asctime)s] %(levelname)s %(name)s: %(message)s",
+        datefmt="%H:%M:%S",
+    )
     app = QApplication(sys.argv)
     win = VibeDoMuse()
     win.show()
+    # LLM 配置检查已延迟到运行时：用户点击"生成"时若 LLM 不可用，
+    # worker 线程会自然报错并降级到规则引擎，不会在启动时弹窗干扰。
     sys.exit(app.exec())
 
 

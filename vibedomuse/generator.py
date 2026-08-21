@@ -22,6 +22,10 @@ from .nl_parser import MusicParams
 # default percussion instrument used when drums are requested (GM pitched perc.)
 DRUM_INSTRUMENT = "Timpani"
 
+# Constants
+MAX_SEED = 1_000_000  # Maximum value for random seed generation
+VARIANT_MULTIPLIER = 7919  # Multiplier for generating seed variants (prime number)
+
 _LAYER_PROFILES = {
     "calm": {"tempo_factor": 0.82, "pattern": "ballad_arp", "vel_scale": 0.75,
              "drums": False, "label": "Calm Layer"},
@@ -170,17 +174,17 @@ def _scale_velocities(notes, factor):
 
 def gen_variants(params: MusicParams, n=4, seed=None):
     """Generate n distinct variants of the same request (different seeds)."""
-    base_seed = seed if seed is not None else random.randint(0, 1_000_000)
+    base_seed = seed if seed is not None else random.randint(0, MAX_SEED)
     out = []
     for i in range(max(1, n)):
-        s = (base_seed + i * 7919) % 1_000_000
+        s = (base_seed + i * VARIANT_MULTIPLIER) % MAX_SEED
         out.append(compose(params, seed=s, loop=params.loop))
     return out
 
 
 def gen_layers(params: MusicParams, seed=None):
     """Generate calm/tense layer variants of the same theme (Galgame scene switch)."""
-    base_seed = seed if seed is not None else random.randint(0, 1_000_000)
+    base_seed = seed if seed is not None else random.randint(0, MAX_SEED)
     return [
         {"layer": "calm", "label": "Calm Layer", "score": compose(params, seed=base_seed, layer="calm", loop=params.loop)},
         {"layer": "tense", "label": "Tense Layer", "score": compose(params, seed=base_seed, layer="tense", loop=params.loop)},

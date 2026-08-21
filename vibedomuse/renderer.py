@@ -11,12 +11,30 @@ Cache-first strategy:
     written to vibedomuse/generated/{json,midi,wav} (persisted).
 """
 import json
+import logging
 import os
 import shutil
 import subprocess
+import sys
 import tempfile
 
 from ._paths import resource_path, RUNTIME_DIR
+
+log = logging.getLogger(__name__)
+
+# Cache retention: each cache dir keeps at most this many of the most-recently
+# modified artifacts. Older files are pruned so the temp cache cannot grow
+# without bound across many generations (see _prune_cache).
+MAX_CACHE_FILES_PER_DIR = 100
+
+# On Windows, child console programs (DoMuse.exe / fluidsynth.exe / ffmpeg)
+# launched from a windowed (PyInstaller --windowed) app would otherwise spawn a
+# black console window. CREATE_NO_WINDOW (0x08000000) suppresses that console.
+# It is a no-op on non-Windows platforms (set to 0 here).
+if sys.platform == "win32":
+    _NO_CONSOLE = getattr(subprocess, "CREATE_NO_WINDOW", 0x08000000)
+else:
+    _NO_CONSOLE = 0
 
 DOMUSE_EXE = resource_path(os.path.join("bin", "DoMuse.exe"))
 FLUIDSYNTH_EXE = resource_path(
@@ -44,9 +62,28 @@ def ensure_dirs():
         os.makedirs(d, exist_ok=True)
 
 
+def _prune_cache(d):
+    """Keep only the most-recently-modified MAX_CACHE_FILES_PER_DIR files in d."""
+    try:
+        entries = [os.path.join(d, f) for f in os.listdir(d)]
+    except OSError:
+        return
+    if len(entries) <= MAX_CACHE_FILES_PER_DIR:
+        return
+    entries.sort(key=lambda p: os.path.getmtime(p))
+    for old in entries[:-MAX_CACHE_FILES_PER_DIR]:
+        try:
+            os.remove(old)
+        except OSError:
+            pass
+
+
 def _cache_dirs():
     for d in (CACHE_JSON_DIR, CACHE_MIDI_DIR, CACHE_WAV_DIR):
         os.makedirs(d, exist_ok=True)
+    # Bound the cache size so repeated generations don't fill the disk.
+    for d in (CACHE_JSON_DIR, CACHE_MIDI_DIR, CACHE_WAV_DIR):
+        _prune_cache(d)
 
 
 def write_json(score, name):
@@ -65,6 +102,7 @@ def json_to_midi(json_path, midi_path=None):
     r = subprocess.run(
         [DOMUSE_EXE, "-i", json_path, "-e", midi_path, "-f", "midi"],
         capture_output=True, text=True, timeout=120,
+        creationflags=_NO_CONSOLE,
     )
     if r.returncode != 0:
         raise RuntimeError("DoMuse.exe failed: " + (r.stderr or r.stdout or "unknown error"))
@@ -117,8 +155,9 @@ def trim_trailing_silence(wav_path, keep_sec=0.4, threshold=0.004, chunk_sec=0.0
             w.setparams(params)
             w.writeframes(data)
         os.replace(tmp, wav_path)
-    except Exception:
-        pass
+    except (wave.Error, OSError, IOError, struct.error) as e:
+        # Trimming is best-effort; a failure must not break the render pipeline.
+        log.warning("trim_trailing_silence failed on %s: %s", wav_path, e)
     return wav_path
 
 
@@ -127,25 +166,33 @@ def midi_to_wav(midi_path, wav_path=None):
         wav_path = os.path.join(CACHE_WAV_DIR, os.path.splitext(os.path.basename(midi_path))[0] + ".wav")
     # Pre-flight checks: ensure fluidsynth and soundfont exist
     if not os.path.exists(FLUIDSYNTH_EXE):
+        log.warning("fluidsynth.exe not found at %s; cannot render WAV", FLUIDSYNTH_EXE)
         return None
     if not os.path.exists(SOUNDFONT):
+        log.warning("SoundFont not found at %s; cannot render WAV", SOUNDFONT)
         return None
     # Retry once on failure
+    last_err = None
     for attempt in range(2):
         try:
             r = subprocess.run(
                 [FLUIDSYNTH_EXE, "-F", wav_path, SOUNDFONT, midi_path],
                 capture_output=True, text=True, timeout=180,
+                creationflags=_NO_CONSOLE,
             )
-        except subprocess.TimeoutExpired:
+        except subprocess.TimeoutExpired as e:
+            last_err = "fluidsynth timed out"
             continue
-        except Exception:
+        except (OSError, ValueError) as e:
+            last_err = str(e)
             continue
         if r.returncode != 0:
+            last_err = (r.stderr or r.stdout or "unknown error").strip()
             continue
         if os.path.exists(wav_path) and os.path.getsize(wav_path) > 0:
             trim_trailing_silence(wav_path)
             return wav_path
+    log.warning("fluidsynth failed to render WAV (midi=%s): %s", midi_path, last_err)
     return None
 
 
@@ -261,23 +308,40 @@ def _domuse_export(json_path, out_path, fmt):
     r = subprocess.run(
         [DOMUSE_EXE, "-i", json_path, "-e", out_path, "-f", fmt],
         capture_output=True, text=True, timeout=120,
+        creationflags=_NO_CONSOLE,
     )
     if r.returncode != 0 or not os.path.exists(out_path) or os.path.getsize(out_path) == 0:
         raise RuntimeError(f"DoMuse export failed ({fmt}): " + (r.stderr or r.stdout or "unknown error"))
     return out_path
 
 
+def get_ffmpeg_path():
+    """Return the ffmpeg executable to use for audio re-encoding.
+
+    Prefers the bundled copy at ffmpeg/bin/ffmpeg.exe (so the deployment stays
+    self-contained and needs no system install), then falls back to a
+    system-installed ffmpeg found on PATH. Returns None if neither exists.
+    """
+    local = resource_path(os.path.join("ffmpeg", "bin", "ffmpeg.exe"))
+    if os.path.exists(local):
+        return local
+    return shutil.which("ffmpeg")
+
+
 def _ffmpeg_from_wav(wav_path, out_path, fmt):
     """Re-encode the cached WAV with ffmpeg (mp3/flac/ogg)."""
-    ff = shutil.which("ffmpeg")
+    ff = get_ffmpeg_path()
     if not ff:
-        raise RuntimeError("ffmpeg not found, cannot export " + fmt)
+        raise RuntimeError(
+            "ffmpeg not found (need bundled ffmpeg/bin/ffmpeg.exe or a system install on PATH), cannot export " + fmt
+        )
     codec = {"mp3": "libmp3lame", "flac": "flac", "ogg": "libvorbis"}.get(fmt)
     cmd = [ff, "-y", "-i", wav_path]
     if codec:
         cmd += ["-codec:a", codec]
     cmd += [out_path]
-    r = subprocess.run(cmd, capture_output=True, text=True, timeout=180)
+    r = subprocess.run(cmd, capture_output=True, text=True, timeout=180,
+                       creationflags=_NO_CONSOLE)
     if r.returncode != 0 or not os.path.exists(out_path) or os.path.getsize(out_path) == 0:
         raise RuntimeError(f"ffmpeg export failed ({fmt}): " + (r.stderr or "")[:200])
     return out_path

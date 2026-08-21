@@ -23,6 +23,9 @@ Every generator only emits note dicts that comply with the Do-muse JSON spec
 import random
 from dataclasses import dataclass, field
 
+# Constants
+VARIANT_MULTIPLIER = 7919  # Multiplier for generating seed variants (prime number)
+
 # ----------------------------------------------------------------------------
 # note name -> semitone offset (C = 0)
 # ----------------------------------------------------------------------------
@@ -330,7 +333,7 @@ def gen_melody(chord_name, scale, beats, bpm, style="lyrical", seed=None,
     - curve: list of per-phrase velocity multipliers.
     - The final phrase ends by approaching the tonic.
     """
-    rng = random.Random((seed or 0) + phrase_index * 7919)
+    rng = random.Random((seed or 0) + phrase_index * VARIANT_MULTIPLIER)
     pitches = chord_pitches(chord_name, octave=4)
     root = pitches[0]
     third = pitches[1] if len(pitches) > 1 else root + 4

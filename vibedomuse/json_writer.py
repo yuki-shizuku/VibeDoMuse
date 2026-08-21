@@ -33,10 +33,11 @@ def extract_json(raw):
             return None
 
 
-def write_score(text, prompt=None, max_tokens=4000, timeout=180, attempts=2):
+def write_score(text, prompt=None, max_tokens=4000, timeout=180, attempts=2, on_token=None):
     """Let the LLM write a score JSON (0.3B output is unstable, retry once).
 
-    Returns (score_dict, error).
+    Returns (score_dict, error). ``on_token`` (optional callable) receives each
+    streamed text chunk as it arrives, enabling real-time UI streaming.
     """
     if prompt is None:
         from . import knowledge
@@ -49,7 +50,8 @@ def write_score(text, prompt=None, max_tokens=4000, timeout=180, attempts=2):
                      "Output a complete, valid JSON following the same requirements as before. "
                      "Make sure all braces are closed and the JSON is parseable. "
                      "Do NOT include <thinking> or any reasoning tags in your output.)")
-        raw = llm_client.chat(user, system=prompt["system"], max_tokens=max_tokens, timeout=timeout)
+        raw = llm_client.chat(user, system=prompt["system"], max_tokens=max_tokens,
+                              timeout=timeout, on_token=on_token)
         if not raw:
             last_err = "LLM no response or endpoint unavailable"
             continue
