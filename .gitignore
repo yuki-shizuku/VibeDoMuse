@@ -13,11 +13,7 @@ venv/
 # ===== 打包的二进制 / 大型资源（体积过大，不纳入版本库） =====
 bin/
 fluidsynth/
-ffmpeg/
 *.sf2
-*.dll
-*.exe
-*.lib
 *.so
 *.pyd
 
