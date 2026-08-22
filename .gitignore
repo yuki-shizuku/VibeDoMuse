@@ -19,6 +19,8 @@ fluidsynth/
 
 # ===== 打包输出 =====
 windows/
+windows_new/
+*.zip
 
 # ===== 构建临时文件 =====
 .venv_build/
