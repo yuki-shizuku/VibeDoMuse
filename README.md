@@ -63,12 +63,3 @@ cp config.ini.example config.ini
 # 启动桌面界面 / launch the desktop UI
 python main.py
 ```
-
-## 配置 Configuration
-
-LLM 与服务参数位于项目根目录 `config.ini`（已被 `.gitignore` 忽略，含 API Key，
-请勿提交到仓库）。也可以在桌面端 **设置 → LLM 设置** 中图形化修改。
-
-LLM and server settings live in `config.ini` at the project root (ignored by
-`.gitignore` — it contains your API key, never commit it). You can also edit
-them graphically via **Settings → LLM Settings** in the desktop app.
