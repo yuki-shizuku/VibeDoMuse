@@ -27,9 +27,15 @@ def copy_resources(build_dir):
     """复制资源文件"""
     print("📁 复制资源文件...")
     
-    # 复制主要文件（domuse.ico 用于图标；main.py / vibedomuse / frontend_pyqt6
-    # 是源码副本，运行时由 _internal/ 内嵌的 Python 加载字节码，无需发布）
+    # 复制主要文件
+    # main.py / vibedomuse / frontend_pyqt6 是 PyInstaller 的构建期依赖
+    # （入口脚本 + pathex import 解析），构建完成后会从发布目录移除；
+    # domuse.ico 保留用于图标。
+    shutil.copy("main.py", build_dir)
     shutil.copy("domuse.ico", build_dir)
+
+    # 复制vibedomuse模块（构建期依赖，供 Analysis 解析 import）
+    shutil.copytree("vibedomuse", build_dir / "vibedomuse")
 
     # 复制数据库文件
     for category in ["bgm", "accompaniment", "other"]:
@@ -43,6 +49,13 @@ def copy_resources(build_dir):
     if Path("ffmpeg").exists():
         shutil.copytree("ffmpeg", build_dir / "ffmpeg")
         print(f"  ✓ 复制 ffmpeg/ 库")
+
+    # 复制前端文件（构建期依赖，供 Analysis 解析 import）
+    frontend_src = Path("frontend_pyqt6")
+    if frontend_src.exists():
+        frontend_dst = build_dir / "frontend_pyqt6"
+        shutil.copytree(frontend_src, frontend_dst)
+        print(f"  ✓ 复制 frontend_pyqt6/ 界面模块")
     
     # 复制知识库
     if Path("knowledge_base").exists():
@@ -286,6 +299,19 @@ def build_executable(build_dir, spec_file, venv_python):
                 shutil.move(str(item), str(dst))
             shutil.rmtree(build_root_abs / "dist", ignore_errors=True)
             print(f"✅ onedir 产物已并入构建目录根 ({onedir_out} -> {build_root_abs})")
+
+        # 移除构建期依赖源码（main.py / vibedomuse / frontend_pyqt6）：
+        # 运行时由 _internal/ 内嵌的 Python 加载字节码，发布版无需携带源码。
+        for dep in ("main.py", "vibedomuse", "frontend_pyqt6"):
+            p = build_root_abs / dep
+            try:
+                if p.is_dir():
+                    shutil.rmtree(p, ignore_errors=True)
+                elif p.exists():
+                    p.unlink()
+            except OSError:
+                print(f"  ⚠️ 移除构建期源码 {dep} 被系统拦截，请手动清理")
+        print("✅ 已移除构建期源码（main.py / vibedomuse / frontend_pyqt6）")
         
         # 检查生成的文件（用 spec 的绝对路径定位，避免 chdir 后相对路径失效）
         exe_path = build_root_abs / "DoMuse.exe"

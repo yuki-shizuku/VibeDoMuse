@@ -1,79 +1,74 @@
 # VibeDoMuse
 
-把灵感 / 自然语言转化为音乐作品的 AI 工具：通过 LLM 将文本描述解析为结构化乐谱 JSON，
-再经 FluidSynth 渲染为音频，并提供 PyQt6 桌面界面与可选 REST 后端。
+把灵感 / 自然语言转化为音乐作品的 AI 工具。通过本地 LLM 将文本描述解析为
+结构化乐谱（Do-muse JSON），再经 FluidSynth 渲染为 MIDI / WAV 音频，并提供
+PyQt6 桌面界面与可选 REST 后端。
 
-## 功能
+An AI tool that turns ideas and natural language into music. It parses text
+descriptions into structured scores (Do-muse JSON) via a local LLM, renders
+them to MIDI / WAV audio with FluidSynth, and ships with a PyQt6 desktop UI
+plus an optional REST backend.
 
-- 基于 LLM 的文本 → 结构化乐谱（JSON）解析与生成
-- 内置知识库检索（`knowledge_base/`）
-- 144 个 Do-muse 模板（bgm / accompaniment / other）的自然语言检索与匹配
-- FluidSynth 渲染 MIDI → 音频
-- PyQt6 桌面前端 + 可选 REST 后端（`vibedomuse/server.py`）
+## 功能 Features
 
-## 目录结构
+- **自然语言 → 乐谱**：输入"一首温柔的钢琴曲"等描述，AI 生成完整乐谱 JSON（V2 绝对定位格式）
+- **知识库增强**：自动检索格式规范与 400+ 真实曲库模板作为生成参考
+- **两阶段生成**：先意图分析、再生成乐谱，可确认/修改理解后再生成
+- **多轨编曲**：支持 BGM、伴奏、三轨交响等类别与任意乐器组合
+- **音频渲染**：内置 FluidSynth + 音色库，一键导出 MIDI / WAV
+- **批量变体**：一键生成多个种子变体、情绪层（平静/紧张）版本
+- **追问修改**：基于已生成曲目，用自然语言反馈继续修改
 
-| 路径 | 说明 |
-| --- | --- |
-| `vibedomuse/` | 核心库：解析、生成、渲染、LLM 客户端、配置 |
-| `frontend_pyqt6/` | PyQt6 桌面界面（`run.bat` 入口） |
-| `accompaniment/`、`bgm/`、`other/` | 乐谱 / 模板数据（JSON + 文档） |
-| `knowledge_base/` | 知识库文档（检索与示例） |
-| `main.py` | 项目根入口，启动桌面 GUI |
-| `build_windows.ps1` | Windows 便携版打包脚本（uv + PyInstaller） |
-| `config.ini.example` | 配置模板（复制为 `config.ini` 使用） |
-| `windows/` | ⚠️ 打包产物，**不纳入版本库**（见下方说明） |
+- **Natural language → score**: describe music in plain words (e.g. "a gentle
+  piano piece") and the AI composes a complete score JSON (V2 absolute positioning)
+- **Knowledge base**: automatically retrieves the format spec and 400+ real
+  template pieces to guide generation
+- **Two-stage generation**: intent analysis first, then score generation; you
+  can review or edit the understanding before the score is written
+- **Multi-track arrangement**: BGM, accompaniment, 3-track ensemble and any
+  instrument combination
+- **Audio rendering**: bundled FluidSynth + SoundFont, one-click MIDI / WAV export
+- **Variants & layers**: generate multiple seed variants or calm/tense layer
+  versions of the same theme
+- **Follow-up editing**: refine an existing piece through natural-language feedback
 
-## 快速开始
+## 启动方式 Getting Started
 
-1. 安装依赖：`pip install -r requirements.txt`（当前仅需 `PyQt6>=6.6`）
-2. 复制配置模板：`cp config.ini.example config.ini`，按需填写 LLM 的 `base_url` / `model` / `api_key`
-   （首次运行若不存在 `config.ini` 也会自动创建默认配置）
-3. 准备运行时资源（见下方「资源」）
-4. 运行：
+### 方式一：Windows 便携版（无需安装 Python）
 
-   ```bash
-   python main.py
-   # 或直接：frontend_pyqt6/run.bat
-   ```
+Method 1: Windows portable build (no Python required)
 
-## 配置
+1. 获取 `windows/` 发布目录（或解压发布包），保持文件夹结构完整
+2. 双击 `DoMuse.exe`，或运行 `run.bat`
+3. 首次启动会自动生成 `config.ini`，在 **设置 → LLM 设置** 中填入 LLM 的
+   `base_url` / `model` / `api_key` 后即可使用
 
-LLM 参数与服务器参数位于项目根目录 `config.ini`（已被 `.gitignore` 忽略，不会提交，
-请勿将含 API Key 的配置推送到仓库）。也可在桌面端 **设置 → LLM 设置** 中图形化修改。
+1. Obtain the `windows/` folder (or unzip the release package) and keep its
+   structure intact
+2. Double-click `DoMuse.exe`, or run `run.bat`
+3. On first launch a `config.ini` is created automatically; fill in the LLM
+   `base_url` / `model` / `api_key` under **Settings → LLM Settings**
 
-## 资源（二进制，未纳入版本库）
+### 方式二：源码运行（开发模式）
 
-以下文件体积较大或为平台相关的运行时，未纳入 Git 版本库，请按本地环境自行准备，
-或改用 Git LFS / GitHub Releases 管理：
+Method 2: Run from source (development)
 
-- `bin/DoMuse.exe` —— 约 64MB
-- `fluidsynth/` —— FluidSynth 运行时（Windows 预编译版，约 6MB）
-- `32MbGMStereo.sf2` —— 音色文件（约 32MB）
+```bash
+# 安装依赖 / install dependencies
+pip install -r requirements.txt
 
-> 运行时代码（`vibedomuse/_paths.py`）会自动在仓库根目录 / exe 目录 / `_internal`
-> 等候选位置查找上述资源；缺失时仅相关渲染功能不可用，程序可正常启动。
+# 复制配置模板（首次运行也会自动创建）/ copy config template (auto-created on first run)
+cp config.ini.example config.ini
 
-## Windows 便携版打包
-
-仓库内的 `build_windows.ps1` 使用 `uv` + PyInstaller 将项目打包为可直接分发的
-`windows/` 文件夹（`--onedir --windowed`，图标 `domuse.ico`）：
-
-```powershell
-# 在项目根目录执行
-powershell -ExecutionPolicy Bypass -File build_windows.ps1
+# 启动桌面界面 / launch the desktop UI
+python main.py
 ```
 
-- 产物为 `windows/` 整目录，可复制到任意 Windows 环境直接运行（无需安装 Python）
-- 首次运行自动在 `windows/` 内生成 `config.ini`
-- `windows/` 已被 `.gitignore` 忽略，建议通过 GitHub Releases 发布便携版
+## 配置 Configuration
 
-## 上传至 GitHub 的说明
+LLM 与服务参数位于项目根目录 `config.ini`（已被 `.gitignore` 忽略，含 API Key，
+请勿提交到仓库）。也可以在桌面端 **设置 → LLM 设置** 中图形化修改。
 
-本仓库只包含源码、数据与文档，以下内容一律**不纳入版本库**（已由 `.gitignore` 忽略）：
-
-- 构建产物：`windows/`、`build_pyinstaller/`、`*.spec`、`build_windows.log`
-- 二进制 / 大型资源：`bin/`、`fluidsynth/`、`*.sf2`、`*.dll`、`*.exe`、`*.pyd`
-- 虚拟环境与缓存：`.venv/`、`.venv_build/`、`venv/`、`__pycache__/`
-- 运行配置与输出：`config.ini`（含 API Key）、`generated/`
-- 本地工作数据：`.workbuddy/`
+LLM and server settings live in `config.ini` at the project root (ignored by
+`.gitignore` — it contains your API key, never commit it). You can also edit
+them graphically via **Settings → LLM Settings** in the desktop app.
