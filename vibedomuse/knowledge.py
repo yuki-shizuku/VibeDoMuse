@@ -30,6 +30,71 @@ _CORE_TITLES = (
 )
 
 
+_V1_TRACE = re.compile(
+    r"\bV1\b|legacy|Legacy|顺序累加"
+    r'|["\s]*pitch["\s]*:\s*-1\s*[,}\s]'
+    r"|pitch:\s*null|[-–]\s*1[\s`]*or[\s`]*null|21-108[\s`]*or[\s`]*-1"
+    r"|两种格式|两种机制"
+)
+
+# Sections that exist only to explain the dual-format world (V2 vs legacy).
+# They would teach the model that an alternative format exists even after
+# line-level scrubbing, so they are excluded from the knowledge base entirely.
+_V1_BLACKLIST_PREFIX = (
+    "Overview",
+    "7. Note Positioning",
+    "8. Rests",
+    "36. Multi-Format Support",
+)
+
+
+def _v2_only_text(body):
+    """Strip every trace of the legacy format from spec text so the LLM never
+    learns that an alternative to V2 exists.
+
+    - Skips whole sub-sections whose heading mentions V1 / legacy
+      (e.g. "### 7.1 V1 — 顺序累加");
+    - Drops any line that mentions V1 / legacy / sequential accumulation /
+      explicit rest notation (pitch: -1 / pitch: null);
+    - Collapses the blank lines left behind.
+    """
+    if not body:
+        return body
+    out = []
+    in_v1 = False
+    for ln in body.splitlines():
+        if re.match(r"^#{1,6}\s", ln):
+            in_v1 = False
+            if re.search(r"\bV1\b|legacy", ln, re.I):
+                in_v1 = True
+                continue
+        if in_v1:
+            continue
+        if _V1_TRACE.search(ln):
+            continue
+        out.append(ln)
+    res = []
+    prev_blank = False
+    for ln in out:
+        blank = not ln.strip()
+        if blank and prev_blank:
+            continue
+        res.append(ln)
+        prev_blank = blank
+    return "\n".join(res)
+
+
+def _v2_title(title):
+    """Rewrite a spec section title so it never exposes the legacy format."""
+    if not title:
+        return title
+    t = re.sub(r"\s*[—\-–]\s*V1\s*vs\.?\s*V2.*", " — V2（绝对定位）", title)
+    t = re.sub(r"\bV1\b", "V2", t)
+    t = re.sub(r"legacy", "V2", t, flags=re.I)
+    t = re.sub(r"顺序累加", "绝对定位", t)
+    return t
+
+
 def _load_sections():
     try:
         with open(SPEC_PATH, "r", encoding="utf-8") as f:
@@ -41,7 +106,9 @@ def _load_sections():
     for p in parts[1:]:
         lines = p.splitlines()
         title = lines[0].strip() if lines else ""
-        body = "\n".join(lines[1:]) if len(lines) > 1 else ""
+        if any(title.startswith(pre) for pre in _V1_BLACKLIST_PREFIX):
+            continue
+        body = _v2_only_text("\n".join(lines[1:]) if len(lines) > 1 else "")
         sections.append({"title": title, "body": body})
     return sections
 
@@ -152,7 +219,7 @@ def retrieve_sections(query, top_k=3, body_limit=500):
         if is_core(s) and s["title"] not in seen:
             seen.add(s["title"])
             selected.append(s)
-    out = [{"title": s["title"], "body": s["body"][:body_limit]} for s in selected]
+    out = [{"title": _v2_title(s["title"]), "body": s["body"][:body_limit]} for s in selected]
     return out[:max(top_k, 4) + 2]
 
 
@@ -209,24 +276,22 @@ def retrieve_examples(query, top_k=1):
 # LLM must never fall back to V1 notation.
 # ----------------------------------------------------------------------------
 _V2_MANDATE = (
-    "=== V2 FORMAT (MANDATORY - THE ONLY ALLOWED FORMAT) === "
-    "V2 (absolute positioning via \"offset\") is the ONLY format accepted. "
-    "The legacy/V1 format is DISABLED: any output without \"format\": \"v2\" "
-    "or missing offsets will be REJECTED. "
+    "=== V2 FORMAT (MANDATORY - THE ONLY FORMAT) === "
+    "V2 (absolute positioning via \"offset\") is the ONLY format that exists. "
+    "Any output without \"format\": \"v2\" or missing offsets will be REJECTED. "
     "V2 rules: "
     "1) Top-level MUST contain \"format\": \"v2\" "
     "2) Every single note MUST have an \"offset\" field (number >= 0, in "
     "quarter-note units from the start of the piece) "
-    "3) Do NOT write \"pitch\": -1 for rests - gaps between notes are "
+    "3) Rests are never written explicitly - gaps between notes are "
     "automatically filled with rests "
     "4) Notes with the same offset are automatically merged into a chord "
     "5) duration can be a string (\"whole\", \"half\", \"quarter\", \"eighth\", "
     "\"16th\", dotted variants) OR a positive number (e.g. 1.5, 1.75, 0.5) "
     "6) A numerical duration cannot be combined with tuplet "
-    "7) Optional V2 fields: \"pitch_name\" (string like \"C4\"), \"measure\" "
+    "7) Optional fields: \"pitch_name\" (string like \"C4\"), \"measure\" "
     "(number), \"beat\" (number), \"end_offset\" (number) "
-    "If V1/legacy content appears anywhere in the provided context, treat it "
-    "as background ONLY - never imitate it."
+    "Output ONLY the JSON, no explanation."
 )
 
 _V2_EXAMPLE = (
@@ -241,9 +306,9 @@ _V2_CHECKLIST = (
     "=== V2 FORMAT CHECKLIST (verify every item before outputting) === "
     "- [ ] Top-level has \"format\": \"v2\" "
     "- [ ] Every note has \"offset\" (number >= 0) "
-    "- [ ] No pitch:-1 for rests (gaps are auto-filled) "
+    "- [ ] Rests are never written (gaps are auto-filled) "
     "- [ ] duration is a string or a positive number "
-    "- [ ] No V1/legacy notation anywhere "
+    "- [ ] Every note uses absolute \"offset\" positioning "
     "- [ ] Output ONLY the JSON, no explanation."
 )
 
@@ -347,7 +412,8 @@ def build_analysis_prompt(text):
     The output is a natural-language understanding paragraph, NOT JSON.
     """
     # List all available spec section titles so the LLM can decide which to use
-    all_titles = [s["title"] for s in _SECTIONS]
+    # (titles are rewritten so the legacy format is never exposed)
+    all_titles = [_v2_title(s["title"]) for s in _SECTIONS]
     all_titles_str = "\n".join(f"  - {t}" for t in all_titles)
 
     user = (
