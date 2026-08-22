@@ -27,13 +27,10 @@ def copy_resources(build_dir):
     """复制资源文件"""
     print("📁 复制资源文件...")
     
-    # 复制主要文件
-    shutil.copy("main.py", build_dir)
+    # 复制主要文件（domuse.ico 用于图标；main.py / vibedomuse / frontend_pyqt6
+    # 是源码副本，运行时由 _internal/ 内嵌的 Python 加载字节码，无需发布）
     shutil.copy("domuse.ico", build_dir)
-    
-    # 复制vibedomuse模块
-    shutil.copytree("vibedomuse", build_dir / "vibedomuse")
-    
+
     # 复制数据库文件
     for category in ["bgm", "accompaniment", "other"]:
         src = Path(category)
@@ -46,13 +43,6 @@ def copy_resources(build_dir):
     if Path("ffmpeg").exists():
         shutil.copytree("ffmpeg", build_dir / "ffmpeg")
         print(f"  ✓ 复制 ffmpeg/ 库")
-    
-    # 复制前端文件
-    frontend_src = Path("frontend_pyqt6")
-    if frontend_src.exists():
-        frontend_dst = build_dir / "frontend_pyqt6"
-        shutil.copytree(frontend_src, frontend_dst)
-        print(f"  ✓ 复制 frontend_pyqt6/ 界面模块")
     
     # 复制知识库
     if Path("knowledge_base").exists():
@@ -335,9 +325,8 @@ if not exist "DoMuse.exe" (
     echo.
     echo 请确保以下文件存在：
     echo   - DoMuse.exe (主程序)
+    echo   - _internal/ (运行时依赖目录)
     echo   - domuse.ico (图标文件)
-    echo   - vibedomuse/ (核心模块)
-    echo   - frontend_pyqt6/ (界面模块)
     echo   - bgm/, accompaniment/, other/ (数据库)
     echo   - ffmpeg/ (可选，用于音频导出)
     echo.
@@ -348,14 +337,6 @@ if not exist "DoMuse.exe" (
 
 echo [√] 主程序文件检查通过
 
-if not exist "vibedomuse" (
-    echo [错误] 找不到核心模块目录
-    pause
-    exit /b 1
-)
-
-echo [√] 核心模块检查通过
-
 REM 检查可选的外部二进制文件
 set MISSING_EXTERNAL=0
 
@@ -365,8 +346,8 @@ if not exist "bin/DoMuse.exe" (
     set MISSING_EXTERNAL=1
 )
 
-if not exist "fluidsynth/32MbGMStereo.sf2" (
-    echo [警告] 找不到音色文件 fluidsynth/32MbGMStereo.sf2
+if not exist "32MbGMStereo.sf2" (
+    echo [警告] 找不到音色文件 32MbGMStereo.sf2
     echo   音频渲染功能将不可用
     set MISSING_EXTERNAL=1
 )
@@ -429,19 +410,12 @@ pause
     with open(installer_path, 'w', encoding='utf-8') as f:
         f.write(installer_content)
     
-    # 创建启动脚本
+    # 创建启动脚本（直接启动打包后的 exe；发布版不带源码副本）
     launcher_content = """@echo off
 chcp 65001 >nul
 echo 启动 VibeDoMuse...
 echo.
-
-if exist ".venv\\Scripts\\python.exe" (
-    echo 使用虚拟环境...
-    ".venv\\Scripts\\python.exe" "main.py"
-) else (
-    echo 使用系统Python...
-    python "main.py"
-)
+start "" "%~dp0DoMuse.exe"
 """
     
     launcher_path = build_dir / "run.bat"
@@ -500,8 +474,6 @@ def main():
         # 检查关键文件
         critical_files = [
             "DoMuse.exe",
-            "vibedomuse/__init__.py",
-            "frontend_pyqt6/main.py",
             "config.ini.example"
         ]
         

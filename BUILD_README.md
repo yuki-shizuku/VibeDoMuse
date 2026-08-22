@@ -32,17 +32,18 @@ windows/
 ├── _internal/              # 多文件打包的依赖目录（Python 运行时、PyQt6、DLL 等）
 ├── run.bat                 # 启动脚本
 ├── domuse.ico              # 程序图标
-├── main.py                 # 入口文件
-├── vibedomuse/             # 核心模块
 ├── bgm/                    # BGM数据库
 ├── accompaniment/          # 伴奏数据库
 ├── other/                  # 三轨曲数据库
-├── frontend_pyqt6/         # 前端界面
 ├── knowledge_base/         # 知识库
 ├── README.md               # 说明文档
 ├── DATABASE_OVERVIEW.md    # 数据库总览
 └── JSON_Format_Specification.md # 格式规范
 ```
+
+> 发布版为自包含运行：Python 代码已编译进 `_internal/`（PyInstaller 归档），
+> 不再携带 `vibedomuse/`、`frontend_pyqt6/`、`main.py` 源码副本，
+> 目标电脑无需安装 Python。
 
 ## 🔧 打包特性
 
