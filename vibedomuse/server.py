@@ -7,8 +7,10 @@ Optional REST backend built on Python's stdlib http.server:
   - GET  /api/templates       template search (q, or category/mood/key filters)
   - GET  /api/params          parse-only preview of natural language
   - POST /api/generate        full creation (parse -> search -> compose -> render);
-                              supports mode=rule|llm|variants|layers, use_template,
+                              supports mode=rule|llm|llm_v2|variants|layers, use_template,
                               seed, loop
+                              (llm_v2 = two-stage: intent analysis -> JSON generation;
+                              this is the recommended AI channel — output is forced to V2)
   - GET  /api/audio/<file>    serve generated WAV
   - GET  /api/json/<file>     serve generated JSON
 Zero external dependencies, fully offline.
@@ -143,7 +145,16 @@ class Handler(BaseHTTPRequestHandler):
             mode = (body.get("mode") or "rule").lower()
             n = int(body.get("n") or 4)
             try:
-                if mode == "llm":
+                if mode == "llm_v2":
+                    # Two-stage AI channel: intent analysis first, then JSON
+                    # generation (forced to V2 format). Falls back to one-stage
+                    # run_llm when the analysis stage produces no output.
+                    analysis = agent_mod.analyze(text)
+                    if analysis:
+                        result = agent_mod.run_llm_v2(text, analysis, seed=seed)
+                    else:
+                        result = agent_mod.run_llm(text, use_template=use_template, seed=seed)
+                elif mode == "llm":
                     result = agent_mod.run_llm(text, use_template=use_template, seed=seed)
                 elif mode == "variants":
                     result = {"ok": True, "mode": "variants",

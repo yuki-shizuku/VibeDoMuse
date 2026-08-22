@@ -10,7 +10,7 @@ Modal dialogs extracted from main.py:
 from PyQt6.QtWidgets import (
     QDialog, QFormLayout, QLineEdit, QSpinBox, QDoubleSpinBox, QDialogButtonBox,
     QMessageBox, QVBoxLayout, QHBoxLayout, QLabel, QTextEdit, QPushButton,
-    QListWidget, QListWidgetItem, QSlider, QCheckBox,
+    QListWidget, QListWidgetItem, QSlider, QCheckBox, QWidget, QTabWidget,
 )
 from PyQt6.QtCore import Qt
 
@@ -296,7 +296,6 @@ class HistoryDetailDialog(QDialog):
         layout.addWidget(title)
 
         # Tabs for different aspects
-        from PyQt6.QtWidgets import QTabWidget
         tabs = QTabWidget()
 
         # Tab 1: Overview

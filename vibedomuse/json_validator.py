@@ -98,7 +98,7 @@ def _check_tuplets(notes, errors, warnings, loc):
         i = j
 
 
-def _validate_notes(notes, errors, warnings, loc, allow_ref=True, depth=0):
+def _validate_notes(notes, errors, warnings, loc, allow_ref=True, depth=0, is_v2=False):
     if not isinstance(notes, list) or not notes:
         errors.append(f"{loc}.notes missing or empty")
         return
@@ -125,9 +125,35 @@ def _validate_notes(notes, errors, warnings, loc, allow_ref=True, depth=0):
             for cp in n["chord"]:
                 if not _is_pitch_ok(cp):
                     errors.append(f"{nloc}.chord out of range: {cp}")
+        # duration: V2 allows numeric, V1 only strings
         d = n.get("duration")
-        if d not in DURATIONS:
-            errors.append(f"{nloc}.duration invalid: {d}")
+        if is_v2:
+            if isinstance(d, (int, float)):
+                if d <= 0:
+                    errors.append(f"{nloc}.duration must be positive: {d}")
+                if n.get("tuplet") is not None:
+                    errors.append(f"{nloc} numeric duration cannot be combined with tuplet")
+            elif d not in DURATIONS:
+                errors.append(f"{nloc}.duration invalid: {d}")
+        else:
+            if d not in DURATIONS:
+                errors.append(f"{nloc}.duration invalid: {d}")
+        # V2: offset is required
+        if is_v2:
+            off = n.get("offset")
+            if off is None:
+                errors.append(f"{nloc}.offset is required in V2 format")
+            elif not isinstance(off, (int, float)) or off < 0:
+                errors.append(f"{nloc}.offset must be a non-negative number: {off}")
+        # V2: optional fields
+        if is_v2:
+            pn = n.get("pitch_name")
+            if pn is not None and not isinstance(pn, str):
+                errors.append(f"{nloc}.pitch_name must be a string")
+            for v2field in ("measure", "beat", "end_offset"):
+                val = n.get(v2field)
+                if val is not None and not isinstance(val, (int, float)):
+                    errors.append(f"{nloc}.{v2field} must be a number")
         v = n.get("velocity")
         if v is not None and not (isinstance(v, int) and 0 <= v <= 127):
             warnings.append(f"{nloc}.velocity out of range: {v}")
@@ -187,6 +213,18 @@ def validate(score):
     if not isinstance(score, dict):
         return False, ["top-level is not a JSON object"], []
 
+    # V2 is the ONLY allowed format. AI generation is forced to V2
+    # (absolute positioning): legacy/V1 is disabled, and any JSON without
+    # "format": "v2" is rejected immediately.
+    fmt = score.get("format", "legacy")
+    is_v2 = fmt == "v2"
+    if fmt != "v2":
+        errors.append(
+            'top-level format MUST be "v2" (V2 absolute-positioning format is '
+            "mandatory; legacy/V1 is disabled)"
+        )
+        return False, errors, warnings
+
     # top-level extension fields
     if "loop" in score and score["loop"] is not True:
         errors.append("top-level loop must be true (or omitted)")
@@ -235,7 +273,7 @@ def validate(score):
             errors.append(f"tracks[{ti}].notes missing or empty")
             continue
         tloc = f"tracks[{ti}]"
-        _validate_notes(notes, errors, warnings, tloc)
+        _validate_notes(notes, errors, warnings, tloc, is_v2=is_v2)
         for ni, n in enumerate(notes):
             if isinstance(n, dict) and n.get("ref") is not None:
                 if n["ref"] not in defined_macros:
@@ -258,6 +296,9 @@ def normalize(score):
     """Fill in defaults and sanitize field formats so DoMuse.exe accepts the score."""
     if not isinstance(score, dict):
         score = {}
+    # V2 is mandatory for AI-generated scores: always declare it explicitly
+    # so the rendered JSON is unambiguous (legacy/V1 is disabled upstream).
+    score["format"] = "v2"
     score.setdefault("title", "Untitled")
     score.setdefault("composer", "VibeDoMuse")
     meta = score.get("metadata")
@@ -295,6 +336,16 @@ TUP_FACTOR = {3: 2 / 3, 5: 4 / 5, 6: 4 / 6, 7: 4 / 7, 9: 8 / 9}
 
 
 def _notes_duration_q(notes):
+    """计算音符流的总时长（四分音符单位）。
+
+    V2 音符携带 offset 字段（绝对定位），按 max(offset + duration) 计算，
+    空隙休止计入时长；legacy V1 音符无 offset，按顺序累加 duration 计算。
+
+    参数：
+        notes (list[dict]): 音符字典列表（可能包含 ref 宏引用，跳过）。
+    返回：
+        float: 总时长（四分音符数）。
+    """
     total = 0.0
     for n in notes:
         if not isinstance(n, dict):
@@ -305,7 +356,13 @@ def _notes_duration_q(notes):
         tup = n.get("tuplet")
         if tup in TUP_FACTOR:
             d *= TUP_FACTOR[tup]
-        total += d
+        off = n.get("offset")
+        if off is not None:
+            end = float(off) + d
+            if end > total:
+                total = end
+        else:
+            total += d
     return total
 
 

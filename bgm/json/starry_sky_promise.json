@@ -1,4 +1,5 @@
 {
+  "format": "v2",
   "title": "星空の約束",
   "composer": "Do Muse AI",
   "metadata": {
@@ -13,132 +14,242 @@
         {
           "pitch": 57,
           "duration": "half",
-          "velocity": 71
+          "velocity": 71,
+          "offset": 0.0,
+          "pitch_name": "A3",
+          "measure": 1,
+          "beat": 1.0,
+          "end_offset": 2.0
         },
         {
           "pitch": 59,
           "duration": "quarter",
-          "velocity": 67
+          "velocity": 67,
+          "offset": 2.0,
+          "pitch_name": "B3",
+          "measure": 1,
+          "beat": 3.0,
+          "end_offset": 3.0
         },
         {
           "pitch": 62,
           "duration": "quarter",
-          "velocity": 72
+          "velocity": 72,
+          "offset": 3.0,
+          "pitch_name": "D4",
+          "measure": 1,
+          "beat": 4.0,
+          "end_offset": 4.0
         },
         {
           "pitch": 59,
           "duration": "half",
-          "velocity": 67
+          "velocity": 67,
+          "offset": 4.0,
+          "pitch_name": "B3",
+          "measure": 2,
+          "beat": 1.0,
+          "end_offset": 6.0
         },
         {
           "pitch": 57,
           "duration": "quarter",
-          "velocity": 60
+          "velocity": 60,
+          "offset": 6.0,
+          "pitch_name": "A3",
+          "measure": 2,
+          "beat": 3.0,
+          "end_offset": 7.0
         },
         {
           "pitch": 54,
           "duration": "quarter",
-          "velocity": 65
+          "velocity": 65,
+          "offset": 7.0,
+          "pitch_name": "F#3",
+          "measure": 2,
+          "beat": 4.0,
+          "end_offset": 8.0
         },
         {
           "pitch": 50,
           "duration": "half",
-          "velocity": 53
+          "velocity": 53,
+          "offset": 8.0,
+          "pitch_name": "D3",
+          "measure": 3,
+          "beat": 1.0,
+          "end_offset": 10.0
         },
         {
           "pitch": 54,
           "duration": "half",
-          "velocity": 69
+          "velocity": 69,
+          "offset": 10.0,
+          "pitch_name": "F#3",
+          "measure": 3,
+          "beat": 3.0,
+          "end_offset": 12.0
         },
         {
           "pitch": 57,
           "duration": "half",
-          "velocity": 74
+          "velocity": 74,
+          "offset": 12.0,
+          "pitch_name": "A3",
+          "measure": 4,
+          "beat": 1.0,
+          "end_offset": 14.0
         },
         {
           "pitch": 54,
           "duration": "quarter",
-          "velocity": 63
+          "velocity": 63,
+          "offset": 14.0,
+          "pitch_name": "F#3",
+          "measure": 4,
+          "beat": 3.0,
+          "end_offset": 15.0
         },
         {
           "pitch": 50,
           "duration": "half",
-          "velocity": 60
-        },
-        {
-          "pitch": -1,
-          "duration": "quarter",
-          "velocity": 0
+          "velocity": 60,
+          "offset": 15.0,
+          "pitch_name": "D3",
+          "measure": 4,
+          "beat": 4.0,
+          "end_offset": 17.0
         },
         {
           "pitch": 57,
           "duration": "half",
-          "velocity": 70
+          "velocity": 70,
+          "offset": 18.0,
+          "pitch_name": "A3",
+          "measure": 5,
+          "beat": 3.0,
+          "end_offset": 20.0
         },
         {
           "pitch": 59,
           "duration": "quarter",
-          "velocity": 60
+          "velocity": 60,
+          "offset": 20.0,
+          "pitch_name": "B3",
+          "measure": 6,
+          "beat": 1.0,
+          "end_offset": 21.0
         },
         {
           "pitch": 62,
           "duration": "quarter",
-          "velocity": 68
+          "velocity": 68,
+          "offset": 21.0,
+          "pitch_name": "D4",
+          "measure": 6,
+          "beat": 2.0,
+          "end_offset": 22.0
         },
         {
           "pitch": 59,
           "duration": "half",
-          "velocity": 66
+          "velocity": 66,
+          "offset": 22.0,
+          "pitch_name": "B3",
+          "measure": 6,
+          "beat": 3.0,
+          "end_offset": 24.0
         },
         {
           "pitch": 57,
           "duration": "quarter",
-          "velocity": 56
+          "velocity": 56,
+          "offset": 24.0,
+          "pitch_name": "A3",
+          "measure": 7,
+          "beat": 1.0,
+          "end_offset": 25.0
         },
         {
           "pitch": 54,
           "duration": "quarter",
-          "velocity": 65
+          "velocity": 65,
+          "offset": 25.0,
+          "pitch_name": "F#3",
+          "measure": 7,
+          "beat": 2.0,
+          "end_offset": 26.0
         },
         {
           "pitch": 50,
           "duration": "half",
-          "velocity": 53
+          "velocity": 53,
+          "offset": 26.0,
+          "pitch_name": "D3",
+          "measure": 7,
+          "beat": 3.0,
+          "end_offset": 28.0
         },
         {
           "pitch": 54,
           "duration": "half",
-          "velocity": 70
+          "velocity": 70,
+          "offset": 28.0,
+          "pitch_name": "F#3",
+          "measure": 8,
+          "beat": 1.0,
+          "end_offset": 30.0
         },
         {
           "pitch": 57,
           "duration": "half",
-          "velocity": 68
+          "velocity": 68,
+          "offset": 30.0,
+          "pitch_name": "A3",
+          "measure": 8,
+          "beat": 3.0,
+          "end_offset": 32.0
         },
         {
           "pitch": 54,
           "duration": "quarter",
-          "velocity": 60
+          "velocity": 60,
+          "offset": 32.0,
+          "pitch_name": "F#3",
+          "measure": 9,
+          "beat": 1.0,
+          "end_offset": 33.0
         },
         {
           "pitch": 50,
           "duration": "half",
-          "velocity": 53
-        },
-        {
-          "pitch": -1,
-          "duration": "quarter",
-          "velocity": 0
+          "velocity": 53,
+          "offset": 33.0,
+          "pitch_name": "D3",
+          "measure": 9,
+          "beat": 2.0,
+          "end_offset": 35.0
         },
         {
           "pitch": 57,
           "duration": "quarter",
-          "velocity": 66
+          "velocity": 66,
+          "offset": 36.0,
+          "pitch_name": "A3",
+          "measure": 10,
+          "beat": 1.0,
+          "end_offset": 37.0
         },
         {
           "pitch": 59,
           "duration": "eighth",
-          "velocity": 69
+          "velocity": 69,
+          "offset": 37.0,
+          "pitch_name": "B3",
+          "measure": 10,
+          "beat": 2.0,
+          "end_offset": 37.5
         }
       ]
     },
@@ -148,47 +259,92 @@
         {
           "pitch": 38,
           "duration": "whole",
-          "velocity": 34
+          "velocity": 34,
+          "offset": 0.0,
+          "pitch_name": "D2",
+          "measure": 1,
+          "beat": 1.0,
+          "end_offset": 4.0
         },
         {
           "pitch": 42,
           "duration": "whole",
-          "velocity": 33
+          "velocity": 33,
+          "offset": 4.0,
+          "pitch_name": "F#2",
+          "measure": 2,
+          "beat": 1.0,
+          "end_offset": 8.0
         },
         {
           "pitch": 45,
           "duration": "whole",
-          "velocity": 37
+          "velocity": 37,
+          "offset": 8.0,
+          "pitch_name": "A2",
+          "measure": 3,
+          "beat": 1.0,
+          "end_offset": 12.0
         },
         {
           "pitch": 42,
           "duration": "whole",
-          "velocity": 33
+          "velocity": 33,
+          "offset": 12.0,
+          "pitch_name": "F#2",
+          "measure": 4,
+          "beat": 1.0,
+          "end_offset": 16.0
         },
         {
           "pitch": 38,
           "duration": "whole",
-          "velocity": 36
+          "velocity": 36,
+          "offset": 16.0,
+          "pitch_name": "D2",
+          "measure": 5,
+          "beat": 1.0,
+          "end_offset": 20.0
         },
         {
           "pitch": 42,
           "duration": "whole",
-          "velocity": 38
+          "velocity": 38,
+          "offset": 20.0,
+          "pitch_name": "F#2",
+          "measure": 6,
+          "beat": 1.0,
+          "end_offset": 24.0
         },
         {
           "pitch": 45,
           "duration": "whole",
-          "velocity": 33
+          "velocity": 33,
+          "offset": 24.0,
+          "pitch_name": "A2",
+          "measure": 7,
+          "beat": 1.0,
+          "end_offset": 28.0
         },
         {
           "pitch": 42,
           "duration": "whole",
-          "velocity": 36
+          "velocity": 36,
+          "offset": 28.0,
+          "pitch_name": "F#2",
+          "measure": 8,
+          "beat": 1.0,
+          "end_offset": 32.0
         },
         {
           "pitch": 38,
           "duration": "whole",
-          "velocity": 36
+          "velocity": 36,
+          "offset": 32.0,
+          "pitch_name": "D2",
+          "measure": 9,
+          "beat": 1.0,
+          "end_offset": 36.0
         }
       ]
     }

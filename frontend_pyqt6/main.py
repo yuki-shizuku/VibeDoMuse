@@ -28,7 +28,7 @@ from PyQt6.QtWidgets import (
     QMenuBar, QStatusBar, QMessageBox, QFileDialog, QProgressBar, QSlider,
     QDialog, QInputDialog, QScrollArea, QCheckBox, QListWidget, QListWidgetItem,
 )
-from PyQt6.QtCore import Qt, QObject, pyqtSignal, QUrl
+from PyQt6.QtCore import Qt, QObject, pyqtSignal, QUrl, QTimer
 from PyQt6.QtGui import QAction, QTextCursor
 
 # ======================================================================
@@ -221,8 +221,8 @@ class QtLogHandler(logging.Handler):
 class VibeDoMuse(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle(_("VibeDoMuse · AI Music Agent"))
-        self.resize(1280, 840)
+        self.setWindowTitle("VibeDoMuse")
+        self.resize(960, 680)
 
         self.theme = self._load_theme()
         config.ensure_config_file()   # create config.ini if missing
@@ -240,6 +240,13 @@ class VibeDoMuse(QMainWindow):
         self._last_seed = None
         self._current_analysis = None    # Store AI understanding for follow-ups
         self._current_history_id = None  # Track current history item ID
+        # Token streaming buffers (batch UI updates to prevent UI freezes)
+        self._token_buffer = ""
+        self._analysis_buffer = ""
+        self._token_flush_timer = QTimer(self)
+        self._token_flush_timer.setInterval(80)  # flush every 80ms
+        self._token_flush_timer.timeout.connect(self._flush_token_buffer)
+        self._flushed_first = False
         self._setup_player()
 
         self._build_ui()
@@ -336,7 +343,7 @@ class VibeDoMuse(QMainWindow):
         self.setCentralWidget(central)
         root_v = QVBoxLayout(central)
 
-        title = QLabel(_("VibeDoMuse · AI Music Agent (Natural Language \u2192 Knowledge Base \u2192 Score Generation)"))
+        title = QLabel("VibeDoMuse")
         title.setStyleSheet("font-size:16px; font-weight:bold; padding:4px 2px;")
         root_v.addWidget(title)
 
@@ -607,6 +614,7 @@ class VibeDoMuse(QMainWindow):
             self._run_followup(text)
             return
         self._set_busy(True)
+        self._reset_streaming_buffers()
         self.log_view.clear()
         self.log_view.appendPlainText("Stage 1: Analyzing your request (LLM considers spec sections, templates)...")
         self._analyze_worker = AnalyzeWorker(text)
@@ -617,6 +625,7 @@ class VibeDoMuse(QMainWindow):
 
     def _on_analyze_finished(self, analysis_text):
         self._set_busy(False)
+        self._flush_token_buffer()  # flush any remaining analysis text
         self.log_view.appendPlainText("LLM understanding received. Showing confirmation dialog...")
         dialog = UnderstandingDialog(analysis_text, self)
         if dialog.exec() == QDialog.DialogCode.Accepted:
@@ -673,6 +682,7 @@ class VibeDoMuse(QMainWindow):
 
     def _run_agent(self, text, mode="llm", seed=None, use_template=None, n=4):
         self._set_busy(True)
+        self._reset_streaming_buffers()
         self.log_view.clear()
         self.json_view.clear()
         self._worker = GenWorker(text, seed=seed, mode=mode, use_template=use_template, n=n)
@@ -701,6 +711,7 @@ class VibeDoMuse(QMainWindow):
         current_score = self._last_generated.get("score", {})
 
         self._set_busy(True)
+        self._reset_streaming_buffers()
         self.log_view.clear()
         self.json_view.clear()
         self.log_view.appendPlainText(_("Follow-up Generation") + "...")
@@ -787,24 +798,51 @@ class VibeDoMuse(QMainWindow):
         if self.tabs.tabText(index) == _("History"):
             self._update_history_list()
 
-    # ---------- live streaming (on_token) ----------
+    # ---------- live streaming (on_token, buffered) ----------
+    def _reset_streaming_buffers(self):
+        """Reset streaming buffers and flush state for a new generation."""
+        self._token_buffer = ""
+        self._analysis_buffer = ""
+        self._flushed_first = False
+        if self._token_flush_timer.isActive():
+            self._token_flush_timer.stop()
+
     def _on_token(self, chunk):
-        """Live LLM JSON streaming -> show it in the JSON Preview tab as it writes."""
+        """Buffer incoming LLM JSON tokens for batched UI update."""
         if chunk:
-            self.json_view.moveCursor(QTextCursor.MoveOperation.End)
-            self.json_view.insertPlainText(chunk)
-            if self.tabs.currentWidget() is not self.json_view:
-                self.tabs.setCurrentWidget(self.json_view)
+            self._token_buffer += chunk
+            if not self._token_flush_timer.isActive():
+                self._token_flush_timer.start()
 
     def _on_analysis_token(self, chunk):
-        """Live stage-1 analysis streaming -> show it in the Log tab."""
+        """Buffer incoming analysis tokens for batched UI update."""
         if chunk:
+            self._analysis_buffer += chunk
+            if not self._token_flush_timer.isActive():
+                self._token_flush_timer.start()
+
+    def _flush_token_buffer(self):
+        """Flush buffered tokens to the UI (called by timer, ~12 times/sec)."""
+        if self._token_buffer:
+            self.json_view.moveCursor(QTextCursor.MoveOperation.End)
+            self.json_view.insertPlainText(self._token_buffer)
+            self._token_buffer = ""
+            if not self._flushed_first:
+                self._flushed_first = True
+                if self.tabs.currentWidget() is not self.json_view:
+                    self.tabs.setCurrentWidget(self.json_view)
+        if self._analysis_buffer:
             self.log_view.moveCursor(QTextCursor.MoveOperation.End)
-            self.log_view.insertPlainText(chunk)
+            self.log_view.insertPlainText(self._analysis_buffer)
+            self._analysis_buffer = ""
+        if not self._token_buffer and not self._analysis_buffer:
+            self._token_flush_timer.stop()
 
     # ---------- results ----------
     def _on_worker_finished(self, payload):
         self._set_busy(False)
+        # Flush any remaining buffered tokens before showing the final result
+        self._flush_token_buffer()
         kind = payload.get("kind", "single")
         if kind == "variants":
             items = payload.get("items") or []

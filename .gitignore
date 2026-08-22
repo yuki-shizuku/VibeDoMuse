@@ -23,6 +23,7 @@ windows/
 # ===== 构建临时文件 =====
 .venv_build/
 build_pyinstaller/
+build/
 *.spec
 
 # ===== 本地 / 临时 =====

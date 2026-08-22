@@ -634,9 +634,9 @@ MOOD_PROFILES = {
 # natural language keywords -> mood (Chinese / Japanese / English); first match wins.
 MOOD_KEYWORDS = [
     ("温柔", "gentle"), ("柔和", "gentle"), ("優しい", "gentle"), ("gentle", "gentle"),
-    ("沉稳", "calm"), ("平静", "calm"), ("落ち着", "calm"), ("calm", "calm"), ("安稳", "calm"),
+    ("沉稳", "calm"), ("平静", "calm"), ("落ち着", "calm"), ("calm", "calm"), ("安稳", "calm"), ("静か", "calm"),
     ("优雅", "elegant"), ("優雅", "elegant"), ("华尔兹", "elegant"), ("waltz", "elegant"), ("elegant", "elegant"),
-    ("轻快", "lively"), ("軽快", "lively"), ("lively", "lively"), ("跳动", "lively"),
+    ("轻快", "lively"), ("軽快", "lively"), ("lively", "lively"), ("跳动", "lively"), ("陽気", "lively"), ("funky", "lively"),
     ("清爽", "refreshing"), ("爽やか", "refreshing"), ("切分", "refreshing"), ("syncopat", "refreshing"), ("refreshing", "refreshing"),
     ("欢快", "cheerful"), ("明るい", "cheerful"), ("cheerful", "cheerful"), ("元气", "cheerful"), ("活泼", "cheerful"),
     ("温暖", "warm"), ("温かい", "warm"), ("warm", "warm"),
@@ -644,6 +644,7 @@ MOOD_KEYWORDS = [
     ("潇洒", "smart"), ("洒落", "smart"), ("爵士", "smart"), ("smart", "smart"), ("jazz", "smart"),
     ("丰富", "rich"), ("豊か", "rich"), ("rich", "rich"),
     ("明亮", "bright"), ("明るい", "bright"), ("bright", "bright"),
+    ("明るい", "cheerful"),  # 增强明るい到cheerful的映射
     ("忧伤", "melancholic"), ("物悲しい", "melancholic"), ("melancholic", "melancholic"), ("忧郁", "melancholic"),
     ("沉思", "thoughtful"), ("思案", "thoughtful"), ("thoughtful", "thoughtful"),
     ("戏剧", "dramatic"), ("劇的", "dramatic"), ("dramatic", "dramatic"),
@@ -712,6 +713,10 @@ PATTERN_ALIASES = {
     "摇滚": "gentle_rock", "rock": "gentle_rock", "律动": "gentle_rock",
     "民谣": "ballad_arp", "ballad": "ballad_arp", "抒情琶音": "ballad_arp",
     "脉冲": "pulse_chord", "pulse": "pulse_chord",
+    "citypop": "citypop_walk", "citywalk": "citypop_walk",
+    "lofi": "halves", "lofi_swing": "halves",
+    "rnb": "citypop_walk", "velvet": "citypop_walk",
+    "funky": "funk", "funk_riff": "funk",
 }
 
 VALID_PATTERNS = set(PATTERN_ALIASES.values())

@@ -1,0 +1,4187 @@
+{
+  "format": "v2",
+  "title": "明るいフラットセブン",
+  "composer": "Do Muse AI",
+  "category": "galgame_accompaniment",
+  "metadata": {
+    "tempo_bpm": 108,
+    "time_signature": "4/4",
+    "key_signature": "C"
+  },
+  "tracks": [
+    {
+      "instrument": "Acoustic Grand Piano",
+      "notes": [
+        {
+          "pitch": 76,
+          "duration": "eighth.",
+          "velocity": 80,
+          "offset": 0,
+          "pitch_name": "E5",
+          "measure": 1,
+          "beat": 1.0,
+          "end_offset": 0.75
+        },
+        {
+          "pitch": 74,
+          "duration": "16th",
+          "velocity": 70,
+          "offset": 0.75,
+          "pitch_name": "D5",
+          "measure": 1,
+          "beat": 1.75,
+          "end_offset": 1.0
+        },
+        {
+          "pitch": 72,
+          "duration": "eighth",
+          "velocity": 69,
+          "offset": 1.5,
+          "pitch_name": "C5",
+          "measure": 1,
+          "beat": 2.5,
+          "end_offset": 2.0
+        },
+        {
+          "pitch": 72,
+          "duration": "eighth",
+          "velocity": 83,
+          "offset": 2,
+          "pitch_name": "C5",
+          "measure": 1,
+          "beat": 3.0,
+          "end_offset": 2.5
+        },
+        {
+          "pitch": 74,
+          "duration": "quarter",
+          "velocity": 75,
+          "offset": 2.5,
+          "pitch_name": "D5",
+          "measure": 1,
+          "beat": 3.5,
+          "end_offset": 3.5
+        },
+        {
+          "pitch": 67,
+          "duration": "eighth",
+          "velocity": 68,
+          "offset": 3.5,
+          "pitch_name": "G4",
+          "measure": 1,
+          "beat": 4.5,
+          "end_offset": 4.0
+        },
+        {
+          "pitch": 72,
+          "duration": "eighth",
+          "velocity": 68,
+          "offset": 4.5,
+          "pitch_name": "C5",
+          "measure": 2,
+          "beat": 1.5,
+          "end_offset": 5.0
+        },
+        {
+          "pitch": 70,
+          "duration": "eighth",
+          "velocity": 77,
+          "offset": 5,
+          "pitch_name": "A#4",
+          "measure": 2,
+          "beat": 2.0,
+          "end_offset": 5.5
+        },
+        {
+          "pitch": 81,
+          "duration": "eighth",
+          "velocity": 69,
+          "offset": 5.5,
+          "pitch_name": "A5",
+          "measure": 2,
+          "beat": 2.5,
+          "end_offset": 6.0
+        },
+        {
+          "pitch": 82,
+          "duration": "quarter",
+          "velocity": 90,
+          "offset": 6,
+          "pitch_name": "A#5",
+          "measure": 2,
+          "beat": 3.0,
+          "end_offset": 7
+        },
+        {
+          "pitch": 81,
+          "duration": "eighth",
+          "velocity": 72,
+          "offset": 7.5,
+          "pitch_name": "A5",
+          "measure": 2,
+          "beat": 4.5,
+          "end_offset": 8.0
+        },
+        {
+          "pitch": 81,
+          "duration": "eighth",
+          "velocity": 82,
+          "offset": 8,
+          "pitch_name": "A5",
+          "measure": 3,
+          "beat": 1.0,
+          "end_offset": 8.5
+        },
+        {
+          "pitch": 72,
+          "duration": "eighth",
+          "velocity": 79,
+          "offset": 8.5,
+          "pitch_name": "C5",
+          "measure": 3,
+          "beat": 1.5,
+          "end_offset": 9.0
+        },
+        {
+          "pitch": 74,
+          "duration": "quarter",
+          "velocity": 70,
+          "offset": 9,
+          "pitch_name": "D5",
+          "measure": 3,
+          "beat": 2.0,
+          "end_offset": 10
+        },
+        {
+          "pitch": 72,
+          "duration": "eighth",
+          "velocity": 71,
+          "offset": 10.5,
+          "pitch_name": "C5",
+          "measure": 3,
+          "beat": 3.5,
+          "end_offset": 11.0
+        },
+        {
+          "pitch": 74,
+          "duration": "quarter",
+          "velocity": 72,
+          "offset": 11,
+          "pitch_name": "D5",
+          "measure": 3,
+          "beat": 4.0,
+          "end_offset": 12
+        },
+        {
+          "pitch": 72,
+          "duration": "eighth",
+          "velocity": 82,
+          "offset": 12,
+          "pitch_name": "C5",
+          "measure": 4,
+          "beat": 1.0,
+          "end_offset": 12.5
+        },
+        {
+          "pitch": 72,
+          "duration": "eighth",
+          "velocity": 68,
+          "offset": 12.5,
+          "pitch_name": "C5",
+          "measure": 4,
+          "beat": 1.5,
+          "end_offset": 13.0
+        },
+        {
+          "pitch": 67,
+          "duration": "half",
+          "velocity": 80,
+          "offset": 13,
+          "pitch_name": "G4",
+          "measure": 4,
+          "beat": 2.0,
+          "end_offset": 15
+        },
+        {
+          "pitch": 67,
+          "duration": "quarter",
+          "velocity": 79,
+          "offset": 15,
+          "pitch_name": "G4",
+          "measure": 4,
+          "beat": 4.0,
+          "end_offset": 16
+        },
+        {
+          "pitch": 76,
+          "duration": "eighth.",
+          "velocity": 80,
+          "offset": 16,
+          "pitch_name": "E5",
+          "measure": 5,
+          "beat": 1.0,
+          "end_offset": 16.75
+        },
+        {
+          "pitch": 74,
+          "duration": "16th",
+          "velocity": 70,
+          "offset": 16.75,
+          "pitch_name": "D5",
+          "measure": 5,
+          "beat": 1.75,
+          "end_offset": 17.0
+        },
+        {
+          "pitch": 72,
+          "duration": "eighth",
+          "velocity": 69,
+          "offset": 17.5,
+          "pitch_name": "C5",
+          "measure": 5,
+          "beat": 2.5,
+          "end_offset": 18.0
+        },
+        {
+          "pitch": 72,
+          "duration": "eighth",
+          "velocity": 83,
+          "offset": 18,
+          "pitch_name": "C5",
+          "measure": 5,
+          "beat": 3.0,
+          "end_offset": 18.5
+        },
+        {
+          "pitch": 74,
+          "duration": "quarter",
+          "velocity": 75,
+          "offset": 18.5,
+          "pitch_name": "D5",
+          "measure": 5,
+          "beat": 3.5,
+          "end_offset": 19.5
+        },
+        {
+          "pitch": 67,
+          "duration": "eighth",
+          "velocity": 68,
+          "offset": 19.5,
+          "pitch_name": "G4",
+          "measure": 5,
+          "beat": 4.5,
+          "end_offset": 20.0
+        },
+        {
+          "pitch": 72,
+          "duration": "eighth",
+          "velocity": 68,
+          "offset": 20.5,
+          "pitch_name": "C5",
+          "measure": 6,
+          "beat": 1.5,
+          "end_offset": 21.0
+        },
+        {
+          "pitch": 70,
+          "duration": "eighth",
+          "velocity": 77,
+          "offset": 21,
+          "pitch_name": "A#4",
+          "measure": 6,
+          "beat": 2.0,
+          "end_offset": 21.5
+        },
+        {
+          "pitch": 81,
+          "duration": "eighth",
+          "velocity": 69,
+          "offset": 21.5,
+          "pitch_name": "A5",
+          "measure": 6,
+          "beat": 2.5,
+          "end_offset": 22.0
+        },
+        {
+          "pitch": 82,
+          "duration": "quarter",
+          "velocity": 90,
+          "offset": 22,
+          "pitch_name": "A#5",
+          "measure": 6,
+          "beat": 3.0,
+          "end_offset": 23
+        },
+        {
+          "pitch": 81,
+          "duration": "eighth",
+          "velocity": 72,
+          "offset": 23.5,
+          "pitch_name": "A5",
+          "measure": 6,
+          "beat": 4.5,
+          "end_offset": 24.0
+        },
+        {
+          "pitch": 81,
+          "duration": "eighth",
+          "velocity": 82,
+          "offset": 24,
+          "pitch_name": "A5",
+          "measure": 7,
+          "beat": 1.0,
+          "end_offset": 24.5
+        },
+        {
+          "pitch": 72,
+          "duration": "eighth",
+          "velocity": 79,
+          "offset": 24.5,
+          "pitch_name": "C5",
+          "measure": 7,
+          "beat": 1.5,
+          "end_offset": 25.0
+        },
+        {
+          "pitch": 74,
+          "duration": "quarter",
+          "velocity": 70,
+          "offset": 25,
+          "pitch_name": "D5",
+          "measure": 7,
+          "beat": 2.0,
+          "end_offset": 26
+        },
+        {
+          "pitch": 72,
+          "duration": "eighth",
+          "velocity": 71,
+          "offset": 26.5,
+          "pitch_name": "C5",
+          "measure": 7,
+          "beat": 3.5,
+          "end_offset": 27.0
+        },
+        {
+          "pitch": 74,
+          "duration": "quarter",
+          "velocity": 72,
+          "offset": 27,
+          "pitch_name": "D5",
+          "measure": 7,
+          "beat": 4.0,
+          "end_offset": 28
+        },
+        {
+          "pitch": 72,
+          "duration": "eighth",
+          "velocity": 82,
+          "offset": 28,
+          "pitch_name": "C5",
+          "measure": 8,
+          "beat": 1.0,
+          "end_offset": 28.5
+        },
+        {
+          "pitch": 72,
+          "duration": "eighth",
+          "velocity": 68,
+          "offset": 28.5,
+          "pitch_name": "C5",
+          "measure": 8,
+          "beat": 1.5,
+          "end_offset": 29.0
+        },
+        {
+          "pitch": 84,
+          "duration": "half",
+          "velocity": 80,
+          "offset": 29,
+          "pitch_name": "C6",
+          "measure": 8,
+          "beat": 2.0,
+          "end_offset": 31
+        },
+        {
+          "pitch": 72,
+          "duration": "quarter",
+          "velocity": 79,
+          "offset": 31,
+          "pitch_name": "C5",
+          "measure": 8,
+          "beat": 4.0,
+          "end_offset": 32
+        },
+        {
+          "pitch": 79,
+          "duration": "eighth.",
+          "velocity": 84,
+          "offset": 32,
+          "pitch_name": "G5",
+          "measure": 9,
+          "beat": 1.0,
+          "end_offset": 32.75
+        },
+        {
+          "pitch": 72,
+          "duration": "16th",
+          "velocity": 75,
+          "offset": 32.75,
+          "pitch_name": "C5",
+          "measure": 9,
+          "beat": 1.75,
+          "end_offset": 33.0
+        },
+        {
+          "pitch": 69,
+          "duration": "eighth",
+          "velocity": 70,
+          "offset": 33.5,
+          "pitch_name": "A4",
+          "measure": 9,
+          "beat": 2.5,
+          "end_offset": 34.0
+        },
+        {
+          "pitch": 72,
+          "duration": "eighth",
+          "velocity": 83,
+          "offset": 34,
+          "pitch_name": "C5",
+          "measure": 9,
+          "beat": 3.0,
+          "end_offset": 34.5
+        },
+        {
+          "pitch": 76,
+          "duration": "quarter",
+          "velocity": 78,
+          "offset": 34.5,
+          "pitch_name": "E5",
+          "measure": 9,
+          "beat": 3.5,
+          "end_offset": 35.5
+        },
+        {
+          "pitch": 72,
+          "duration": "eighth",
+          "velocity": 71,
+          "offset": 35.5,
+          "pitch_name": "C5",
+          "measure": 9,
+          "beat": 4.5,
+          "end_offset": 36.0
+        },
+        {
+          "pitch": 70,
+          "duration": "eighth.",
+          "velocity": 92,
+          "offset": 36,
+          "pitch_name": "A#4",
+          "measure": 10,
+          "beat": 1.0,
+          "end_offset": 36.75
+        },
+        {
+          "pitch": 77,
+          "duration": "16th",
+          "velocity": 74,
+          "offset": 36.75,
+          "pitch_name": "F5",
+          "measure": 10,
+          "beat": 1.75,
+          "end_offset": 37.0
+        },
+        {
+          "pitch": 77,
+          "duration": "eighth",
+          "velocity": 79,
+          "offset": 37.5,
+          "pitch_name": "F5",
+          "measure": 10,
+          "beat": 2.5,
+          "end_offset": 38.0
+        },
+        {
+          "pitch": 77,
+          "duration": "eighth",
+          "velocity": 88,
+          "offset": 38,
+          "pitch_name": "F5",
+          "measure": 10,
+          "beat": 3.0,
+          "end_offset": 38.5
+        },
+        {
+          "pitch": 81,
+          "duration": "quarter",
+          "velocity": 69,
+          "offset": 38.5,
+          "pitch_name": "A5",
+          "measure": 10,
+          "beat": 3.5,
+          "end_offset": 39.5
+        },
+        {
+          "pitch": 86,
+          "duration": "eighth",
+          "velocity": 72,
+          "offset": 39.5,
+          "pitch_name": "D6",
+          "measure": 10,
+          "beat": 4.5,
+          "end_offset": 40.0
+        },
+        {
+          "pitch": 84,
+          "duration": "eighth.",
+          "velocity": 88,
+          "offset": 40,
+          "pitch_name": "C6",
+          "measure": 11,
+          "beat": 1.0,
+          "end_offset": 40.75
+        },
+        {
+          "pitch": 81,
+          "duration": "16th",
+          "velocity": 75,
+          "offset": 40.75,
+          "pitch_name": "A5",
+          "measure": 11,
+          "beat": 1.75,
+          "end_offset": 41.0
+        },
+        {
+          "pitch": 79,
+          "duration": "eighth",
+          "velocity": 74,
+          "offset": 41.5,
+          "pitch_name": "G5",
+          "measure": 11,
+          "beat": 2.5,
+          "end_offset": 42.0
+        },
+        {
+          "pitch": 77,
+          "duration": "eighth",
+          "velocity": 82,
+          "offset": 42,
+          "pitch_name": "F5",
+          "measure": 11,
+          "beat": 3.0,
+          "end_offset": 42.5
+        },
+        {
+          "pitch": 74,
+          "duration": "quarter",
+          "velocity": 69,
+          "offset": 42.5,
+          "pitch_name": "D5",
+          "measure": 11,
+          "beat": 3.5,
+          "end_offset": 43.5
+        },
+        {
+          "pitch": 72,
+          "duration": "eighth",
+          "velocity": 79,
+          "offset": 43.5,
+          "pitch_name": "C5",
+          "measure": 11,
+          "beat": 4.5,
+          "end_offset": 44.0
+        },
+        {
+          "pitch": 72,
+          "duration": "eighth",
+          "velocity": 81,
+          "offset": 44,
+          "pitch_name": "C5",
+          "measure": 12,
+          "beat": 1.0,
+          "end_offset": 44.5
+        },
+        {
+          "pitch": 79,
+          "duration": "eighth",
+          "velocity": 71,
+          "offset": 44.5,
+          "pitch_name": "G5",
+          "measure": 12,
+          "beat": 1.5,
+          "end_offset": 45.0
+        },
+        {
+          "pitch": 76,
+          "duration": "half",
+          "velocity": 77,
+          "offset": 45,
+          "pitch_name": "E5",
+          "measure": 12,
+          "beat": 2.0,
+          "end_offset": 47
+        },
+        {
+          "pitch": 72,
+          "duration": "quarter",
+          "velocity": 71,
+          "offset": 47,
+          "pitch_name": "C5",
+          "measure": 12,
+          "beat": 4.0,
+          "end_offset": 48
+        },
+        {
+          "pitch": 76,
+          "duration": "eighth.",
+          "velocity": 80,
+          "offset": 48,
+          "pitch_name": "E5",
+          "measure": 13,
+          "beat": 1.0,
+          "end_offset": 48.75
+        },
+        {
+          "pitch": 74,
+          "duration": "16th",
+          "velocity": 70,
+          "offset": 48.75,
+          "pitch_name": "D5",
+          "measure": 13,
+          "beat": 1.75,
+          "end_offset": 49.0
+        },
+        {
+          "pitch": 72,
+          "duration": "eighth",
+          "velocity": 69,
+          "offset": 49.5,
+          "pitch_name": "C5",
+          "measure": 13,
+          "beat": 2.5,
+          "end_offset": 50.0
+        },
+        {
+          "pitch": 72,
+          "duration": "eighth",
+          "velocity": 83,
+          "offset": 50,
+          "pitch_name": "C5",
+          "measure": 13,
+          "beat": 3.0,
+          "end_offset": 50.5
+        },
+        {
+          "pitch": 74,
+          "duration": "quarter",
+          "velocity": 75,
+          "offset": 50.5,
+          "pitch_name": "D5",
+          "measure": 13,
+          "beat": 3.5,
+          "end_offset": 51.5
+        },
+        {
+          "pitch": 67,
+          "duration": "eighth",
+          "velocity": 68,
+          "offset": 51.5,
+          "pitch_name": "G4",
+          "measure": 13,
+          "beat": 4.5,
+          "end_offset": 52.0
+        },
+        {
+          "pitch": 72,
+          "duration": "eighth",
+          "velocity": 68,
+          "offset": 52.5,
+          "pitch_name": "C5",
+          "measure": 14,
+          "beat": 1.5,
+          "end_offset": 53.0
+        },
+        {
+          "pitch": 70,
+          "duration": "eighth",
+          "velocity": 77,
+          "offset": 53,
+          "pitch_name": "A#4",
+          "measure": 14,
+          "beat": 2.0,
+          "end_offset": 53.5
+        },
+        {
+          "pitch": 81,
+          "duration": "eighth",
+          "velocity": 69,
+          "offset": 53.5,
+          "pitch_name": "A5",
+          "measure": 14,
+          "beat": 2.5,
+          "end_offset": 54.0
+        },
+        {
+          "pitch": 82,
+          "duration": "quarter",
+          "velocity": 90,
+          "offset": 54,
+          "pitch_name": "A#5",
+          "measure": 14,
+          "beat": 3.0,
+          "end_offset": 55
+        },
+        {
+          "pitch": 81,
+          "duration": "eighth",
+          "velocity": 72,
+          "offset": 55.5,
+          "pitch_name": "A5",
+          "measure": 14,
+          "beat": 4.5,
+          "end_offset": 56.0
+        },
+        {
+          "pitch": 81,
+          "duration": "eighth",
+          "velocity": 82,
+          "offset": 56,
+          "pitch_name": "A5",
+          "measure": 15,
+          "beat": 1.0,
+          "end_offset": 56.5
+        },
+        {
+          "pitch": 72,
+          "duration": "eighth",
+          "velocity": 79,
+          "offset": 56.5,
+          "pitch_name": "C5",
+          "measure": 15,
+          "beat": 1.5,
+          "end_offset": 57.0
+        },
+        {
+          "pitch": 74,
+          "duration": "quarter",
+          "velocity": 70,
+          "offset": 57,
+          "pitch_name": "D5",
+          "measure": 15,
+          "beat": 2.0,
+          "end_offset": 58
+        },
+        {
+          "pitch": 72,
+          "duration": "eighth",
+          "velocity": 71,
+          "offset": 58.5,
+          "pitch_name": "C5",
+          "measure": 15,
+          "beat": 3.5,
+          "end_offset": 59.0
+        },
+        {
+          "pitch": 74,
+          "duration": "quarter",
+          "velocity": 72,
+          "offset": 59,
+          "pitch_name": "D5",
+          "measure": 15,
+          "beat": 4.0,
+          "end_offset": 60
+        },
+        {
+          "pitch": 72,
+          "duration": "eighth",
+          "velocity": 82,
+          "offset": 60,
+          "pitch_name": "C5",
+          "measure": 16,
+          "beat": 1.0,
+          "end_offset": 60.5
+        },
+        {
+          "pitch": 72,
+          "duration": "eighth",
+          "velocity": 68,
+          "offset": 60.5,
+          "pitch_name": "C5",
+          "measure": 16,
+          "beat": 1.5,
+          "end_offset": 61.0
+        },
+        {
+          "pitch": 67,
+          "duration": "half",
+          "velocity": 80,
+          "offset": 61,
+          "pitch_name": "G4",
+          "measure": 16,
+          "beat": 2.0,
+          "end_offset": 63
+        },
+        {
+          "pitch": 67,
+          "duration": "quarter",
+          "velocity": 79,
+          "offset": 63,
+          "pitch_name": "G4",
+          "measure": 16,
+          "beat": 4.0,
+          "end_offset": 64
+        }
+      ]
+    },
+    {
+      "instrument": "Acoustic Grand Piano",
+      "notes": [
+        {
+          "pitch": 36,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 0,
+          "pitch_name": "C2",
+          "measure": 1,
+          "beat": 1.0,
+          "end_offset": 0.5
+        },
+        {
+          "pitch": 55,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 0.5,
+          "measure": 1,
+          "beat": 1.5,
+          "end_offset": 1.0
+        },
+        {
+          "pitch": 64,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 0.5,
+          "measure": 1,
+          "beat": 1.5,
+          "end_offset": 1.0
+        },
+        {
+          "pitch": 67,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 0.5,
+          "measure": 1,
+          "beat": 1.5,
+          "end_offset": 1.0
+        },
+        {
+          "pitch": 55,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 1,
+          "measure": 1,
+          "beat": 2.0,
+          "end_offset": 1.5
+        },
+        {
+          "pitch": 64,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 1,
+          "measure": 1,
+          "beat": 2.0,
+          "end_offset": 1.5
+        },
+        {
+          "pitch": 67,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 1,
+          "measure": 1,
+          "beat": 2.0,
+          "end_offset": 1.5
+        },
+        {
+          "pitch": 55,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 1.5,
+          "measure": 1,
+          "beat": 2.5,
+          "end_offset": 1.75
+        },
+        {
+          "pitch": 60,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 1.5,
+          "measure": 1,
+          "beat": 2.5,
+          "end_offset": 1.75
+        },
+        {
+          "pitch": 64,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 1.5,
+          "measure": 1,
+          "beat": 2.5,
+          "end_offset": 1.75
+        },
+        {
+          "pitch": 55,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 1.75,
+          "measure": 1,
+          "beat": 2.75,
+          "end_offset": 2.0
+        },
+        {
+          "pitch": 64,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 1.75,
+          "measure": 1,
+          "beat": 2.75,
+          "end_offset": 2.0
+        },
+        {
+          "pitch": 67,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 1.75,
+          "measure": 1,
+          "beat": 2.75,
+          "end_offset": 2.0
+        },
+        {
+          "pitch": 36,
+          "duration": "eighth",
+          "velocity": 50,
+          "offset": 2,
+          "pitch_name": "C2",
+          "measure": 1,
+          "beat": 3.0,
+          "end_offset": 2.5
+        },
+        {
+          "pitch": 55,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 2.5,
+          "measure": 1,
+          "beat": 3.5,
+          "end_offset": 3.0
+        },
+        {
+          "pitch": 64,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 2.5,
+          "measure": 1,
+          "beat": 3.5,
+          "end_offset": 3.0
+        },
+        {
+          "pitch": 67,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 2.5,
+          "measure": 1,
+          "beat": 3.5,
+          "end_offset": 3.0
+        },
+        {
+          "pitch": 55,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 3,
+          "measure": 1,
+          "beat": 4.0,
+          "end_offset": 3.5
+        },
+        {
+          "pitch": 64,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 3,
+          "measure": 1,
+          "beat": 4.0,
+          "end_offset": 3.5
+        },
+        {
+          "pitch": 67,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 3,
+          "measure": 1,
+          "beat": 4.0,
+          "end_offset": 3.5
+        },
+        {
+          "pitch": 55,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 3.5,
+          "measure": 1,
+          "beat": 4.5,
+          "end_offset": 4.0
+        },
+        {
+          "pitch": 60,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 3.5,
+          "measure": 1,
+          "beat": 4.5,
+          "end_offset": 4.0
+        },
+        {
+          "pitch": 64,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 3.5,
+          "measure": 1,
+          "beat": 4.5,
+          "end_offset": 4.0
+        },
+        {
+          "pitch": 46,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 4,
+          "pitch_name": "A#2",
+          "measure": 2,
+          "beat": 1.0,
+          "end_offset": 4.5
+        },
+        {
+          "pitch": 62,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 4.5,
+          "measure": 2,
+          "beat": 1.5,
+          "end_offset": 5.0
+        },
+        {
+          "pitch": 65,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 4.5,
+          "measure": 2,
+          "beat": 1.5,
+          "end_offset": 5.0
+        },
+        {
+          "pitch": 74,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 4.5,
+          "measure": 2,
+          "beat": 1.5,
+          "end_offset": 5.0
+        },
+        {
+          "pitch": 62,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 5,
+          "measure": 2,
+          "beat": 2.0,
+          "end_offset": 5.5
+        },
+        {
+          "pitch": 65,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 5,
+          "measure": 2,
+          "beat": 2.0,
+          "end_offset": 5.5
+        },
+        {
+          "pitch": 74,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 5,
+          "measure": 2,
+          "beat": 2.0,
+          "end_offset": 5.5
+        },
+        {
+          "pitch": 58,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 5.5,
+          "measure": 2,
+          "beat": 2.5,
+          "end_offset": 5.75
+        },
+        {
+          "pitch": 62,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 5.5,
+          "measure": 2,
+          "beat": 2.5,
+          "end_offset": 5.75
+        },
+        {
+          "pitch": 65,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 5.5,
+          "measure": 2,
+          "beat": 2.5,
+          "end_offset": 5.75
+        },
+        {
+          "pitch": 62,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 5.75,
+          "measure": 2,
+          "beat": 2.75,
+          "end_offset": 6.0
+        },
+        {
+          "pitch": 65,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 5.75,
+          "measure": 2,
+          "beat": 2.75,
+          "end_offset": 6.0
+        },
+        {
+          "pitch": 74,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 5.75,
+          "measure": 2,
+          "beat": 2.75,
+          "end_offset": 6.0
+        },
+        {
+          "pitch": 46,
+          "duration": "eighth",
+          "velocity": 50,
+          "offset": 6,
+          "pitch_name": "A#2",
+          "measure": 2,
+          "beat": 3.0,
+          "end_offset": 6.5
+        },
+        {
+          "pitch": 62,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 6.5,
+          "measure": 2,
+          "beat": 3.5,
+          "end_offset": 7.0
+        },
+        {
+          "pitch": 65,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 6.5,
+          "measure": 2,
+          "beat": 3.5,
+          "end_offset": 7.0
+        },
+        {
+          "pitch": 74,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 6.5,
+          "measure": 2,
+          "beat": 3.5,
+          "end_offset": 7.0
+        },
+        {
+          "pitch": 62,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 7,
+          "measure": 2,
+          "beat": 4.0,
+          "end_offset": 7.5
+        },
+        {
+          "pitch": 65,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 7,
+          "measure": 2,
+          "beat": 4.0,
+          "end_offset": 7.5
+        },
+        {
+          "pitch": 74,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 7,
+          "measure": 2,
+          "beat": 4.0,
+          "end_offset": 7.5
+        },
+        {
+          "pitch": 58,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 7.5,
+          "measure": 2,
+          "beat": 4.5,
+          "end_offset": 8.0
+        },
+        {
+          "pitch": 62,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 7.5,
+          "measure": 2,
+          "beat": 4.5,
+          "end_offset": 8.0
+        },
+        {
+          "pitch": 65,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 7.5,
+          "measure": 2,
+          "beat": 4.5,
+          "end_offset": 8.0
+        },
+        {
+          "pitch": 41,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 8,
+          "pitch_name": "F2",
+          "measure": 3,
+          "beat": 1.0,
+          "end_offset": 8.5
+        },
+        {
+          "pitch": 57,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 8.5,
+          "measure": 3,
+          "beat": 1.5,
+          "end_offset": 9.0
+        },
+        {
+          "pitch": 60,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 8.5,
+          "measure": 3,
+          "beat": 1.5,
+          "end_offset": 9.0
+        },
+        {
+          "pitch": 69,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 8.5,
+          "measure": 3,
+          "beat": 1.5,
+          "end_offset": 9.0
+        },
+        {
+          "pitch": 57,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 9,
+          "measure": 3,
+          "beat": 2.0,
+          "end_offset": 9.5
+        },
+        {
+          "pitch": 60,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 9,
+          "measure": 3,
+          "beat": 2.0,
+          "end_offset": 9.5
+        },
+        {
+          "pitch": 69,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 9,
+          "measure": 3,
+          "beat": 2.0,
+          "end_offset": 9.5
+        },
+        {
+          "pitch": 57,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 9.5,
+          "measure": 3,
+          "beat": 2.5,
+          "end_offset": 9.75
+        },
+        {
+          "pitch": 60,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 9.5,
+          "measure": 3,
+          "beat": 2.5,
+          "end_offset": 9.75
+        },
+        {
+          "pitch": 65,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 9.5,
+          "measure": 3,
+          "beat": 2.5,
+          "end_offset": 9.75
+        },
+        {
+          "pitch": 57,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 9.75,
+          "measure": 3,
+          "beat": 2.75,
+          "end_offset": 10.0
+        },
+        {
+          "pitch": 60,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 9.75,
+          "measure": 3,
+          "beat": 2.75,
+          "end_offset": 10.0
+        },
+        {
+          "pitch": 69,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 9.75,
+          "measure": 3,
+          "beat": 2.75,
+          "end_offset": 10.0
+        },
+        {
+          "pitch": 41,
+          "duration": "eighth",
+          "velocity": 50,
+          "offset": 10,
+          "pitch_name": "F2",
+          "measure": 3,
+          "beat": 3.0,
+          "end_offset": 10.5
+        },
+        {
+          "pitch": 57,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 10.5,
+          "measure": 3,
+          "beat": 3.5,
+          "end_offset": 11.0
+        },
+        {
+          "pitch": 60,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 10.5,
+          "measure": 3,
+          "beat": 3.5,
+          "end_offset": 11.0
+        },
+        {
+          "pitch": 69,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 10.5,
+          "measure": 3,
+          "beat": 3.5,
+          "end_offset": 11.0
+        },
+        {
+          "pitch": 57,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 11,
+          "measure": 3,
+          "beat": 4.0,
+          "end_offset": 11.5
+        },
+        {
+          "pitch": 60,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 11,
+          "measure": 3,
+          "beat": 4.0,
+          "end_offset": 11.5
+        },
+        {
+          "pitch": 69,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 11,
+          "measure": 3,
+          "beat": 4.0,
+          "end_offset": 11.5
+        },
+        {
+          "pitch": 57,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 11.5,
+          "measure": 3,
+          "beat": 4.5,
+          "end_offset": 12.0
+        },
+        {
+          "pitch": 60,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 11.5,
+          "measure": 3,
+          "beat": 4.5,
+          "end_offset": 12.0
+        },
+        {
+          "pitch": 65,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 11.5,
+          "measure": 3,
+          "beat": 4.5,
+          "end_offset": 12.0
+        },
+        {
+          "pitch": 36,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 12,
+          "pitch_name": "C2",
+          "measure": 4,
+          "beat": 1.0,
+          "end_offset": 12.5
+        },
+        {
+          "pitch": 55,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 12.5,
+          "measure": 4,
+          "beat": 1.5,
+          "end_offset": 13.0
+        },
+        {
+          "pitch": 64,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 12.5,
+          "measure": 4,
+          "beat": 1.5,
+          "end_offset": 13.0
+        },
+        {
+          "pitch": 67,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 12.5,
+          "measure": 4,
+          "beat": 1.5,
+          "end_offset": 13.0
+        },
+        {
+          "pitch": 55,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 13,
+          "measure": 4,
+          "beat": 2.0,
+          "end_offset": 13.5
+        },
+        {
+          "pitch": 64,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 13,
+          "measure": 4,
+          "beat": 2.0,
+          "end_offset": 13.5
+        },
+        {
+          "pitch": 67,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 13,
+          "measure": 4,
+          "beat": 2.0,
+          "end_offset": 13.5
+        },
+        {
+          "pitch": 55,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 13.5,
+          "measure": 4,
+          "beat": 2.5,
+          "end_offset": 13.75
+        },
+        {
+          "pitch": 60,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 13.5,
+          "measure": 4,
+          "beat": 2.5,
+          "end_offset": 13.75
+        },
+        {
+          "pitch": 64,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 13.5,
+          "measure": 4,
+          "beat": 2.5,
+          "end_offset": 13.75
+        },
+        {
+          "pitch": 55,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 13.75,
+          "measure": 4,
+          "beat": 2.75,
+          "end_offset": 14.0
+        },
+        {
+          "pitch": 64,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 13.75,
+          "measure": 4,
+          "beat": 2.75,
+          "end_offset": 14.0
+        },
+        {
+          "pitch": 67,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 13.75,
+          "measure": 4,
+          "beat": 2.75,
+          "end_offset": 14.0
+        },
+        {
+          "pitch": 36,
+          "duration": "eighth",
+          "velocity": 50,
+          "offset": 14,
+          "pitch_name": "C2",
+          "measure": 4,
+          "beat": 3.0,
+          "end_offset": 14.5
+        },
+        {
+          "pitch": 55,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 14.5,
+          "measure": 4,
+          "beat": 3.5,
+          "end_offset": 15.0
+        },
+        {
+          "pitch": 64,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 14.5,
+          "measure": 4,
+          "beat": 3.5,
+          "end_offset": 15.0
+        },
+        {
+          "pitch": 67,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 14.5,
+          "measure": 4,
+          "beat": 3.5,
+          "end_offset": 15.0
+        },
+        {
+          "pitch": 55,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 15,
+          "measure": 4,
+          "beat": 4.0,
+          "end_offset": 15.5
+        },
+        {
+          "pitch": 64,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 15,
+          "measure": 4,
+          "beat": 4.0,
+          "end_offset": 15.5
+        },
+        {
+          "pitch": 67,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 15,
+          "measure": 4,
+          "beat": 4.0,
+          "end_offset": 15.5
+        },
+        {
+          "pitch": 55,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 15.5,
+          "measure": 4,
+          "beat": 4.5,
+          "end_offset": 16.0
+        },
+        {
+          "pitch": 60,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 15.5,
+          "measure": 4,
+          "beat": 4.5,
+          "end_offset": 16.0
+        },
+        {
+          "pitch": 64,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 15.5,
+          "measure": 4,
+          "beat": 4.5,
+          "end_offset": 16.0
+        },
+        {
+          "pitch": 36,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 16,
+          "pitch_name": "C2",
+          "measure": 5,
+          "beat": 1.0,
+          "end_offset": 16.5
+        },
+        {
+          "pitch": 55,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 16.5,
+          "measure": 5,
+          "beat": 1.5,
+          "end_offset": 17.0
+        },
+        {
+          "pitch": 64,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 16.5,
+          "measure": 5,
+          "beat": 1.5,
+          "end_offset": 17.0
+        },
+        {
+          "pitch": 67,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 16.5,
+          "measure": 5,
+          "beat": 1.5,
+          "end_offset": 17.0
+        },
+        {
+          "pitch": 55,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 17,
+          "measure": 5,
+          "beat": 2.0,
+          "end_offset": 17.5
+        },
+        {
+          "pitch": 64,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 17,
+          "measure": 5,
+          "beat": 2.0,
+          "end_offset": 17.5
+        },
+        {
+          "pitch": 67,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 17,
+          "measure": 5,
+          "beat": 2.0,
+          "end_offset": 17.5
+        },
+        {
+          "pitch": 55,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 17.5,
+          "measure": 5,
+          "beat": 2.5,
+          "end_offset": 17.75
+        },
+        {
+          "pitch": 60,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 17.5,
+          "measure": 5,
+          "beat": 2.5,
+          "end_offset": 17.75
+        },
+        {
+          "pitch": 64,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 17.5,
+          "measure": 5,
+          "beat": 2.5,
+          "end_offset": 17.75
+        },
+        {
+          "pitch": 55,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 17.75,
+          "measure": 5,
+          "beat": 2.75,
+          "end_offset": 18.0
+        },
+        {
+          "pitch": 64,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 17.75,
+          "measure": 5,
+          "beat": 2.75,
+          "end_offset": 18.0
+        },
+        {
+          "pitch": 67,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 17.75,
+          "measure": 5,
+          "beat": 2.75,
+          "end_offset": 18.0
+        },
+        {
+          "pitch": 36,
+          "duration": "eighth",
+          "velocity": 50,
+          "offset": 18,
+          "pitch_name": "C2",
+          "measure": 5,
+          "beat": 3.0,
+          "end_offset": 18.5
+        },
+        {
+          "pitch": 55,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 18.5,
+          "measure": 5,
+          "beat": 3.5,
+          "end_offset": 19.0
+        },
+        {
+          "pitch": 64,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 18.5,
+          "measure": 5,
+          "beat": 3.5,
+          "end_offset": 19.0
+        },
+        {
+          "pitch": 67,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 18.5,
+          "measure": 5,
+          "beat": 3.5,
+          "end_offset": 19.0
+        },
+        {
+          "pitch": 55,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 19,
+          "measure": 5,
+          "beat": 4.0,
+          "end_offset": 19.5
+        },
+        {
+          "pitch": 64,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 19,
+          "measure": 5,
+          "beat": 4.0,
+          "end_offset": 19.5
+        },
+        {
+          "pitch": 67,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 19,
+          "measure": 5,
+          "beat": 4.0,
+          "end_offset": 19.5
+        },
+        {
+          "pitch": 55,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 19.5,
+          "measure": 5,
+          "beat": 4.5,
+          "end_offset": 20.0
+        },
+        {
+          "pitch": 60,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 19.5,
+          "measure": 5,
+          "beat": 4.5,
+          "end_offset": 20.0
+        },
+        {
+          "pitch": 64,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 19.5,
+          "measure": 5,
+          "beat": 4.5,
+          "end_offset": 20.0
+        },
+        {
+          "pitch": 46,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 20,
+          "pitch_name": "A#2",
+          "measure": 6,
+          "beat": 1.0,
+          "end_offset": 20.5
+        },
+        {
+          "pitch": 62,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 20.5,
+          "measure": 6,
+          "beat": 1.5,
+          "end_offset": 21.0
+        },
+        {
+          "pitch": 65,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 20.5,
+          "measure": 6,
+          "beat": 1.5,
+          "end_offset": 21.0
+        },
+        {
+          "pitch": 74,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 20.5,
+          "measure": 6,
+          "beat": 1.5,
+          "end_offset": 21.0
+        },
+        {
+          "pitch": 62,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 21,
+          "measure": 6,
+          "beat": 2.0,
+          "end_offset": 21.5
+        },
+        {
+          "pitch": 65,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 21,
+          "measure": 6,
+          "beat": 2.0,
+          "end_offset": 21.5
+        },
+        {
+          "pitch": 74,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 21,
+          "measure": 6,
+          "beat": 2.0,
+          "end_offset": 21.5
+        },
+        {
+          "pitch": 58,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 21.5,
+          "measure": 6,
+          "beat": 2.5,
+          "end_offset": 21.75
+        },
+        {
+          "pitch": 62,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 21.5,
+          "measure": 6,
+          "beat": 2.5,
+          "end_offset": 21.75
+        },
+        {
+          "pitch": 65,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 21.5,
+          "measure": 6,
+          "beat": 2.5,
+          "end_offset": 21.75
+        },
+        {
+          "pitch": 62,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 21.75,
+          "measure": 6,
+          "beat": 2.75,
+          "end_offset": 22.0
+        },
+        {
+          "pitch": 65,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 21.75,
+          "measure": 6,
+          "beat": 2.75,
+          "end_offset": 22.0
+        },
+        {
+          "pitch": 74,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 21.75,
+          "measure": 6,
+          "beat": 2.75,
+          "end_offset": 22.0
+        },
+        {
+          "pitch": 46,
+          "duration": "eighth",
+          "velocity": 50,
+          "offset": 22,
+          "pitch_name": "A#2",
+          "measure": 6,
+          "beat": 3.0,
+          "end_offset": 22.5
+        },
+        {
+          "pitch": 62,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 22.5,
+          "measure": 6,
+          "beat": 3.5,
+          "end_offset": 23.0
+        },
+        {
+          "pitch": 65,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 22.5,
+          "measure": 6,
+          "beat": 3.5,
+          "end_offset": 23.0
+        },
+        {
+          "pitch": 74,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 22.5,
+          "measure": 6,
+          "beat": 3.5,
+          "end_offset": 23.0
+        },
+        {
+          "pitch": 62,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 23,
+          "measure": 6,
+          "beat": 4.0,
+          "end_offset": 23.5
+        },
+        {
+          "pitch": 65,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 23,
+          "measure": 6,
+          "beat": 4.0,
+          "end_offset": 23.5
+        },
+        {
+          "pitch": 74,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 23,
+          "measure": 6,
+          "beat": 4.0,
+          "end_offset": 23.5
+        },
+        {
+          "pitch": 58,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 23.5,
+          "measure": 6,
+          "beat": 4.5,
+          "end_offset": 24.0
+        },
+        {
+          "pitch": 62,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 23.5,
+          "measure": 6,
+          "beat": 4.5,
+          "end_offset": 24.0
+        },
+        {
+          "pitch": 65,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 23.5,
+          "measure": 6,
+          "beat": 4.5,
+          "end_offset": 24.0
+        },
+        {
+          "pitch": 41,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 24,
+          "pitch_name": "F2",
+          "measure": 7,
+          "beat": 1.0,
+          "end_offset": 24.5
+        },
+        {
+          "pitch": 57,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 24.5,
+          "measure": 7,
+          "beat": 1.5,
+          "end_offset": 25.0
+        },
+        {
+          "pitch": 60,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 24.5,
+          "measure": 7,
+          "beat": 1.5,
+          "end_offset": 25.0
+        },
+        {
+          "pitch": 69,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 24.5,
+          "measure": 7,
+          "beat": 1.5,
+          "end_offset": 25.0
+        },
+        {
+          "pitch": 57,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 25,
+          "measure": 7,
+          "beat": 2.0,
+          "end_offset": 25.5
+        },
+        {
+          "pitch": 60,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 25,
+          "measure": 7,
+          "beat": 2.0,
+          "end_offset": 25.5
+        },
+        {
+          "pitch": 69,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 25,
+          "measure": 7,
+          "beat": 2.0,
+          "end_offset": 25.5
+        },
+        {
+          "pitch": 57,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 25.5,
+          "measure": 7,
+          "beat": 2.5,
+          "end_offset": 25.75
+        },
+        {
+          "pitch": 60,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 25.5,
+          "measure": 7,
+          "beat": 2.5,
+          "end_offset": 25.75
+        },
+        {
+          "pitch": 65,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 25.5,
+          "measure": 7,
+          "beat": 2.5,
+          "end_offset": 25.75
+        },
+        {
+          "pitch": 57,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 25.75,
+          "measure": 7,
+          "beat": 2.75,
+          "end_offset": 26.0
+        },
+        {
+          "pitch": 60,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 25.75,
+          "measure": 7,
+          "beat": 2.75,
+          "end_offset": 26.0
+        },
+        {
+          "pitch": 69,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 25.75,
+          "measure": 7,
+          "beat": 2.75,
+          "end_offset": 26.0
+        },
+        {
+          "pitch": 41,
+          "duration": "eighth",
+          "velocity": 50,
+          "offset": 26,
+          "pitch_name": "F2",
+          "measure": 7,
+          "beat": 3.0,
+          "end_offset": 26.5
+        },
+        {
+          "pitch": 57,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 26.5,
+          "measure": 7,
+          "beat": 3.5,
+          "end_offset": 27.0
+        },
+        {
+          "pitch": 60,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 26.5,
+          "measure": 7,
+          "beat": 3.5,
+          "end_offset": 27.0
+        },
+        {
+          "pitch": 69,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 26.5,
+          "measure": 7,
+          "beat": 3.5,
+          "end_offset": 27.0
+        },
+        {
+          "pitch": 57,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 27,
+          "measure": 7,
+          "beat": 4.0,
+          "end_offset": 27.5
+        },
+        {
+          "pitch": 60,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 27,
+          "measure": 7,
+          "beat": 4.0,
+          "end_offset": 27.5
+        },
+        {
+          "pitch": 69,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 27,
+          "measure": 7,
+          "beat": 4.0,
+          "end_offset": 27.5
+        },
+        {
+          "pitch": 57,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 27.5,
+          "measure": 7,
+          "beat": 4.5,
+          "end_offset": 28.0
+        },
+        {
+          "pitch": 60,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 27.5,
+          "measure": 7,
+          "beat": 4.5,
+          "end_offset": 28.0
+        },
+        {
+          "pitch": 65,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 27.5,
+          "measure": 7,
+          "beat": 4.5,
+          "end_offset": 28.0
+        },
+        {
+          "pitch": 36,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 28,
+          "pitch_name": "C2",
+          "measure": 8,
+          "beat": 1.0,
+          "end_offset": 28.5
+        },
+        {
+          "pitch": 55,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 28.5,
+          "measure": 8,
+          "beat": 1.5,
+          "end_offset": 29.0
+        },
+        {
+          "pitch": 64,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 28.5,
+          "measure": 8,
+          "beat": 1.5,
+          "end_offset": 29.0
+        },
+        {
+          "pitch": 67,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 28.5,
+          "measure": 8,
+          "beat": 1.5,
+          "end_offset": 29.0
+        },
+        {
+          "pitch": 55,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 29,
+          "measure": 8,
+          "beat": 2.0,
+          "end_offset": 29.5
+        },
+        {
+          "pitch": 64,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 29,
+          "measure": 8,
+          "beat": 2.0,
+          "end_offset": 29.5
+        },
+        {
+          "pitch": 67,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 29,
+          "measure": 8,
+          "beat": 2.0,
+          "end_offset": 29.5
+        },
+        {
+          "pitch": 55,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 29.5,
+          "measure": 8,
+          "beat": 2.5,
+          "end_offset": 29.75
+        },
+        {
+          "pitch": 60,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 29.5,
+          "measure": 8,
+          "beat": 2.5,
+          "end_offset": 29.75
+        },
+        {
+          "pitch": 64,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 29.5,
+          "measure": 8,
+          "beat": 2.5,
+          "end_offset": 29.75
+        },
+        {
+          "pitch": 55,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 29.75,
+          "measure": 8,
+          "beat": 2.75,
+          "end_offset": 30.0
+        },
+        {
+          "pitch": 64,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 29.75,
+          "measure": 8,
+          "beat": 2.75,
+          "end_offset": 30.0
+        },
+        {
+          "pitch": 67,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 29.75,
+          "measure": 8,
+          "beat": 2.75,
+          "end_offset": 30.0
+        },
+        {
+          "pitch": 36,
+          "duration": "eighth",
+          "velocity": 50,
+          "offset": 30,
+          "pitch_name": "C2",
+          "measure": 8,
+          "beat": 3.0,
+          "end_offset": 30.5
+        },
+        {
+          "pitch": 55,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 30.5,
+          "measure": 8,
+          "beat": 3.5,
+          "end_offset": 31.0
+        },
+        {
+          "pitch": 64,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 30.5,
+          "measure": 8,
+          "beat": 3.5,
+          "end_offset": 31.0
+        },
+        {
+          "pitch": 67,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 30.5,
+          "measure": 8,
+          "beat": 3.5,
+          "end_offset": 31.0
+        },
+        {
+          "pitch": 55,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 31,
+          "measure": 8,
+          "beat": 4.0,
+          "end_offset": 31.5
+        },
+        {
+          "pitch": 64,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 31,
+          "measure": 8,
+          "beat": 4.0,
+          "end_offset": 31.5
+        },
+        {
+          "pitch": 67,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 31,
+          "measure": 8,
+          "beat": 4.0,
+          "end_offset": 31.5
+        },
+        {
+          "pitch": 55,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 31.5,
+          "measure": 8,
+          "beat": 4.5,
+          "end_offset": 32.0
+        },
+        {
+          "pitch": 60,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 31.5,
+          "measure": 8,
+          "beat": 4.5,
+          "end_offset": 32.0
+        },
+        {
+          "pitch": 64,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 31.5,
+          "measure": 8,
+          "beat": 4.5,
+          "end_offset": 32.0
+        },
+        {
+          "pitch": 36,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 32,
+          "pitch_name": "C2",
+          "measure": 9,
+          "beat": 1.0,
+          "end_offset": 32.5
+        },
+        {
+          "pitch": 55,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 32.5,
+          "measure": 9,
+          "beat": 1.5,
+          "end_offset": 33.0
+        },
+        {
+          "pitch": 64,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 32.5,
+          "measure": 9,
+          "beat": 1.5,
+          "end_offset": 33.0
+        },
+        {
+          "pitch": 67,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 32.5,
+          "measure": 9,
+          "beat": 1.5,
+          "end_offset": 33.0
+        },
+        {
+          "pitch": 55,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 33,
+          "measure": 9,
+          "beat": 2.0,
+          "end_offset": 33.5
+        },
+        {
+          "pitch": 64,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 33,
+          "measure": 9,
+          "beat": 2.0,
+          "end_offset": 33.5
+        },
+        {
+          "pitch": 67,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 33,
+          "measure": 9,
+          "beat": 2.0,
+          "end_offset": 33.5
+        },
+        {
+          "pitch": 55,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 33.5,
+          "measure": 9,
+          "beat": 2.5,
+          "end_offset": 33.75
+        },
+        {
+          "pitch": 60,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 33.5,
+          "measure": 9,
+          "beat": 2.5,
+          "end_offset": 33.75
+        },
+        {
+          "pitch": 64,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 33.5,
+          "measure": 9,
+          "beat": 2.5,
+          "end_offset": 33.75
+        },
+        {
+          "pitch": 55,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 33.75,
+          "measure": 9,
+          "beat": 2.75,
+          "end_offset": 34.0
+        },
+        {
+          "pitch": 64,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 33.75,
+          "measure": 9,
+          "beat": 2.75,
+          "end_offset": 34.0
+        },
+        {
+          "pitch": 67,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 33.75,
+          "measure": 9,
+          "beat": 2.75,
+          "end_offset": 34.0
+        },
+        {
+          "pitch": 36,
+          "duration": "eighth",
+          "velocity": 50,
+          "offset": 34,
+          "pitch_name": "C2",
+          "measure": 9,
+          "beat": 3.0,
+          "end_offset": 34.5
+        },
+        {
+          "pitch": 55,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 34.5,
+          "measure": 9,
+          "beat": 3.5,
+          "end_offset": 35.0
+        },
+        {
+          "pitch": 64,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 34.5,
+          "measure": 9,
+          "beat": 3.5,
+          "end_offset": 35.0
+        },
+        {
+          "pitch": 67,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 34.5,
+          "measure": 9,
+          "beat": 3.5,
+          "end_offset": 35.0
+        },
+        {
+          "pitch": 55,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 35,
+          "measure": 9,
+          "beat": 4.0,
+          "end_offset": 35.5
+        },
+        {
+          "pitch": 64,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 35,
+          "measure": 9,
+          "beat": 4.0,
+          "end_offset": 35.5
+        },
+        {
+          "pitch": 67,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 35,
+          "measure": 9,
+          "beat": 4.0,
+          "end_offset": 35.5
+        },
+        {
+          "pitch": 55,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 35.5,
+          "measure": 9,
+          "beat": 4.5,
+          "end_offset": 36.0
+        },
+        {
+          "pitch": 60,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 35.5,
+          "measure": 9,
+          "beat": 4.5,
+          "end_offset": 36.0
+        },
+        {
+          "pitch": 64,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 35.5,
+          "measure": 9,
+          "beat": 4.5,
+          "end_offset": 36.0
+        },
+        {
+          "pitch": 46,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 36,
+          "pitch_name": "A#2",
+          "measure": 10,
+          "beat": 1.0,
+          "end_offset": 36.5
+        },
+        {
+          "pitch": 62,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 36.5,
+          "measure": 10,
+          "beat": 1.5,
+          "end_offset": 37.0
+        },
+        {
+          "pitch": 65,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 36.5,
+          "measure": 10,
+          "beat": 1.5,
+          "end_offset": 37.0
+        },
+        {
+          "pitch": 74,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 36.5,
+          "measure": 10,
+          "beat": 1.5,
+          "end_offset": 37.0
+        },
+        {
+          "pitch": 62,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 37,
+          "measure": 10,
+          "beat": 2.0,
+          "end_offset": 37.5
+        },
+        {
+          "pitch": 65,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 37,
+          "measure": 10,
+          "beat": 2.0,
+          "end_offset": 37.5
+        },
+        {
+          "pitch": 74,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 37,
+          "measure": 10,
+          "beat": 2.0,
+          "end_offset": 37.5
+        },
+        {
+          "pitch": 58,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 37.5,
+          "measure": 10,
+          "beat": 2.5,
+          "end_offset": 37.75
+        },
+        {
+          "pitch": 62,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 37.5,
+          "measure": 10,
+          "beat": 2.5,
+          "end_offset": 37.75
+        },
+        {
+          "pitch": 65,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 37.5,
+          "measure": 10,
+          "beat": 2.5,
+          "end_offset": 37.75
+        },
+        {
+          "pitch": 62,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 37.75,
+          "measure": 10,
+          "beat": 2.75,
+          "end_offset": 38.0
+        },
+        {
+          "pitch": 65,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 37.75,
+          "measure": 10,
+          "beat": 2.75,
+          "end_offset": 38.0
+        },
+        {
+          "pitch": 74,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 37.75,
+          "measure": 10,
+          "beat": 2.75,
+          "end_offset": 38.0
+        },
+        {
+          "pitch": 46,
+          "duration": "eighth",
+          "velocity": 50,
+          "offset": 38,
+          "pitch_name": "A#2",
+          "measure": 10,
+          "beat": 3.0,
+          "end_offset": 38.5
+        },
+        {
+          "pitch": 62,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 38.5,
+          "measure": 10,
+          "beat": 3.5,
+          "end_offset": 39.0
+        },
+        {
+          "pitch": 65,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 38.5,
+          "measure": 10,
+          "beat": 3.5,
+          "end_offset": 39.0
+        },
+        {
+          "pitch": 74,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 38.5,
+          "measure": 10,
+          "beat": 3.5,
+          "end_offset": 39.0
+        },
+        {
+          "pitch": 62,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 39,
+          "measure": 10,
+          "beat": 4.0,
+          "end_offset": 39.5
+        },
+        {
+          "pitch": 65,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 39,
+          "measure": 10,
+          "beat": 4.0,
+          "end_offset": 39.5
+        },
+        {
+          "pitch": 74,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 39,
+          "measure": 10,
+          "beat": 4.0,
+          "end_offset": 39.5
+        },
+        {
+          "pitch": 58,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 39.5,
+          "measure": 10,
+          "beat": 4.5,
+          "end_offset": 40.0
+        },
+        {
+          "pitch": 62,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 39.5,
+          "measure": 10,
+          "beat": 4.5,
+          "end_offset": 40.0
+        },
+        {
+          "pitch": 65,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 39.5,
+          "measure": 10,
+          "beat": 4.5,
+          "end_offset": 40.0
+        },
+        {
+          "pitch": 41,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 40,
+          "pitch_name": "F2",
+          "measure": 11,
+          "beat": 1.0,
+          "end_offset": 40.5
+        },
+        {
+          "pitch": 57,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 40.5,
+          "measure": 11,
+          "beat": 1.5,
+          "end_offset": 41.0
+        },
+        {
+          "pitch": 60,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 40.5,
+          "measure": 11,
+          "beat": 1.5,
+          "end_offset": 41.0
+        },
+        {
+          "pitch": 69,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 40.5,
+          "measure": 11,
+          "beat": 1.5,
+          "end_offset": 41.0
+        },
+        {
+          "pitch": 57,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 41,
+          "measure": 11,
+          "beat": 2.0,
+          "end_offset": 41.5
+        },
+        {
+          "pitch": 60,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 41,
+          "measure": 11,
+          "beat": 2.0,
+          "end_offset": 41.5
+        },
+        {
+          "pitch": 69,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 41,
+          "measure": 11,
+          "beat": 2.0,
+          "end_offset": 41.5
+        },
+        {
+          "pitch": 57,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 41.5,
+          "measure": 11,
+          "beat": 2.5,
+          "end_offset": 41.75
+        },
+        {
+          "pitch": 60,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 41.5,
+          "measure": 11,
+          "beat": 2.5,
+          "end_offset": 41.75
+        },
+        {
+          "pitch": 65,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 41.5,
+          "measure": 11,
+          "beat": 2.5,
+          "end_offset": 41.75
+        },
+        {
+          "pitch": 57,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 41.75,
+          "measure": 11,
+          "beat": 2.75,
+          "end_offset": 42.0
+        },
+        {
+          "pitch": 60,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 41.75,
+          "measure": 11,
+          "beat": 2.75,
+          "end_offset": 42.0
+        },
+        {
+          "pitch": 69,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 41.75,
+          "measure": 11,
+          "beat": 2.75,
+          "end_offset": 42.0
+        },
+        {
+          "pitch": 41,
+          "duration": "eighth",
+          "velocity": 50,
+          "offset": 42,
+          "pitch_name": "F2",
+          "measure": 11,
+          "beat": 3.0,
+          "end_offset": 42.5
+        },
+        {
+          "pitch": 57,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 42.5,
+          "measure": 11,
+          "beat": 3.5,
+          "end_offset": 43.0
+        },
+        {
+          "pitch": 60,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 42.5,
+          "measure": 11,
+          "beat": 3.5,
+          "end_offset": 43.0
+        },
+        {
+          "pitch": 69,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 42.5,
+          "measure": 11,
+          "beat": 3.5,
+          "end_offset": 43.0
+        },
+        {
+          "pitch": 57,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 43,
+          "measure": 11,
+          "beat": 4.0,
+          "end_offset": 43.5
+        },
+        {
+          "pitch": 60,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 43,
+          "measure": 11,
+          "beat": 4.0,
+          "end_offset": 43.5
+        },
+        {
+          "pitch": 69,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 43,
+          "measure": 11,
+          "beat": 4.0,
+          "end_offset": 43.5
+        },
+        {
+          "pitch": 57,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 43.5,
+          "measure": 11,
+          "beat": 4.5,
+          "end_offset": 44.0
+        },
+        {
+          "pitch": 60,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 43.5,
+          "measure": 11,
+          "beat": 4.5,
+          "end_offset": 44.0
+        },
+        {
+          "pitch": 65,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 43.5,
+          "measure": 11,
+          "beat": 4.5,
+          "end_offset": 44.0
+        },
+        {
+          "pitch": 36,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 44,
+          "pitch_name": "C2",
+          "measure": 12,
+          "beat": 1.0,
+          "end_offset": 44.5
+        },
+        {
+          "pitch": 55,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 44.5,
+          "measure": 12,
+          "beat": 1.5,
+          "end_offset": 45.0
+        },
+        {
+          "pitch": 64,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 44.5,
+          "measure": 12,
+          "beat": 1.5,
+          "end_offset": 45.0
+        },
+        {
+          "pitch": 67,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 44.5,
+          "measure": 12,
+          "beat": 1.5,
+          "end_offset": 45.0
+        },
+        {
+          "pitch": 55,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 45,
+          "measure": 12,
+          "beat": 2.0,
+          "end_offset": 45.5
+        },
+        {
+          "pitch": 64,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 45,
+          "measure": 12,
+          "beat": 2.0,
+          "end_offset": 45.5
+        },
+        {
+          "pitch": 67,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 45,
+          "measure": 12,
+          "beat": 2.0,
+          "end_offset": 45.5
+        },
+        {
+          "pitch": 55,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 45.5,
+          "measure": 12,
+          "beat": 2.5,
+          "end_offset": 45.75
+        },
+        {
+          "pitch": 60,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 45.5,
+          "measure": 12,
+          "beat": 2.5,
+          "end_offset": 45.75
+        },
+        {
+          "pitch": 64,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 45.5,
+          "measure": 12,
+          "beat": 2.5,
+          "end_offset": 45.75
+        },
+        {
+          "pitch": 55,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 45.75,
+          "measure": 12,
+          "beat": 2.75,
+          "end_offset": 46.0
+        },
+        {
+          "pitch": 64,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 45.75,
+          "measure": 12,
+          "beat": 2.75,
+          "end_offset": 46.0
+        },
+        {
+          "pitch": 67,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 45.75,
+          "measure": 12,
+          "beat": 2.75,
+          "end_offset": 46.0
+        },
+        {
+          "pitch": 36,
+          "duration": "eighth",
+          "velocity": 50,
+          "offset": 46,
+          "pitch_name": "C2",
+          "measure": 12,
+          "beat": 3.0,
+          "end_offset": 46.5
+        },
+        {
+          "pitch": 55,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 46.5,
+          "measure": 12,
+          "beat": 3.5,
+          "end_offset": 47.0
+        },
+        {
+          "pitch": 64,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 46.5,
+          "measure": 12,
+          "beat": 3.5,
+          "end_offset": 47.0
+        },
+        {
+          "pitch": 67,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 46.5,
+          "measure": 12,
+          "beat": 3.5,
+          "end_offset": 47.0
+        },
+        {
+          "pitch": 55,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 47,
+          "measure": 12,
+          "beat": 4.0,
+          "end_offset": 47.5
+        },
+        {
+          "pitch": 64,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 47,
+          "measure": 12,
+          "beat": 4.0,
+          "end_offset": 47.5
+        },
+        {
+          "pitch": 67,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 47,
+          "measure": 12,
+          "beat": 4.0,
+          "end_offset": 47.5
+        },
+        {
+          "pitch": 55,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 47.5,
+          "measure": 12,
+          "beat": 4.5,
+          "end_offset": 48.0
+        },
+        {
+          "pitch": 60,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 47.5,
+          "measure": 12,
+          "beat": 4.5,
+          "end_offset": 48.0
+        },
+        {
+          "pitch": 64,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 47.5,
+          "measure": 12,
+          "beat": 4.5,
+          "end_offset": 48.0
+        },
+        {
+          "pitch": 36,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 48,
+          "pitch_name": "C2",
+          "measure": 13,
+          "beat": 1.0,
+          "end_offset": 48.5
+        },
+        {
+          "pitch": 55,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 48.5,
+          "measure": 13,
+          "beat": 1.5,
+          "end_offset": 49.0
+        },
+        {
+          "pitch": 64,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 48.5,
+          "measure": 13,
+          "beat": 1.5,
+          "end_offset": 49.0
+        },
+        {
+          "pitch": 67,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 48.5,
+          "measure": 13,
+          "beat": 1.5,
+          "end_offset": 49.0
+        },
+        {
+          "pitch": 55,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 49,
+          "measure": 13,
+          "beat": 2.0,
+          "end_offset": 49.5
+        },
+        {
+          "pitch": 64,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 49,
+          "measure": 13,
+          "beat": 2.0,
+          "end_offset": 49.5
+        },
+        {
+          "pitch": 67,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 49,
+          "measure": 13,
+          "beat": 2.0,
+          "end_offset": 49.5
+        },
+        {
+          "pitch": 55,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 49.5,
+          "measure": 13,
+          "beat": 2.5,
+          "end_offset": 49.75
+        },
+        {
+          "pitch": 60,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 49.5,
+          "measure": 13,
+          "beat": 2.5,
+          "end_offset": 49.75
+        },
+        {
+          "pitch": 64,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 49.5,
+          "measure": 13,
+          "beat": 2.5,
+          "end_offset": 49.75
+        },
+        {
+          "pitch": 55,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 49.75,
+          "measure": 13,
+          "beat": 2.75,
+          "end_offset": 50.0
+        },
+        {
+          "pitch": 64,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 49.75,
+          "measure": 13,
+          "beat": 2.75,
+          "end_offset": 50.0
+        },
+        {
+          "pitch": 67,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 49.75,
+          "measure": 13,
+          "beat": 2.75,
+          "end_offset": 50.0
+        },
+        {
+          "pitch": 36,
+          "duration": "eighth",
+          "velocity": 50,
+          "offset": 50,
+          "pitch_name": "C2",
+          "measure": 13,
+          "beat": 3.0,
+          "end_offset": 50.5
+        },
+        {
+          "pitch": 55,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 50.5,
+          "measure": 13,
+          "beat": 3.5,
+          "end_offset": 51.0
+        },
+        {
+          "pitch": 64,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 50.5,
+          "measure": 13,
+          "beat": 3.5,
+          "end_offset": 51.0
+        },
+        {
+          "pitch": 67,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 50.5,
+          "measure": 13,
+          "beat": 3.5,
+          "end_offset": 51.0
+        },
+        {
+          "pitch": 55,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 51,
+          "measure": 13,
+          "beat": 4.0,
+          "end_offset": 51.5
+        },
+        {
+          "pitch": 64,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 51,
+          "measure": 13,
+          "beat": 4.0,
+          "end_offset": 51.5
+        },
+        {
+          "pitch": 67,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 51,
+          "measure": 13,
+          "beat": 4.0,
+          "end_offset": 51.5
+        },
+        {
+          "pitch": 55,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 51.5,
+          "measure": 13,
+          "beat": 4.5,
+          "end_offset": 52.0
+        },
+        {
+          "pitch": 60,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 51.5,
+          "measure": 13,
+          "beat": 4.5,
+          "end_offset": 52.0
+        },
+        {
+          "pitch": 64,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 51.5,
+          "measure": 13,
+          "beat": 4.5,
+          "end_offset": 52.0
+        },
+        {
+          "pitch": 46,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 52,
+          "pitch_name": "A#2",
+          "measure": 14,
+          "beat": 1.0,
+          "end_offset": 52.5
+        },
+        {
+          "pitch": 62,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 52.5,
+          "measure": 14,
+          "beat": 1.5,
+          "end_offset": 53.0
+        },
+        {
+          "pitch": 65,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 52.5,
+          "measure": 14,
+          "beat": 1.5,
+          "end_offset": 53.0
+        },
+        {
+          "pitch": 74,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 52.5,
+          "measure": 14,
+          "beat": 1.5,
+          "end_offset": 53.0
+        },
+        {
+          "pitch": 62,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 53,
+          "measure": 14,
+          "beat": 2.0,
+          "end_offset": 53.5
+        },
+        {
+          "pitch": 65,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 53,
+          "measure": 14,
+          "beat": 2.0,
+          "end_offset": 53.5
+        },
+        {
+          "pitch": 74,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 53,
+          "measure": 14,
+          "beat": 2.0,
+          "end_offset": 53.5
+        },
+        {
+          "pitch": 58,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 53.5,
+          "measure": 14,
+          "beat": 2.5,
+          "end_offset": 53.75
+        },
+        {
+          "pitch": 62,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 53.5,
+          "measure": 14,
+          "beat": 2.5,
+          "end_offset": 53.75
+        },
+        {
+          "pitch": 65,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 53.5,
+          "measure": 14,
+          "beat": 2.5,
+          "end_offset": 53.75
+        },
+        {
+          "pitch": 62,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 53.75,
+          "measure": 14,
+          "beat": 2.75,
+          "end_offset": 54.0
+        },
+        {
+          "pitch": 65,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 53.75,
+          "measure": 14,
+          "beat": 2.75,
+          "end_offset": 54.0
+        },
+        {
+          "pitch": 74,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 53.75,
+          "measure": 14,
+          "beat": 2.75,
+          "end_offset": 54.0
+        },
+        {
+          "pitch": 46,
+          "duration": "eighth",
+          "velocity": 50,
+          "offset": 54,
+          "pitch_name": "A#2",
+          "measure": 14,
+          "beat": 3.0,
+          "end_offset": 54.5
+        },
+        {
+          "pitch": 62,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 54.5,
+          "measure": 14,
+          "beat": 3.5,
+          "end_offset": 55.0
+        },
+        {
+          "pitch": 65,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 54.5,
+          "measure": 14,
+          "beat": 3.5,
+          "end_offset": 55.0
+        },
+        {
+          "pitch": 74,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 54.5,
+          "measure": 14,
+          "beat": 3.5,
+          "end_offset": 55.0
+        },
+        {
+          "pitch": 62,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 55,
+          "measure": 14,
+          "beat": 4.0,
+          "end_offset": 55.5
+        },
+        {
+          "pitch": 65,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 55,
+          "measure": 14,
+          "beat": 4.0,
+          "end_offset": 55.5
+        },
+        {
+          "pitch": 74,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 55,
+          "measure": 14,
+          "beat": 4.0,
+          "end_offset": 55.5
+        },
+        {
+          "pitch": 58,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 55.5,
+          "measure": 14,
+          "beat": 4.5,
+          "end_offset": 56.0
+        },
+        {
+          "pitch": 62,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 55.5,
+          "measure": 14,
+          "beat": 4.5,
+          "end_offset": 56.0
+        },
+        {
+          "pitch": 65,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 55.5,
+          "measure": 14,
+          "beat": 4.5,
+          "end_offset": 56.0
+        },
+        {
+          "pitch": 41,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 56,
+          "pitch_name": "F2",
+          "measure": 15,
+          "beat": 1.0,
+          "end_offset": 56.5
+        },
+        {
+          "pitch": 57,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 56.5,
+          "measure": 15,
+          "beat": 1.5,
+          "end_offset": 57.0
+        },
+        {
+          "pitch": 60,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 56.5,
+          "measure": 15,
+          "beat": 1.5,
+          "end_offset": 57.0
+        },
+        {
+          "pitch": 69,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 56.5,
+          "measure": 15,
+          "beat": 1.5,
+          "end_offset": 57.0
+        },
+        {
+          "pitch": 57,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 57,
+          "measure": 15,
+          "beat": 2.0,
+          "end_offset": 57.5
+        },
+        {
+          "pitch": 60,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 57,
+          "measure": 15,
+          "beat": 2.0,
+          "end_offset": 57.5
+        },
+        {
+          "pitch": 69,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 57,
+          "measure": 15,
+          "beat": 2.0,
+          "end_offset": 57.5
+        },
+        {
+          "pitch": 57,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 57.5,
+          "measure": 15,
+          "beat": 2.5,
+          "end_offset": 57.75
+        },
+        {
+          "pitch": 60,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 57.5,
+          "measure": 15,
+          "beat": 2.5,
+          "end_offset": 57.75
+        },
+        {
+          "pitch": 65,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 57.5,
+          "measure": 15,
+          "beat": 2.5,
+          "end_offset": 57.75
+        },
+        {
+          "pitch": 57,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 57.75,
+          "measure": 15,
+          "beat": 2.75,
+          "end_offset": 58.0
+        },
+        {
+          "pitch": 60,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 57.75,
+          "measure": 15,
+          "beat": 2.75,
+          "end_offset": 58.0
+        },
+        {
+          "pitch": 69,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 57.75,
+          "measure": 15,
+          "beat": 2.75,
+          "end_offset": 58.0
+        },
+        {
+          "pitch": 41,
+          "duration": "eighth",
+          "velocity": 50,
+          "offset": 58,
+          "pitch_name": "F2",
+          "measure": 15,
+          "beat": 3.0,
+          "end_offset": 58.5
+        },
+        {
+          "pitch": 57,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 58.5,
+          "measure": 15,
+          "beat": 3.5,
+          "end_offset": 59.0
+        },
+        {
+          "pitch": 60,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 58.5,
+          "measure": 15,
+          "beat": 3.5,
+          "end_offset": 59.0
+        },
+        {
+          "pitch": 69,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 58.5,
+          "measure": 15,
+          "beat": 3.5,
+          "end_offset": 59.0
+        },
+        {
+          "pitch": 57,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 59,
+          "measure": 15,
+          "beat": 4.0,
+          "end_offset": 59.5
+        },
+        {
+          "pitch": 60,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 59,
+          "measure": 15,
+          "beat": 4.0,
+          "end_offset": 59.5
+        },
+        {
+          "pitch": 69,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 59,
+          "measure": 15,
+          "beat": 4.0,
+          "end_offset": 59.5
+        },
+        {
+          "pitch": 57,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 59.5,
+          "measure": 15,
+          "beat": 4.5,
+          "end_offset": 60.0
+        },
+        {
+          "pitch": 60,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 59.5,
+          "measure": 15,
+          "beat": 4.5,
+          "end_offset": 60.0
+        },
+        {
+          "pitch": 65,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 59.5,
+          "measure": 15,
+          "beat": 4.5,
+          "end_offset": 60.0
+        },
+        {
+          "pitch": 36,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 60,
+          "pitch_name": "C2",
+          "measure": 16,
+          "beat": 1.0,
+          "end_offset": 60.5
+        },
+        {
+          "pitch": 55,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 60.5,
+          "measure": 16,
+          "beat": 1.5,
+          "end_offset": 61.0
+        },
+        {
+          "pitch": 64,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 60.5,
+          "measure": 16,
+          "beat": 1.5,
+          "end_offset": 61.0
+        },
+        {
+          "pitch": 67,
+          "duration": "eighth",
+          "velocity": 58,
+          "offset": 60.5,
+          "measure": 16,
+          "beat": 1.5,
+          "end_offset": 61.0
+        },
+        {
+          "pitch": 55,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 61,
+          "measure": 16,
+          "beat": 2.0,
+          "end_offset": 61.5
+        },
+        {
+          "pitch": 64,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 61,
+          "measure": 16,
+          "beat": 2.0,
+          "end_offset": 61.5
+        },
+        {
+          "pitch": 67,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 61,
+          "measure": 16,
+          "beat": 2.0,
+          "end_offset": 61.5
+        },
+        {
+          "pitch": 55,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 61.5,
+          "measure": 16,
+          "beat": 2.5,
+          "end_offset": 61.75
+        },
+        {
+          "pitch": 60,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 61.5,
+          "measure": 16,
+          "beat": 2.5,
+          "end_offset": 61.75
+        },
+        {
+          "pitch": 64,
+          "duration": "16th",
+          "velocity": 50,
+          "offset": 61.5,
+          "measure": 16,
+          "beat": 2.5,
+          "end_offset": 61.75
+        },
+        {
+          "pitch": 55,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 61.75,
+          "measure": 16,
+          "beat": 2.75,
+          "end_offset": 62.0
+        },
+        {
+          "pitch": 64,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 61.75,
+          "measure": 16,
+          "beat": 2.75,
+          "end_offset": 62.0
+        },
+        {
+          "pitch": 67,
+          "duration": "16th",
+          "velocity": 48,
+          "offset": 61.75,
+          "measure": 16,
+          "beat": 2.75,
+          "end_offset": 62.0
+        },
+        {
+          "pitch": 36,
+          "duration": "eighth",
+          "velocity": 50,
+          "offset": 62,
+          "pitch_name": "C2",
+          "measure": 16,
+          "beat": 3.0,
+          "end_offset": 62.5
+        },
+        {
+          "pitch": 55,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 62.5,
+          "measure": 16,
+          "beat": 3.5,
+          "end_offset": 63.0
+        },
+        {
+          "pitch": 64,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 62.5,
+          "measure": 16,
+          "beat": 3.5,
+          "end_offset": 63.0
+        },
+        {
+          "pitch": 67,
+          "duration": "eighth",
+          "velocity": 56,
+          "offset": 62.5,
+          "measure": 16,
+          "beat": 3.5,
+          "end_offset": 63.0
+        },
+        {
+          "pitch": 55,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 63,
+          "measure": 16,
+          "beat": 4.0,
+          "end_offset": 63.5
+        },
+        {
+          "pitch": 64,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 63,
+          "measure": 16,
+          "beat": 4.0,
+          "end_offset": 63.5
+        },
+        {
+          "pitch": 67,
+          "duration": "eighth",
+          "velocity": 52,
+          "offset": 63,
+          "measure": 16,
+          "beat": 4.0,
+          "end_offset": 63.5
+        },
+        {
+          "pitch": 55,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 63.5,
+          "measure": 16,
+          "beat": 4.5,
+          "end_offset": 64.0
+        },
+        {
+          "pitch": 60,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 63.5,
+          "measure": 16,
+          "beat": 4.5,
+          "end_offset": 64.0
+        },
+        {
+          "pitch": 64,
+          "duration": "eighth",
+          "velocity": 54,
+          "offset": 63.5,
+          "measure": 16,
+          "beat": 4.5,
+          "end_offset": 64.0
+        }
+      ]
+    }
+  ]
+}

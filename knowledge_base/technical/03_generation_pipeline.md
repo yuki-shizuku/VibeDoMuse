@@ -28,8 +28,13 @@ A JSON file that describes the musical score, including:
 
 ### Example
 
+> **All templates and AI-generated scores use the V2 (absolute positioning)
+> format**: top-level `"format": "v2"`, every note carries an `"offset"`.
+> Gaps between notes are auto-filled with rests (never write `pitch: -1`).
+
 ```json
 {
+  "format": "v2",
   "title": "Morning Awakening",
   "composer": "Do Muse AI",
   "metadata": {
@@ -41,9 +46,9 @@ A JSON file that describes the musical score, including:
     {
       "instrument": "Acoustic Grand Piano",
       "notes": [
-        {"pitch": 60, "duration": "quarter", "velocity": 80},
-        {"pitch": 64, "duration": "quarter", "velocity": 75},
-        {"pitch": 67, "duration": "half", "velocity": 80}
+        {"pitch": 60, "duration": "quarter", "velocity": 80, "offset": 0},
+        {"pitch": 64, "duration": "quarter", "velocity": 75, "offset": 1},
+        {"pitch": 67, "duration": "half", "velocity": 80, "offset": 2}
       ]
     }
   ]

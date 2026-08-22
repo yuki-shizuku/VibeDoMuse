@@ -9,6 +9,7 @@ from PyQt6.QtWidgets import QWidget
 from PyQt6.QtGui import (
     QColor, QFont, QPainter, QPen, QSyntaxHighlighter, QTextCharFormat,
 )
+from PyQt6.QtCore import QSize
 
 
 class JsonHighlighter(QSyntaxHighlighter):
@@ -96,13 +97,17 @@ class PianoRoll(QWidget):
         """Extract track data from a score dict into structured internal format.
 
         Returns (tracks_data, total_beats, min_pitch, max_pitch).
-        tracks_data is a list of (instrument_name, [(beat, pitch, dur_str, velocity), ...]).
+        tracks_data is a list of (instrument_name, [(beat, pitch, dur_beats, velocity), ...]).
+        dur_beats is a float representing the duration in quarter-note units.
+
+        Supports both V1 (sequential offset) and V2 (explicit offset) formats.
         """
         tracks = (score or {}).get("tracks") or []
         tracks_data = []
         total = 0.0
         min_p = 128
         max_p = 0
+        is_v2 = (score or {}).get("format") == "v2"
         for tr in tracks:
             notes_data = []
             off = 0.0
@@ -112,23 +117,34 @@ class PianoRoll(QWidget):
                 if n.get("ref") is not None:
                     off += 1.0
                     continue
-                d = self._DUR_BEATS.get(n.get("duration"), 1.0)
+                # V2: use explicit offset; V1: accumulate
+                if is_v2 and "offset" in n:
+                    off = float(n["offset"])
+                # duration: string key or numeric value
+                dur_raw = n.get("duration", "quarter")
+                if isinstance(dur_raw, (int, float)):
+                    d = float(dur_raw)
+                else:
+                    d = self._DUR_BEATS.get(dur_raw, 1.0)
                 if n.get("tuplet") in self._TUP_F:
                     d *= self._TUP_F[n["tuplet"]]
-                dur_str = n.get("duration", "quarter")
                 vel = n.get("velocity", 80)
                 if isinstance(n.get("chord"), list):
                     for p in n["chord"]:
                         if isinstance(p, int) and p > 0:
-                            notes_data.append((off, p, dur_str, vel))
+                            notes_data.append((off, p, d, vel))
                             min_p = min(min_p, p)
                             max_p = max(max_p, p)
                 elif isinstance(n.get("pitch"), int) and n["pitch"] > 0:
-                    notes_data.append((off, n["pitch"], dur_str, vel))
+                    notes_data.append((off, n["pitch"], d, vel))
                     min_p = min(min_p, n["pitch"])
                     max_p = max(max_p, n["pitch"])
-                off += d
-            total = max(total, off)
+                if not is_v2:
+                    off += d
+                else:
+                    total = max(total, off + d)
+            if not is_v2:
+                total = max(total, off)
             tracks_data.append((str(tr.get("instrument", "")), notes_data))
         if min_p > max_p:
             min_p, max_p = 60, 72  # fallback C4-C5
@@ -147,8 +163,14 @@ class PianoRoll(QWidget):
                      + 20)
         self._note_pitch_range = nph
         self._track_height = track_h
-        self.setMinimumSize(content_w, max(200, content_h))
+        self._content_size = QSize(content_w, max(200, content_h))
+        self.setMinimumSize(self._content_size)
+        self.updateGeometry()
         self.update()
+
+    def sizeHint(self):
+        """Return the content size for the scroll area layout."""
+        return getattr(self, '_content_size', QSize(400, 200))
 
     # ------------------------------------------------------------------
     # Paint
@@ -220,10 +242,9 @@ class PianoRoll(QWidget):
         color = QColor(self._TRACK_COLORS[ti % len(self._TRACK_COLORS)])
         pr = max(1, self._max_pitch - self._min_pitch)
         for (beat, pitch, dur, vel) in notes:
-            # Duration in pixels
-            d = self._DUR_BEATS.get(dur, 1.0)
+            # dur is a float (duration in quarter-note beats)
             beat_ratio = beat / self._total_beats if self._total_beats > 0 else 0
-            dur_ratio = d / self._total_beats if self._total_beats > 0 else 0
+            dur_ratio = dur / self._total_beats if self._total_beats > 0 else 0
             nx = track_left + int(beat_ratio * (track_right - track_left))
             nw = max(3, int(dur_ratio * (track_right - track_left)))
             # Pitch → y position (higher pitch = higher on screen)

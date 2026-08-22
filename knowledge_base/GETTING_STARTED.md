@@ -99,10 +99,14 @@ Step 2 converts them to WAV in `other/wav/`.
 
 ### JSON File Structure
 
-Each JSON file follows the Do Muse format:
+Each JSON file follows the Do Muse format. **All templates and AI-generated
+scores use the V2 (absolute positioning) format** — `"format": "v2"` at the
+top level, and every note carries an `"offset"` (position in quarter-note
+units from the start of the piece):
 
 ```json
 {
+  "format": "v2",
   "title": "Piece Title",
   "composer": "Do Muse AI",
   "metadata": {
@@ -111,10 +115,14 @@ Each JSON file follows the Do Muse format:
     "key_signature": "C"
   },
   "tracks": [
-    { "instrument": "Acoustic Grand Piano", "notes": [...] }
+    { "instrument": "Acoustic Grand Piano", "notes": [ { "pitch": 60, "duration": "quarter", "offset": 0 } ] }
   ]
 }
 ```
+
+> Notes sharing the same `offset` are merged into a chord; gaps between notes
+> are auto-filled with rests (do NOT write `pitch: -1`). See
+> `specifications/JSON_Format_Specification.md` §39 for the full V2 rules.
 
 ### WAV File Specifications
 

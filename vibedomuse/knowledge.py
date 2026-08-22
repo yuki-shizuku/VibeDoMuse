@@ -19,10 +19,14 @@ from ._paths import resource_path
 
 SPEC_PATH = resource_path("JSON_Format_Specification.md")
 
-# Core structure sections always included regardless of the query
+# Core structure sections always included regardless of the query.
+# NOTE: "7. Note Positioning" is deliberately NOT included: it is a V1-vs-V2
+# comparison chapter full of legacy examples that would bait the LLM into
+# emitting V1 output. V2-only chapters ("6.3 V2", "39. V2") cover positioning.
 _CORE_TITLES = (
     "2. Top-Level", "3. metadata", "4. tracks", "5. notes",
-    "6. Duration", "34. Quick", "33. General MIDI",
+    "6. Duration", "6.3 V2",
+    "34. Quick", "33. General MIDI", "39. V2",
 )
 
 
@@ -164,7 +168,8 @@ def _trim_score(data, max_notes=12):
         notes = tr.get("notes") or []
         t["notes"] = notes[:max_notes]
         tracks.append(t)
-    out = {"metadata": data.get("metadata", {}), "tracks": tracks}
+    out = {"format": data.get("format", "v2"),
+           "metadata": data.get("metadata", {}), "tracks": tracks}
     if data.get("title"):
         out["title"] = data["title"]
     return out
@@ -196,6 +201,52 @@ def retrieve_examples(query, top_k=1):
     return examples, results
 
 
+# ----------------------------------------------------------------------------
+# V2 mandate — THE ONLY FORMAT the AI may output.
+# Shared verbatim by the system prompt, the score-generation user prompt and
+# the follow-up user prompt so the requirement is 100% consistent everywhere.
+# Legacy/V1 is DISABLED: the local validator rejects any non-V2 JSON, so the
+# LLM must never fall back to V1 notation.
+# ----------------------------------------------------------------------------
+_V2_MANDATE = (
+    "=== V2 FORMAT (MANDATORY - THE ONLY ALLOWED FORMAT) === "
+    "V2 (absolute positioning via \"offset\") is the ONLY format accepted. "
+    "The legacy/V1 format is DISABLED: any output without \"format\": \"v2\" "
+    "or missing offsets will be REJECTED. "
+    "V2 rules: "
+    "1) Top-level MUST contain \"format\": \"v2\" "
+    "2) Every single note MUST have an \"offset\" field (number >= 0, in "
+    "quarter-note units from the start of the piece) "
+    "3) Do NOT write \"pitch\": -1 for rests - gaps between notes are "
+    "automatically filled with rests "
+    "4) Notes with the same offset are automatically merged into a chord "
+    "5) duration can be a string (\"whole\", \"half\", \"quarter\", \"eighth\", "
+    "\"16th\", dotted variants) OR a positive number (e.g. 1.5, 1.75, 0.5) "
+    "6) A numerical duration cannot be combined with tuplet "
+    "7) Optional V2 fields: \"pitch_name\" (string like \"C4\"), \"measure\" "
+    "(number), \"beat\" (number), \"end_offset\" (number) "
+    "If V1/legacy content appears anywhere in the provided context, treat it "
+    "as background ONLY - never imitate it."
+)
+
+_V2_EXAMPLE = (
+    '{"format": "v2", "metadata": {"tempo_bpm": 120, "time_signature": "4/4", '
+    '"key_signature": "C"}, "tracks": [{"instrument": "Acoustic Grand Piano", '
+    '"notes": [{"pitch": 60, "duration": "quarter", "offset": 0}, '
+    '{"pitch": 64, "duration": "quarter", "offset": 1}, '
+    '{"pitch": 67, "duration": "half", "offset": 2}]}]}'
+)
+
+_V2_CHECKLIST = (
+    "=== V2 FORMAT CHECKLIST (verify every item before outputting) === "
+    "- [ ] Top-level has \"format\": \"v2\" "
+    "- [ ] Every note has \"offset\" (number >= 0) "
+    "- [ ] No pitch:-1 for rests (gaps are auto-filled) "
+    "- [ ] duration is a string or a positive number "
+    "- [ ] No V1/legacy notation anywhere "
+    "- [ ] Output ONLY the JSON, no explanation."
+)
+
 # Shared system prompt for the score-generation stage (used by both the
 # one-stage and two-stage generation prompts).
 _SYSTEM_PROMPT = (
@@ -209,7 +260,13 @@ _SYSTEM_PROMPT = (
     "Output only spec-compliant JSON scores. "
     "You MUST follow the user's instruction EXACTLY for the number of tracks, "
     "instruments, and tempo. Do not reduce or simplify the user's requirements. "
-    "Do NOT include <thinking> or any reasoning tags."
+    "Do NOT include <thinking> or any reasoning tags. "
+    + _V2_MANDATE
+    + " "
+    + "=== V2 EXAMPLE (study this structure) === "
+    + _V2_EXAMPLE
+    + " "
+    + _V2_CHECKLIST
 )
 
 
@@ -240,13 +297,15 @@ def _assemble_score_user(text, sec_txt, ex_txt, analysis=None):
         f"JSON SPEC EXCERPTS:\n{sec_txt}\n\n"
         f"REAL TEMPLATE EXAMPLES (study their structure and style, but compose a "
         f"brand-new piece; do NOT return the example as-is):\n{ex_txt}\n\n"
-        "HARD REQUIREMENTS:\n"
-        '- Top level must contain metadata (tempo_bpm as integer, time_signature like '
-        '"x/y", key_signature) and a tracks array\n'
+        "=== V2 FORMAT REQUIREMENTS (MANDATORY - verify each item) ===\n"
+        + _V2_MANDATE
+        + "\n"
+        "8. velocity is an integer 0-127\n"
+        "=== STRUCTURE REQUIREMENTS ===\n"
+        '- Top level must contain "format": "v2", metadata (tempo_bpm as integer, '
+        'time_signature like "x/y", key_signature) and a tracks array\n'
         "- Each track must contain instrument (General MIDI name) and a notes array\n"
-        '- Each note must contain pitch (integer 21-108; use -1 for rests) and duration '
-        '("whole/half/quarter/eighth/16th", dotted allowed)\n'
-        "- velocity is an integer 0-127; notes must be in performance order\n"
+        '- Each note must contain pitch (integer 21-108) and duration\n'
         "- The number of tracks MUST match the user's request exactly. "
         "If the user asks for 3 tracks, output exactly 3 tracks. Do not reduce or simplify.\n"
         "- The instrument for each track MUST match the user's request or the genre convention.\n"
@@ -405,10 +464,14 @@ def build_followup_prompt(original_text, original_analysis, current_json, user_f
         "REAL TEMPLATE EXAMPLES (study their structure and style):\n"
         f"{ex_txt}\n\n"
         
-        "HARD REQUIREMENTS:\n"
+        "=== V2 FORMAT REQUIREMENTS (MANDATORY) ===\n"
+        + _V2_MANDATE
+        + "\n"
+        "=== STRUCTURE REQUIREMENTS ===\n"
+        "- Top level must have \"format\": \"v2\", metadata, and tracks\n"
         "- JSON keys must be in English\n"
         "- Text content must match original request language\n"
-        "- Pitch range: 21-108 for notes, -1 for rests\n"
+        "- Pitch range: 21-108\n"
         "- Velocity range: 0-127\n"
         "- Output only the JSON itself, no explanations"
     )
